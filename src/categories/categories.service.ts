@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { HtmlParserService } from '../html-parser/html-parser/html-parser.service';
+import { TagsResponse, Tag } from './models/tags-response';
 
 @Injectable()
 export class CategoriesService {
@@ -12,5 +13,20 @@ export class CategoriesService {
     const numberOfPages = href.split('=')[1];
 
     return parseInt(numberOfPages);
+  }
+
+  async fetchTagsInPage(url: string): Promise<Tag[]> {
+    return this.htmlParser.mapParse<Tag>(url, '.tag', element => {
+      return {
+        name: element.find('.name').text(),
+        tagged: parseInt(
+          element
+            .find('.count')
+            .text()
+            .replace('K', '000'),
+        ),
+        uri: element.attr('href'),
+      };
+    });
   }
 }

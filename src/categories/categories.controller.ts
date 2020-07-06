@@ -1,7 +1,16 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { CategoryParam } from './models/category-param';
 import { CategoriesService } from './categories.service';
 import { PagesResponse } from './models/pages-response';
+import { TagsParam } from './models/tags-param';
+import { TagsResponse } from './models/tags-response';
 
 @Controller('categories')
 export class CategoriesController {
@@ -28,6 +37,23 @@ export class CategoriesController {
 
     return {
       pages: numberOfPages,
+    };
+  }
+
+  @Get(':category/tags')
+  async tags(
+    @Param() params: CategoryParam,
+    @Query() query: TagsParam,
+  ): Promise<TagsResponse> {
+    const uri = `https://nhentai.net/${params.category}/${
+      query.popular ? 'popular' : ''
+    }?page=${query.page}`;
+
+    return {
+      data: await this.categoriesService.fetchTagsInPage(uri),
+      pagination: {
+        page: query.page,
+      },
     };
   }
 }
