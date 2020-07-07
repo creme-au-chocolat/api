@@ -1,20 +1,16 @@
+import { Tag } from '../../common/types/tag.type';
+
 export interface DetailsResponse {
   id?: number;
   name?: string;
   thumbnail?: string;
-  tags?: TagComponent[];
-  languages?: TagComponent[];
-  artists?: TagComponent[];
-  categories?: TagComponent[];
-  parodies?: TagComponent[];
-  groups?: TagComponent[];
-  characters?: TagComponent[];
+  tags?: Tag[];
+  languages?: Tag[];
+  artists?: Tag[];
+  categories?: Tag[];
+  parodies?: Tag[];
+  groups?: Tag[];
+  characters?: Tag[];
   pages?: number;
   uploadDate?: string;
 }
-
-export type TagComponent = {
-  name: string;
-  tagged: number;
-  uri: string;
-};

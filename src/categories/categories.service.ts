@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { HtmlParserService } from '../html-parser/html-parser/html-parser.service';
-import { Tag } from './types/tags-response.type';
+import { Tag } from '../common/types/tag.type';
 
 @Injectable()
 export class CategoriesService {

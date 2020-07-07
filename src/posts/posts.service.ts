@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { HtmlParserService } from '../html-parser/html-parser/html-parser.service';
-import { DetailsResponse, TagComponent } from './types/details-response.type';
+import { DetailsResponse } from './types/details-response.type';
+import { Tag } from '../common/types/tag.type';
 
 @Injectable()
 export class PostsService {
@@ -27,8 +28,8 @@ export class PostsService {
     return details;
   }
 
-  private tagList(element: Cheerio, $: CheerioStatic): TagComponent[] {
-    return element.toArray().map<TagComponent>(rawElement => {
+  private tagList(element: Cheerio, $: CheerioStatic): Tag[] {
+    return element.toArray().map<Tag>(rawElement => {
       const el = $(rawElement);
 
       return {

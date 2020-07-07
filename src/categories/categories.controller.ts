@@ -7,11 +7,12 @@ import {
   CacheInterceptor,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
-import { TagsResponse, Tag } from './types/tags-response.type';
+import { TagsResponse } from './types/tags-response.type';
 import { CategoryParam } from './types/category-param.type';
 import { PagesResponse } from './types/pages-response.type';
 import { TagsParam } from './types/tags-param.type';
 import { LetterParam } from './types/letter-param.type';
+import { Tag } from '../common/types/tag.type';
 
 @Controller('categories')
 @UseInterceptors(CacheInterceptor)

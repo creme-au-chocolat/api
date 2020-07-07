@@ -1,3 +1,5 @@
+import { Tag } from '../../common/types/tag.type';
+
 export interface TagsResponse {
   data: Tag[];
   pagination: Pagination;
@@ -5,10 +7,4 @@ export interface TagsResponse {
 
 type Pagination = {
   page: number;
-};
-
-export type Tag = {
-  name: string;
-  tagged: number;
-  uri: string;
 };
