@@ -42,8 +42,8 @@ export class PostPagesService {
   async getPostsPages(uri: string): Promise<PagesResponse> {
     const $ = await this.htmlParser.parse(uri);
     const lastPageArrow = $('.pagination > .last');
-    const href = lastPageArrow.attr('href');
-    const numberOfPages = href.split('=')[1];
+    const href = lastPageArrow.attr('href').split('=');
+    const numberOfPages = href[href.length - 1];
 
     return { pages: parseInt(numberOfPages) };
   }
