@@ -1,4 +1,11 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Query,
+  UseInterceptors,
+  CacheInterceptor,
+} from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { TagsResponse, Tag } from './types/tags-response.type';
 import { CategoryParam } from './types/category-param.type';
@@ -7,6 +14,7 @@ import { TagsParam } from './types/tags-param.type';
 import { LetterParam } from './types/letter-param.type';
 
 @Controller('categories')
+@UseInterceptors(CacheInterceptor)
 export class CategoriesController {
   private readonly CATEGORIES = [
     'tags',

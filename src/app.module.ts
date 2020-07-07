@@ -1,4 +1,4 @@
-import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { Module, CacheModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { HtmlParserModule } from './html-parser/html-parser.module';
@@ -8,7 +8,7 @@ import { PostsController } from './posts/posts.controller';
 import { PostsService } from './posts/posts.service';
 
 @Module({
-  imports: [HtmlParserModule],
+  imports: [HtmlParserModule, CacheModule.register({ ttl: 3600 })],
   controllers: [AppController, CategoriesController, PostsController],
   providers: [AppService, CategoriesService, PostsService],
 })
