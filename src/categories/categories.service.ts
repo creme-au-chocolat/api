@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { HtmlParserService } from '../html-parser/html-parser/html-parser.service';
-import { TagsResponse, Tag } from './models/tags-response';
+import { Tag } from './types/tags-response.type';
 
 @Injectable()
 export class CategoriesService {

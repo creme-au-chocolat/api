@@ -1,8 +1,8 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
-import { PostParam } from './models/post-param';
-import { DetailsResponse } from './models/details-response';
 import { PostsService } from './posts.service';
-import { DetailsQuery } from './models/details-query';
+import { DetailsQuery } from './types/details-query.type';
+import { PostParam } from './types/post-param.type';
+import { DetailsResponse } from './types/details-response.type';
 
 @Controller('g')
 export class PostsController {

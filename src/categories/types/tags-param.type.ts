@@ -1,5 +1,5 @@
 import { Min, IsInt } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Type, Transform } from 'class-transformer';
 
 export class TagsParam {
   @Type(() => Number)
@@ -7,6 +7,8 @@ export class TagsParam {
   @Min(1)
   page = 1;
 
-  @Type(() => Boolean)
+  @Transform(
+    (value: string) => value !== '0' && value.toLowerCase() !== 'false',
+  )
   popular = false;
 }

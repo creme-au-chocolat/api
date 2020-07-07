@@ -1,16 +1,9 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Query,
-  DefaultValuePipe,
-  ParseIntPipe,
-} from '@nestjs/common';
-import { CategoryParam } from './models/category-param';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
-import { PagesResponse } from './models/pages-response';
-import { TagsParam } from './models/tags-param';
-import { TagsResponse } from './models/tags-response';
+import { TagsResponse } from './types/tags-response.type';
+import { CategoryParam } from './types/category-param.type';
+import { PagesResponse } from './types/pages-response.type';
+import { TagsParam } from './types/tags-param.type';
 
 @Controller('categories')
 export class CategoriesController {

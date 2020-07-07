@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { HtmlParserService } from '../html-parser/html-parser/html-parser.service';
-import { DetailsResponse, TagComponent } from './models/details-response';
+import { DetailsResponse, TagComponent } from './types/details-response.type';
 
 @Injectable()
 export class PostsService {
