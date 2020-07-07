@@ -5,11 +5,14 @@ import {
   Query,
   UseInterceptors,
   CacheInterceptor,
+  Res,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { DetailsQuery } from './types/details-query.type';
 import { PostParam } from './types/post-param.type';
 import { DetailsResponse } from './types/details-response.type';
+import { Response } from 'express';
+import { PageParam } from './types/page-param.type';
 
 @Controller('g')
 @UseInterceptors(CacheInterceptor)
@@ -17,7 +20,7 @@ export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get(':id')
-  async pages(
+  async details(
     @Param() params: PostParam,
     @Query() query: DetailsQuery,
   ): Promise<DetailsResponse> {
@@ -37,5 +40,13 @@ export class PostsController {
     } else {
       return details;
     }
+  }
+
+  @Get(':id/:page')
+  async page(@Res() res: Response, @Param() params: PageParam): Promise<void> {
+    const image = await this.postsService.page(params.id, params.page);
+
+    res.setHeader('Content-Type', 'image/jpeg');
+    image.pipe(res);
   }
 }

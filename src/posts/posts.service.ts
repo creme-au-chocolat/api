@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { HtmlParserService } from '../html-parser/html-parser/html-parser.service';
 import { DetailsResponse } from './types/details-response.type';
 import { parseTags } from '../common/helpers/parse-tags.helper';
+import fetch from 'node-fetch';
 
 @Injectable()
 export class PostsService {
@@ -26,5 +27,21 @@ export class PostsService {
     };
 
     return details;
+  }
+
+  async page(id: number, page: number): Promise<NodeJS.ReadableStream> {
+    const $ = await this.htmlParser.parse(
+      `https://nhentai.net/g/${id}/${page}`,
+    );
+
+    const imageURI = $('#image-container > a > img').attr('src');
+
+    if (!imageURI) {
+      throw new NotFoundException();
+    }
+
+    const image = await fetch(imageURI);
+
+    return image.body;
   }
 }
