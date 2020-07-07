@@ -4,7 +4,7 @@ import { Type } from 'class-transformer';
 export class PostParam {
   @Type(() => Number)
   @IsInt()
-  @Min(100000)
+  @Min(1)
   @Max(999999)
   id: number;
 }

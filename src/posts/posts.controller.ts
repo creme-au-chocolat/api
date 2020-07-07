@@ -6,6 +6,9 @@ import {
   UseInterceptors,
   CacheInterceptor,
   Res,
+  Redirect,
+  Header,
+  CacheTTL,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { DetailsQuery } from './types/details-query.type';
@@ -14,12 +17,12 @@ import { DetailsResponse } from './types/details-response.type';
 import { Response } from 'express';
 import { PageParam } from './types/page-param.type';
 
-@Controller('g')
+@Controller()
 @UseInterceptors(CacheInterceptor)
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
-  @Get(':id')
+  @Get('g/:id')
   async details(
     @Param() params: PostParam,
     @Query() query: DetailsQuery,
@@ -42,11 +45,22 @@ export class PostsController {
     }
   }
 
-  @Get(':id/:page')
+  @Get('g/:id/:page')
   async page(@Res() res: Response, @Param() params: PageParam): Promise<void> {
     const image = await this.postsService.page(params.id, params.page);
 
     res.setHeader('Content-Type', 'image/jpeg');
     image.pipe(res);
+  }
+
+  @Get('posts/random')
+  @CacheTTL(1)
+  @Redirect('/g', 302)
+  async random(): Promise<{ url: string }> {
+    const randomId = await this.postsService.random();
+
+    return {
+      url: `/g/${randomId}`,
+    };
   }
 }

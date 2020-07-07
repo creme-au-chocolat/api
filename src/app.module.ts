@@ -6,10 +6,22 @@ import { CategoriesController } from './categories/categories.controller';
 import { CategoriesService } from './categories/categories.service';
 import { PostsController } from './posts/posts.controller';
 import { PostsService } from './posts/posts.service';
+import { PostPagesController } from './post-pages/post-pages.controller';
+import { PostPagesService } from './post-pages/post-pages.service';
 
 @Module({
-  imports: [HtmlParserModule, CacheModule.register({ ttl: 3600 })],
-  controllers: [AppController, CategoriesController, PostsController],
-  providers: [AppService, CategoriesService, PostsService],
+  imports: [
+    HtmlParserModule,
+    CacheModule.register({
+      ttl: 3600,
+    }),
+  ],
+  controllers: [
+    AppController,
+    CategoriesController,
+    PostsController,
+    PostPagesController,
+  ],
+  providers: [AppService, CategoriesService, PostsService, PostPagesService],
 })
 export class AppModule {}

@@ -48,4 +48,12 @@ export class PostsService {
 
     return image.body;
   }
+
+  async random(): Promise<number> {
+    const randomPage = await fetch('https://nhentai.net/random');
+    const uri = randomPage.url.split('/');
+    const randomId = uri[uri.length - 2];
+
+    return parseInt(randomId);
+  }
 }
