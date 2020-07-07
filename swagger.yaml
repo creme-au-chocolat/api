@@ -1,0 +1,384 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Unofficial nhentai API
+tags:
+  - name: Categories
+  - name: Posts
+  - name: Comments
+  - name: Others
+paths:
+  /categories/{category}/tags:
+    get:
+      tags:
+        - Categories
+      summary: Get list of tags from a page in a category
+      operationId: getTagsByPage
+      parameters:
+        - $ref: '#/components/parameters/TagPage'
+        - $ref: '#/components/parameters/BrowseByPopularity'
+        - $ref: '#/components/parameters/PageNumber'
+      responses:
+        "200":
+          $ref: '#/components/responses/TagListWithPage'
+        "400":
+          $ref: '#/components/responses/WrongRequest'
+        "401":
+          $ref: '#/components/responses/WrongApiKeyError'
+        "404":
+          description: Page not found
+        "5XX":
+          $ref: '#/components/responses/ServerError'
+  /categories/{category}/tags/{letter}:
+    get:
+      tags:
+        - Categories
+      summary: Get list of tags by letter in a category
+      operationId: getTagsByLetter
+      parameters: 
+        - $ref: '#/components/parameters/TagPage'
+        - in: path
+          name: letter
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 1
+            example: "A"
+      responses:
+        "200":
+          $ref: '#/components/responses/TagList'
+        "400":
+          $ref: '#/components/responses/WrongRequest'
+        "401":
+          $ref: '#/components/responses/WrongApiKeyError'
+        "404":
+          description: Page not found
+        "5XX":
+          $ref: '#/components/responses/ServerError'
+  /categories/{category}/pages:
+    get:
+      tags:
+        - Categories
+      summary: Get the number of pages for a category
+      operationId: getPagesForCategory
+      parameters: 
+        - $ref: '#/components/parameters/TagPage'
+      responses:
+        "200":
+          description: Returns number of pages
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pages:
+                    type: integer
+                    minimum: 0
+        "400":
+          $ref: '#/components/responses/WrongRequest'
+        "401":
+          $ref: '#/components/responses/WrongApiKeyError'
+        "5XX":
+          $ref: '#/components/responses/ServerError'
+  /categories:
+    get:
+      tags:
+        - Categories
+      summary: Get a list of possible categories
+      operationId: getCategoriesList
+      responses:
+        "200":
+          description: Returns list of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        "401":
+          $ref: '#/components/responses/WrongApiKeyError'
+        "500":
+          $ref: '#/components/responses/ServerError'
+  /g/{id}:
+    get:
+      tags:
+        - Posts
+      summary: Get details about a post
+      description: Returns all details if filter is empty / Returns fields specified in filter
+      operationId: getPostDetails
+      parameters:
+        - $ref: '#/components/parameters/Post'
+        - in: query
+          name: filter
+          description: get specified fields
+          schema:
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
+      responses:
+        "200":
+          description: Returns post details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostDetails'
+        "400":
+          $ref: '#/components/responses/WrongRequest'
+        "401":
+          $ref: '#/components/responses/WrongApiKeyError'
+        "404":
+          description: Post not found
+        "5XX":
+          $ref: '#/components/responses/ServerError'
+  /g/{id}/{page}:
+    get:
+      tags:
+        - Posts
+      summary: Get page for post
+      operationId: getPageForPost
+      parameters: 
+        - $ref: '#/components/parameters/Post'
+        - in: path
+          name: page
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1
+      responses:
+        "200":
+          description: Returns page image
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        "400":
+          $ref: '#/components/responses/WrongRequest'
+        "401":
+          $ref: '#/components/responses/WrongApiKeyError'
+        "404":
+          description: Post not found
+        "5XX":
+          $ref: '#/components/responses/ServerError'
+          
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: query
+      name: key
+  responses:
+    PostList:
+      description: Returns post list
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/PostPreview'
+    PostListWithPage:
+      description: Returns post list with additional datas for pagination
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PostPreview'
+              pagination:
+                $ref: '#/components/schemas/Pagination'
+    TagList:
+      description: Returns list of tags in page
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/TagPreview'
+    TagListWithPage:
+      description: Returns list of tags in page with additional datas for pagination
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TagPreview'
+              pagination:
+                $ref: '#/components/schemas/Pagination'
+    WrongApiKeyError:
+      description: Api key not valid
+      headers:
+        WWW_Authenticate:
+          schema:
+            type: string
+    WrongRequest:
+      description: Invalid requests parameters
+      content:
+        application/json:
+          schema:
+            type: array
+            description: Invalid parameters' names
+            items:
+              type: string
+    ServerError:
+      description: Unexpected server error
+  parameters:
+    PageNumber:
+      in: query
+      name: page
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    Page:
+      in: query
+      name: target
+      required: true
+      description: url of the page
+      schema:
+        type: string
+        format: uri
+    BrowseByPopularity:
+      in: query
+      name: popular
+      required: false
+      description: Order by popularity instead of alphabetical/publish date
+      schema:
+        type: boolean
+        default: false
+    Query:
+      in: query
+      name: q
+      description: search
+      required: true
+      schema:
+        type: string
+    TagPage:
+      in: path
+      name: category
+      required: true
+      description: list page
+      schema:
+        $ref: '#/components/schemas/Categories'
+    Post:
+      in: path
+      name: id
+      required: true
+      description: id of the post
+      schema:
+        $ref: '#/components/schemas/PostId'
+  schemas:
+    Categories:
+      type: string
+      enum:
+        - "tags"
+        - "artists"
+        - "characters"
+        - "parodies"
+        - "groups"
+    PostDetails:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/PostId'
+        name:
+          type: string
+          example: "[ShindoLA] METAMORPHOSIS (Complete) [English]"
+        thumbnail:
+          type: string
+          format: uri
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagPreview'
+        languages:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagPreview'
+        artists:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagPreview'
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagPreview'
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagPreview'
+        parodies:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagPreview'
+        characters:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagPreview'
+        pages:
+          type: number
+          minimum: 1
+          example: 28
+        uploadDate:
+          type: string
+          format: date-time
+          example: "2016-10-18T12:28:49.949133+00:00"
+    PostId:
+      type: integer
+      minimum: 0
+      exclusiveMinimum: true
+      maximum: 999999
+      example: 177013
+    PostPreview:
+      type: object
+      readOnly: true
+      properties:
+        name:
+          type: string
+        thumbnail:
+          type: string
+          format: uri
+        language:
+          type: string
+        language_icon:
+          type: string
+          format: uri
+        id:
+          $ref: '#/components/schemas/PostId'
+    TagPreview:
+      type: object
+      readOnly: true
+      properties:
+        name:
+          type: string
+        tagged:
+          type: integer
+          minimum: 0
+          example: 800
+        uri:
+          type: string
+    Pagination:
+      type: object
+      readOnly: true
+      properties:
+        page:
+          type: integer
+          minimum: 0
+          
+security: 
+ - ApiKeyAuth: []
+          
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/JulianCDC/n-api/1.0
