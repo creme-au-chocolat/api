@@ -11,6 +11,10 @@ export class PostsService {
   async details(id: number): Promise<Required<DetailsResponse>> {
     const $ = await this.htmlParser.parse(`https://nhentai.net/g/${id}/`);
 
+    if (!$('.title').text()) {
+      throw new NotFoundException();
+    }
+
     const details: Required<DetailsResponse> = {
       id: id,
       name: $('.title').text(),
