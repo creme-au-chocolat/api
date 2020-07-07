@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { HtmlParserService } from '../html-parser/html-parser/html-parser.service';
 import { PostComponent } from './types/post-responses.type';
+import { PagesResponse } from './types/pages-response.type';
 
 @Injectable()
 export class PostPagesService {
@@ -36,5 +37,14 @@ export class PostPagesService {
     }
 
     return 'unknown';
+  }
+
+  async getPostsPages(uri: string): Promise<PagesResponse> {
+    const $ = await this.htmlParser.parse(uri);
+    const lastPageArrow = $('.pagination > .last');
+    const href = lastPageArrow.attr('href');
+    const numberOfPages = href.split('=')[1];
+
+    return { pages: parseInt(numberOfPages) };
   }
 }

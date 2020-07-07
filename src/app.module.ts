@@ -6,7 +6,6 @@ import { CategoriesController } from './categories/categories.controller';
 import { CategoriesService } from './categories/categories.service';
 import { PostsController } from './posts/posts.controller';
 import { PostsService } from './posts/posts.service';
-import { PostPagesController } from './post-pages/post-pages.controller';
 import { PostPagesService } from './post-pages/post-pages.service';
 
 @Module({
@@ -16,12 +15,7 @@ import { PostPagesService } from './post-pages/post-pages.service';
       ttl: 3600,
     }),
   ],
-  controllers: [
-    AppController,
-    CategoriesController,
-    PostsController,
-    PostPagesController,
-  ],
+  controllers: [AppController, CategoriesController, PostsController],
   providers: [AppService, CategoriesService, PostsService, PostPagesService],
 })
 export class AppModule {}
