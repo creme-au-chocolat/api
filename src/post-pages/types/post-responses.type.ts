@@ -1,3 +1,5 @@
+import { Pagination } from '../../common/types/pagination.type';
+
 export interface PostResponse {
   data: PostComponent[];
   pagination: Pagination;
@@ -8,8 +10,4 @@ export type PostComponent = {
   name: string;
   lang: string;
   id: number;
-};
-
-type Pagination = {
-  page: number;
 };

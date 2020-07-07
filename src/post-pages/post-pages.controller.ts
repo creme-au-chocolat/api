@@ -8,8 +8,6 @@ import {
 import { PostPagesService } from './post-pages.service';
 import { SearchQuery } from './types/search-query.type';
 import { PostResponse } from './types/post-responses.type';
-import { Query as QueryType } from './types/query.type';
-import { PagesResponse } from '../categories/types/pages-response.type';
 import { PageQuery } from './types/page-query.type';
 import { HomepageResponse } from './types/homepage-response.type';
 
@@ -20,29 +18,29 @@ export class PostPagesController {
 
   @Get('/search')
   async search(@Query() query: SearchQuery): Promise<PostResponse> {
-    const posts = await this.postPagesService.fetchPosts(
-      `https://nhentai.net/search/?q=${query.q}&page=${query.page}`,
+    const uri = `https://nhentai.net/search/?q=${query.q}&page=${query.page}`;
+
+    const [posts, pages] = await this.postPagesService.fetchPosts(
+      uri,
+      query.page,
     );
 
     return {
       data: posts,
       pagination: {
         page: query.page,
+        total: pages,
       },
     };
   }
 
-  @Get('/pages')
-  async pages(@Query() query: QueryType): Promise<PagesResponse> {
-    return this.postPagesService.getPostsPages(
-      `https://nhentai.net/search/?q=${query.q}`,
-    );
-  }
-
   @Get('/homepage')
   async homepage(@Query() query: PageQuery): Promise<HomepageResponse> {
-    const posts = await this.postPagesService.fetchPosts(
-      `https://nhentai.net/?page=${query.page}`,
+    const uri = `https://nhentai.net/?page=${query.page}`;
+
+    const [posts, pages] = await this.postPagesService.fetchPosts(
+      uri,
+      query.page,
     );
 
     const popular = query.page === 1 ? posts.slice(0, 5) : [];
@@ -55,6 +53,7 @@ export class PostPagesController {
       },
       pagination: {
         page: query.page,
+        total: pages,
       },
     };
   }

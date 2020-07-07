@@ -1,23 +1,20 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { HtmlParserService } from '../html-parser/html-parser/html-parser.service';
 import { Tag } from '../common/types/tag.type';
-import { parseTag, parseTags } from '../common/helpers/parse-tags.helper';
+import { parseTags } from '../common/helpers/parse-tags.helper';
+import { getPages } from '../common/helpers/get-pagination.helper';
 
 @Injectable()
 export class CategoriesService {
   constructor(private readonly htmlParser: HtmlParserService) {}
 
-  async fetchNumberOfPages(url: string): Promise<number> {
+  async fetchTagsInPage(url: string, page: number): Promise<[Tag[], number]> {
     const $ = await this.htmlParser.parse(url);
-    const lastPageArrow = $('.pagination > .last');
-    const href = lastPageArrow.attr('href');
-    const numberOfPages = href.split('=')[1];
 
-    return parseInt(numberOfPages);
-  }
+    const tags = parseTags($('.tag'), $);
+    const pages = getPages($, page);
 
-  async fetchTagsInPage(url: string): Promise<Tag[]> {
-    return this.htmlParser.mapParse<Tag>(url, '.tag', parseTag);
+    return [tags, pages];
   }
 
   async fetchTagsByLetter(letter: string, category: string): Promise<Tag[]> {

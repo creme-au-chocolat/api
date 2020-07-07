@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
 import { HtmlParserService } from '../html-parser/html-parser/html-parser.service';
 import { PostComponent } from './types/post-responses.type';
-import { PagesResponse } from './types/pages-response.type';
+import { getPages } from '../common/helpers/get-pagination.helper';
 
 @Injectable()
 export class PostPagesService {
   constructor(private readonly htmlParser: HtmlParserService) {}
 
-  fetchPosts(uri: string): Promise<PostComponent[]> {
-    return this.htmlParser.mapParse<PostComponent>(uri, '.gallery', element => {
-      return {
-        id: parseInt(
-          element
-            .find('a')
-            .attr('href')
-            .split('/')[2],
-        ),
-        name: element.find('.caption').text(),
-        thumbnail: element.find('img').attr('data-src'),
-        lang: this.mapTagsIdToLanguage(element.attr('data-tags')),
-      };
-    });
+  async fetchPosts(
+    uri: string,
+    page: number,
+  ): Promise<[PostComponent[], number]> {
+    const $ = await this.htmlParser.parse(uri);
+
+    const posts = await this.htmlParser.mapParse<PostComponent>(
+      uri,
+      '.gallery',
+      element => {
+        return {
+          id: parseInt(
+            element
+              .find('a')
+              .attr('href')
+              .split('/')[2],
+          ),
+          name: element.find('.caption').text(),
+          thumbnail: element.find('img').attr('data-src'),
+          lang: this.mapTagsIdToLanguage(element.attr('data-tags')),
+        };
+      },
+    );
+    const pages = getPages($, page);
+
+    return [posts, pages];
   }
 
   private mapTagsIdToLanguage(tags: string): string {
@@ -37,14 +49,5 @@ export class PostPagesService {
     }
 
     return 'unknown';
-  }
-
-  async getPostsPages(uri: string): Promise<PagesResponse> {
-    const $ = await this.htmlParser.parse(uri);
-    const lastPageArrow = $('.pagination > .last');
-    const href = lastPageArrow.attr('href').split('=');
-    const numberOfPages = href[href.length - 1];
-
-    return { pages: parseInt(numberOfPages) };
   }
 }

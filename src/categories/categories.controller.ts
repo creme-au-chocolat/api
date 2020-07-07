@@ -5,11 +5,11 @@ import {
   Query,
   UseInterceptors,
   CacheInterceptor,
+  NotFoundException,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { TagsResponse } from './types/tags-response.type';
 import { CategoryParam } from './types/category-param.type';
-import { PagesResponse } from './types/pages-response.type';
 import { TagsParam } from './types/tags-param.type';
 import { LetterParam } from './types/letter-param.type';
 import { Tag } from '../common/types/tag.type';
@@ -32,17 +32,6 @@ export class CategoriesController {
     return this.CATEGORIES;
   }
 
-  @Get(':category/pages')
-  async pages(@Param() params: CategoryParam): Promise<PagesResponse> {
-    const numberOfPages = await this.categoriesService.fetchNumberOfPages(
-      `https://nhentai.net/${params.category}/`,
-    );
-
-    return {
-      pages: numberOfPages,
-    };
-  }
-
   @Get(':category/tags')
   async tags(
     @Param() params: CategoryParam,
@@ -52,10 +41,20 @@ export class CategoriesController {
       query.popular ? 'popular' : ''
     }?page=${query.page}`;
 
+    const [tags, pages] = await this.categoriesService.fetchTagsInPage(
+      uri,
+      query.page,
+    );
+
+    if (query.page > pages) {
+      throw new NotFoundException();
+    }
+
     return {
-      data: await this.categoriesService.fetchTagsInPage(uri),
+      data: tags,
       pagination: {
         page: query.page,
+        total: pages,
       },
     };
   }

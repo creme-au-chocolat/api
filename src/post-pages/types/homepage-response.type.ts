@@ -1,3 +1,5 @@
+import { Pagination } from '../../common/types/pagination.type';
+
 export interface HomepageResponse {
   data: HomepagePosts;
   pagination: Pagination;
@@ -13,8 +15,4 @@ type PostComponent = {
   name: string;
   lang: string;
   id: number;
-};
-
-type Pagination = {
-  page: number;
 };
