@@ -48,29 +48,6 @@ paths:
           $ref: '#/components/responses/WrongRequest'
         '5XX':
           $ref: '#/components/responses/ServerError'
-  /categories/{category}/pages:
-    get:
-      tags:
-        - Categories
-      summary: Get the number of pages for a category
-      operationId: getPagesForCategory
-      parameters:
-        - $ref: '#/components/parameters/TagPage'
-      responses:
-        '200':
-          description: Returns number of pages
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  pages:
-                    type: integer
-                    minimum: 0
-        '400':
-          $ref: '#/components/responses/WrongRequest'
-        '5XX':
-          $ref: '#/components/responses/ServerError'
   /categories:
     get:
       tags:
@@ -97,6 +74,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/Query'
         - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/SortByPopularity'
       responses:
         '200':
           $ref: '#/components/responses/PostListWithPage'
@@ -115,29 +93,6 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/HomepagePostsList'
-        '400':
-          $ref: '#/components/responses/WrongRequest'
-        '5XX':
-          $ref: '#/components/responses/ServerError'
-  /posts/pages:
-    get:
-      tags:
-        - Posts
-      summary: Get number of pages for a search query
-      operationId: getPagesForQuery
-      parameters:
-        - $ref: '#/components/parameters/Query'
-      responses:
-        '200':
-          description: Returns number of pages
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  pages:
-                    type: integer
-                    minimum: 0
         '400':
           $ref: '#/components/responses/WrongRequest'
         '5XX':
@@ -323,6 +278,17 @@ components:
         type: integer
         minimum: 1
         default: 1
+    SortByPopularity:
+      in: query
+      name: sort
+      required: false
+      schema:
+        type: string
+        enum:
+          - 'none'
+          - 'popular'
+          - 'popular-today'
+          - 'popular-week'
     Page:
       in: query
       name: target
@@ -452,6 +418,9 @@ components:
       readOnly: true
       properties:
         page:
+          type: integer
+          minimum: 0
+        total:
           type: integer
           minimum: 0
 

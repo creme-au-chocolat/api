@@ -8,7 +8,7 @@ import {
 import { PostPagesService } from './post-pages.service';
 import { SearchQuery } from './types/search-query.type';
 import { PostResponse } from './types/post-responses.type';
-import { PageQuery } from './types/page-query.type';
+import { HomepageQuery } from './types/homepage-query.type';
 import { HomepageResponse } from './types/homepage-response.type';
 
 @Controller('posts')
@@ -18,7 +18,7 @@ export class PostPagesController {
 
   @Get('/search')
   async search(@Query() query: SearchQuery): Promise<PostResponse> {
-    const uri = `https://nhentai.net/search/?q=${query.q}&page=${query.page}`;
+    const uri = `https://nhentai.net/search/?q=${query.q}&page=${query.page}&sort=${query.sort}`;
 
     const [posts, pages] = await this.postPagesService.fetchPosts(
       uri,
@@ -35,7 +35,7 @@ export class PostPagesController {
   }
 
   @Get('/homepage')
-  async homepage(@Query() query: PageQuery): Promise<HomepageResponse> {
+  async homepage(@Query() query: HomepageQuery): Promise<HomepageResponse> {
     const uri = `https://nhentai.net/?page=${query.page}`;
 
     const [posts, pages] = await this.postPagesService.fetchPosts(

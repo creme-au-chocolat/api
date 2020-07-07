@@ -1,10 +1,15 @@
-import { Min, IsInt } from 'class-validator';
+import { Min, IsInt, IsEnum } from 'class-validator';
 import { Type } from 'class-transformer';
-import { Query } from './query.type';
+import { PopularitySort } from './popularity-sort.enum';
 
-export class SearchQuery extends Query {
+export class SearchQuery {
   @Type(() => Number)
   @IsInt()
   @Min(1)
   page = 1;
+
+  q: string;
+
+  @IsEnum(PopularitySort)
+  sort: PopularitySort = PopularitySort.none;
 }
