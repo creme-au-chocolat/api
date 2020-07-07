@@ -1,0 +1,577 @@
+openapi: 3.0.0
+info:
+  title: Unofficial nhentai API
+  version: 1.0.0
+servers:
+- url: /
+security:
+- ApiKeyAuth: []
+tags:
+- name: Categories
+- name: Posts
+- name: Comments
+- name: Others
+paths:
+  /categories/{category}/tags:
+    get:
+      tags:
+      - Categories
+      summary: Get list of tags from a page in a category
+      operationId: getTagsByPage
+      parameters:
+      - name: category
+        in: path
+        description: list page
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/Categories'
+      - name: popular
+        in: query
+        description: Order by popularity instead of alphabetical/publish date
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+          default: false
+      - name: page
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 1
+          type: integer
+          default: 1
+      responses:
+        "200":
+          description: Returns list of tags in page with additional datas for pagination
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "400":
+          description: Invalid requests parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "5XX":
+          description: Unexpected server error
+  /categories/{category}/tags/{letter}:
+    get:
+      tags:
+      - Categories
+      summary: Get list of tags by letter in a category
+      operationId: getTagsByLetter
+      parameters:
+      - name: category
+        in: path
+        description: list page
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/Categories'
+      - name: letter
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maxLength: 1
+          minLength: 1
+          type: string
+          example: A
+      responses:
+        "200":
+          description: Returns list of tags in page
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TagPreview'
+        "400":
+          description: Invalid requests parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "5XX":
+          description: Unexpected server error
+  /categories/{category}/pages:
+    get:
+      tags:
+      - Categories
+      summary: Get the number of pages for a category
+      operationId: getPagesForCategory
+      parameters:
+      - name: category
+        in: path
+        description: list page
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/Categories'
+      responses:
+        "200":
+          description: Returns number of pages
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+        "400":
+          description: Invalid requests parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "5XX":
+          description: Unexpected server error
+  /categories:
+    get:
+      tags:
+      - Categories
+      summary: Get a list of possible categories
+      operationId: getCategoriesList
+      responses:
+        "200":
+          description: Returns list of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        "500":
+          description: Unexpected server error
+  /posts/search:
+    get:
+      tags:
+      - Posts
+      summary: Get all posts for a page
+      operationId: getPostsForCategory
+      parameters:
+      - name: q
+        in: query
+        description: search
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 1
+          type: integer
+          default: 1
+      responses:
+        "200":
+          description: Returns post list with additional datas for pagination
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_2'
+        "400":
+          description: Invalid requests parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "5XX":
+          description: Unexpected server error
+  /posts/pages:
+    get:
+      tags:
+      - Posts
+      summary: Get number of pages for a search query
+      operationId: getPagesForQuery
+      parameters:
+      - name: q
+        in: query
+        description: search
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Returns number of pages
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+        "400":
+          description: Invalid requests parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "5XX":
+          description: Unexpected server error
+  /g/{id}:
+    get:
+      tags:
+      - Posts
+      summary: Get details about a post
+      description: Returns all details if filter is empty / Returns fields specified
+        in filter
+      operationId: getPostDetails
+      parameters:
+      - name: id
+        in: path
+        description: id of the post
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/PostId'
+      - name: filter
+        in: query
+        description: get specified fields
+        required: false
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/filter'
+      responses:
+        "200":
+          description: Returns post details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostDetails'
+        "400":
+          description: Invalid requests parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "5XX":
+          description: Unexpected server error
+  /g/{id}/{page}:
+    get:
+      tags:
+      - Posts
+      summary: Get page for post
+      operationId: getPageForPost
+      parameters:
+      - name: id
+        in: path
+        description: id of the post
+        required: true
+        style: simple
+        explode: false
+        schema:
+          $ref: '#/components/schemas/PostId'
+      - name: page
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maximum: 1
+          minimum: 1
+          type: integer
+      responses:
+        "200":
+          description: Returns page image
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: Invalid requests parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        "5XX":
+          description: Unexpected server error
+  /posts/random:
+    get:
+      tags:
+      - Posts
+      summary: Redirect to a random post
+      operationId: getRandomPost
+      responses:
+        "302":
+          description: Redirect to a random post
+          headers:
+            Location:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: /g/177013
+components:
+  schemas:
+    Categories:
+      type: string
+      enum:
+      - tags
+      - artists
+      - characters
+      - parodies
+      - groups
+    PostDetails:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/PostId'
+        name:
+          type: string
+          example: '[ShindoLA] METAMORPHOSIS (Complete) [English]'
+        thumbnail:
+          type: string
+          format: uri
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagPreview'
+        languages:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagPreview'
+        artists:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagPreview'
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagPreview'
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagPreview'
+        parodies:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagPreview'
+        characters:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagPreview'
+        pages:
+          minimum: 1
+          type: number
+          example: 28
+        uploadDate:
+          type: string
+          format: date-time
+          example: 2016-10-18T12:28:49.949133Z
+    PostId:
+      maximum: 999999
+      minimum: 0
+      exclusiveMinimum: true
+      type: integer
+      example: 177013
+    PostPreview:
+      type: object
+      properties:
+        name:
+          type: string
+        thumbnail:
+          type: string
+          format: uri
+        lang:
+          type: string
+        id:
+          $ref: '#/components/schemas/PostId'
+      readOnly: true
+    TagPreview:
+      type: object
+      properties:
+        name:
+          type: string
+        tagged:
+          minimum: 0
+          type: integer
+          example: 800
+        uri:
+          type: string
+      readOnly: true
+    Pagination:
+      type: object
+      properties:
+        page:
+          minimum: 0
+          type: integer
+      readOnly: true
+    inline_response_200:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagPreview'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    inline_response_400:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: array
+          items:
+            type: string
+        error:
+          type: string
+    inline_response_200_1:
+      type: object
+      properties:
+        pages:
+          minimum: 0
+          type: integer
+    inline_response_200_2:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostPreview'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    filter:
+      oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+    inline_response_404:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+  responses:
+    PostList:
+      description: Returns post list
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/PostPreview'
+    PostListWithPage:
+      description: Returns post list with additional datas for pagination
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_response_200_2'
+    TagList:
+      description: Returns list of tags in page
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/TagPreview'
+    TagListWithPage:
+      description: Returns list of tags in page with additional datas for pagination
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_response_200'
+    WrongRequest:
+      description: Invalid requests parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_response_400'
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_response_404'
+    ServerError:
+      description: Unexpected server error
+  parameters:
+    PageNumber:
+      name: page
+      in: query
+      required: false
+      style: form
+      explode: true
+      schema:
+        minimum: 1
+        type: integer
+        default: 1
+    Page:
+      name: target
+      in: query
+      description: url of the page
+      required: true
+      style: form
+      explode: true
+      schema:
+        type: string
+        format: uri
+    BrowseByPopularity:
+      name: popular
+      in: query
+      description: Order by popularity instead of alphabetical/publish date
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: boolean
+        default: false
+    Query:
+      name: q
+      in: query
+      description: search
+      required: true
+      style: form
+      explode: true
+      schema:
+        type: string
+    TagPage:
+      name: category
+      in: path
+      description: list page
+      required: true
+      style: simple
+      explode: false
+      schema:
+        $ref: '#/components/schemas/Categories'
+    Post:
+      name: id
+      in: path
+      description: id of the post
+      required: true
+      style: simple
+      explode: false
+      schema:
+        $ref: '#/components/schemas/PostId'
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: key
+      in: query
