@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { HtmlParserService } from '../html-parser/html-parser/html-parser.service';
 import { DetailsResponse } from './types/details-response.type';
-import { Tag } from '../common/types/tag.type';
+import { parseTags } from '../common/helpers/parse-tags.helper';
 
 @Injectable()
 export class PostsService {
@@ -16,32 +16,15 @@ export class PostsService {
       thumbnail: $('#cover > a > img').data('src'),
       pages: parseInt($('#tags > div:nth-child(8) > span > a > span').text()),
       uploadDate: $('.tags > time').attr('datetime'),
-      parodies: this.tagList($('#tags > div:nth-child(1) > span > .tag'), $),
-      characters: this.tagList($('#tags > div:nth-child(2) > span > .tag'), $),
-      tags: this.tagList($('#tags > div:nth-child(3) > span > .tag'), $),
-      artists: this.tagList($('#tags > div:nth-child(4) > span > .tag'), $),
-      groups: this.tagList($('#tags > div:nth-child(5) > span > .tag'), $),
-      languages: this.tagList($('#tags > div:nth-child(6) > span > .tag'), $),
-      categories: this.tagList($('#tags > div:nth-child(7) > span > .tag'), $),
+      parodies: parseTags($('#tags > div:nth-child(1) > span > .tag'), $),
+      characters: parseTags($('#tags > div:nth-child(2) > span > .tag'), $),
+      tags: parseTags($('#tags > div:nth-child(3) > span > .tag'), $),
+      artists: parseTags($('#tags > div:nth-child(4) > span > .tag'), $),
+      groups: parseTags($('#tags > div:nth-child(5) > span > .tag'), $),
+      languages: parseTags($('#tags > div:nth-child(6) > span > .tag'), $),
+      categories: parseTags($('#tags > div:nth-child(7) > span > .tag'), $),
     };
 
     return details;
-  }
-
-  private tagList(element: Cheerio, $: CheerioStatic): Tag[] {
-    return element.toArray().map<Tag>(rawElement => {
-      const el = $(rawElement);
-
-      return {
-        name: el.find('.name').text(),
-        tagged: parseInt(
-          el
-            .find('.count')
-            .text()
-            .replace('K', '000'),
-        ),
-        uri: el.attr('href'),
-      };
-    });
   }
 }

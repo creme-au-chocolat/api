@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { HtmlParserService } from '../html-parser/html-parser/html-parser.service';
 import { Tag } from '../common/types/tag.type';
+import { parseTag, parseTags } from '../common/helpers/parse-tags.helper';
 
 @Injectable()
 export class CategoriesService {
@@ -16,18 +17,7 @@ export class CategoriesService {
   }
 
   async fetchTagsInPage(url: string): Promise<Tag[]> {
-    return this.htmlParser.mapParse<Tag>(url, '.tag', element => {
-      return {
-        name: element.find('.name').text(),
-        tagged: parseInt(
-          element
-            .find('.count')
-            .text()
-            .replace('K', '000'),
-        ),
-        uri: element.attr('href'),
-      };
-    });
+    return this.htmlParser.mapParse<Tag>(url, '.tag', parseTag);
   }
 
   async fetchTagsByLetter(letter: string, category: string): Promise<Tag[]> {
@@ -59,25 +49,9 @@ export class CategoriesService {
     const letterSection = $(`#${letter}`);
 
     if (letterSection.toArray().length) {
-      tags.push(
-        ...letterSection
-          .find('a')
-          .toArray()
-          .map<Tag>(rawElement => {
-            const el = $(rawElement);
+      const tagsElements = letterSection.find('a');
 
-            return {
-              name: el.find('.name').text(),
-              tagged: parseInt(
-                el
-                  .find('.count')
-                  .text()
-                  .replace('K', '000'),
-              ),
-              uri: el.attr('href'),
-            };
-          }),
-      );
+      tags.push(...parseTags(tagsElements, $));
 
       tags.push(
         ...(await this.getTagsByLetterInPage(
