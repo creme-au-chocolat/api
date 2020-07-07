@@ -104,6 +104,21 @@ paths:
           $ref: '#/components/responses/WrongRequest'
         '5XX':
           $ref: '#/components/responses/ServerError'
+  /posts/homepage:
+    get:
+      tags:
+        - Posts
+      summary: Get all posts in homepage
+      operationId: getPostsForHomepage
+      parameters:
+        - $ref: '#/components/parameters/PageNumber'
+      responses:
+        '200':
+          $ref: '#/components/responses/HomepagePostsList'
+        '400':
+          $ref: '#/components/responses/WrongRequest'
+        '5XX':
+          $ref: '#/components/responses/ServerError'
   /posts/pages:
     get:
       tags:
@@ -228,6 +243,26 @@ components:
                 type: array
                 items:
                   $ref: '#/components/schemas/PostPreview'
+              pagination:
+                $ref: '#/components/schemas/Pagination'
+    HomepagePostsList:
+      description: Returns homepage posts
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  popular:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PostPreview'
+                  recent:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PostPreview'
               pagination:
                 $ref: '#/components/schemas/Pagination'
     TagList:
