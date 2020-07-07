@@ -1,9 +1,10 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
-import { TagsResponse } from './types/tags-response.type';
+import { TagsResponse, Tag } from './types/tags-response.type';
 import { CategoryParam } from './types/category-param.type';
 import { PagesResponse } from './types/pages-response.type';
 import { TagsParam } from './types/tags-param.type';
+import { LetterParam } from './types/letter-param.type';
 
 @Controller('categories')
 export class CategoriesController {
@@ -48,5 +49,13 @@ export class CategoriesController {
         page: query.page,
       },
     };
+  }
+
+  @Get(':category/tags/:letter')
+  async byLetter(@Param() params: LetterParam): Promise<Tag[]> {
+    return this.categoriesService.fetchTagsByLetter(
+      params.letter,
+      params.category,
+    );
   }
 }
