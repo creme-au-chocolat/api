@@ -3,90 +3,90 @@ info:
   title: Unofficial nhentai API
   version: 1.0.0
 servers:
-- url: /
+  - url: /
 security:
-- ApiKeyAuth: []
+  - ApiKeyAuth: []
 tags:
-- name: Categories
-- name: Posts
-- name: Comments
-- name: Others
+  - name: Categories
+  - name: Posts
+  - name: Comments
+  - name: Others
 paths:
   /categories/{category}/tags:
     get:
       tags:
-      - Categories
+        - Categories
       summary: Get list of tags from a page in a category
       operationId: getTagsByPage
       parameters:
-      - name: category
-        in: path
-        description: list page
-        required: true
-        style: simple
-        explode: false
-        schema:
-          $ref: '#/components/schemas/Categories'
-      - name: popular
-        in: query
-        description: Order by popularity instead of alphabetical/publish date
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: boolean
-          default: false
-      - name: page
-        in: query
-        required: false
-        style: form
-        explode: true
-        schema:
-          minimum: 1
-          type: integer
-          default: 1
+        - name: category
+          in: path
+          description: list page
+          required: true
+          style: simple
+          explode: false
+          schema:
+            $ref: '#/components/schemas/Categories'
+        - name: popular
+          in: query
+          description: Order by popularity instead of alphabetical/publish date
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: boolean
+            default: false
+        - name: page
+          in: query
+          required: false
+          style: form
+          explode: true
+          schema:
+            minimum: 1
+            type: integer
+            default: 1
       responses:
-        "200":
+        '200':
           description: Returns list of tags in page with additional datas for pagination
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_200'
-        "400":
+        '400':
           description: Invalid requests parameters
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_400'
-        "5XX":
+        '5XX':
           description: Unexpected server error
   /categories/{category}/tags/{letter}:
     get:
       tags:
-      - Categories
+        - Categories
       summary: Get list of tags by letter in a category
       operationId: getTagsByLetter
       parameters:
-      - name: category
-        in: path
-        description: list page
-        required: true
-        style: simple
-        explode: false
-        schema:
-          $ref: '#/components/schemas/Categories'
-      - name: letter
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          maxLength: 1
-          minLength: 1
-          type: string
-          example: A
+        - name: category
+          in: path
+          description: list page
+          required: true
+          style: simple
+          explode: false
+          schema:
+            $ref: '#/components/schemas/Categories'
+        - name: letter
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            maxLength: 1
+            minLength: 1
+            type: string
+            example: A
       responses:
-        "200":
+        '200':
           description: Returns list of tags in page
           content:
             application/json:
@@ -94,52 +94,52 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TagPreview'
-        "400":
+        '400':
           description: Invalid requests parameters
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_400'
-        "5XX":
+        '5XX':
           description: Unexpected server error
   /categories/{category}/pages:
     get:
       tags:
-      - Categories
+        - Categories
       summary: Get the number of pages for a category
       operationId: getPagesForCategory
       parameters:
-      - name: category
-        in: path
-        description: list page
-        required: true
-        style: simple
-        explode: false
-        schema:
-          $ref: '#/components/schemas/Categories'
+        - name: category
+          in: path
+          description: list page
+          required: true
+          style: simple
+          explode: false
+          schema:
+            $ref: '#/components/schemas/Categories'
       responses:
-        "200":
+        '200':
           description: Returns number of pages
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_200_1'
-        "400":
+        '400':
           description: Invalid requests parameters
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_400'
-        "5XX":
+        '5XX':
           description: Unexpected server error
   /categories:
     get:
       tags:
-      - Categories
+        - Categories
       summary: Get a list of possible categories
       operationId: getCategoriesList
       responses:
-        "200":
+        '200':
           description: Returns list of categories
           content:
             application/json:
@@ -147,177 +147,178 @@ paths:
                 type: array
                 items:
                   type: string
-        "500":
+        '500':
           description: Unexpected server error
   /posts/search:
     get:
       tags:
-      - Posts
+        - Posts
       summary: Get all posts for a page
       operationId: getPostsForCategory
       parameters:
-      - name: q
-        in: query
-        description: search
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
-      - name: page
-        in: query
-        required: false
-        style: form
-        explode: true
-        schema:
-          minimum: 1
-          type: integer
-          default: 1
+        - name: q
+          in: query
+          description: search
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: page
+          in: query
+          required: false
+          style: form
+          explode: true
+          schema:
+            minimum: 1
+            type: integer
+            default: 1
       responses:
-        "200":
+        '200':
           description: Returns post list with additional datas for pagination
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_200_2'
-        "400":
+        '400':
           description: Invalid requests parameters
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_400'
-        "5XX":
+        '5XX':
           description: Unexpected server error
   /posts/pages:
     get:
       tags:
-      - Posts
+        - Posts
       summary: Get number of pages for a search query
       operationId: getPagesForQuery
       parameters:
-      - name: q
-        in: query
-        description: search
-        required: true
-        style: form
-        explode: true
-        schema:
-          type: string
+        - name: q
+          in: query
+          description: search
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
       responses:
-        "200":
+        '200':
           description: Returns number of pages
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_200_1'
-        "400":
+        '400':
           description: Invalid requests parameters
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_400'
-        "5XX":
+        '5XX':
           description: Unexpected server error
   /g/{id}:
     get:
       tags:
-      - Posts
+        - Posts
       summary: Get details about a post
-      description: Returns all details if filter is empty / Returns fields specified
+      description:
+        Returns all details if filter is empty / Returns fields specified
         in filter
       operationId: getPostDetails
       parameters:
-      - name: id
-        in: path
-        description: id of the post
-        required: true
-        style: simple
-        explode: false
-        schema:
-          $ref: '#/components/schemas/PostId'
-      - name: filter
-        in: query
-        description: get specified fields
-        required: false
-        style: form
-        explode: true
-        schema:
-          $ref: '#/components/schemas/filter'
+        - name: id
+          in: path
+          description: id of the post
+          required: true
+          style: simple
+          explode: false
+          schema:
+            $ref: '#/components/schemas/PostId'
+        - name: filter
+          in: query
+          description: get specified fields
+          required: false
+          style: form
+          explode: true
+          schema:
+            $ref: '#/components/schemas/filter'
       responses:
-        "200":
+        '200':
           description: Returns post details
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PostDetails'
-        "400":
+        '400':
           description: Invalid requests parameters
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_400'
-        "404":
+        '404':
           description: Not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_404'
-        "5XX":
+        '5XX':
           description: Unexpected server error
   /g/{id}/{page}:
     get:
       tags:
-      - Posts
+        - Posts
       summary: Get page for post
       operationId: getPageForPost
       parameters:
-      - name: id
-        in: path
-        description: id of the post
-        required: true
-        style: simple
-        explode: false
-        schema:
-          $ref: '#/components/schemas/PostId'
-      - name: page
-        in: path
-        required: true
-        style: simple
-        explode: false
-        schema:
-          maximum: 1
-          minimum: 1
-          type: integer
+        - name: id
+          in: path
+          description: id of the post
+          required: true
+          style: simple
+          explode: false
+          schema:
+            $ref: '#/components/schemas/PostId'
+        - name: page
+          in: path
+          required: true
+          style: simple
+          explode: false
+          schema:
+            maximum: 1
+            minimum: 1
+            type: integer
       responses:
-        "200":
+        '200':
           description: Returns page image
           content:
             image/jpeg:
               schema:
                 type: string
                 format: binary
-        "400":
+        '400':
           description: Invalid requests parameters
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_400'
-        "404":
+        '404':
           description: Not found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/inline_response_404'
-        "5XX":
+        '5XX':
           description: Unexpected server error
   /posts/random:
     get:
       tags:
-      - Posts
+        - Posts
       summary: Redirect to a random post
       operationId: getRandomPost
       responses:
-        "302":
+        '302':
           description: Redirect to a random post
           headers:
             Location:
@@ -331,11 +332,11 @@ components:
     Categories:
       type: string
       enum:
-      - tags
-      - artists
-      - characters
-      - parodies
-      - groups
+        - tags
+        - artists
+        - characters
+        - parodies
+        - groups
     PostDetails:
       type: object
       properties:
@@ -458,10 +459,10 @@ components:
           $ref: '#/components/schemas/Pagination'
     filter:
       oneOf:
-      - type: string
-      - type: array
-        items:
-          type: string
+        - type: string
+        - type: array
+          items:
+            type: string
     inline_response_404:
       type: object
       properties:
