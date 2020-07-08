@@ -13,10 +13,11 @@ export class PostPagesService {
   ): Promise<[PostComponent[], number]> {
     const $ = await this.htmlParser.parse(uri);
 
-    const posts = await this.htmlParser.mapParse<PostComponent>(
-      uri,
-      '.gallery',
-      element => {
+    const posts = $('.gallery')
+      .toArray()
+      .map<PostComponent>(rawElement => {
+        const element = $(rawElement);
+
         return {
           id: parseInt(
             element
@@ -28,8 +29,8 @@ export class PostPagesService {
           thumbnail: element.find('img').attr('data-src'),
           lang: this.mapTagsIdToLanguage(element.attr('data-tags')),
         };
-      },
-    );
+      });
+
     const pages = getPages($, page);
 
     return [posts, pages];
