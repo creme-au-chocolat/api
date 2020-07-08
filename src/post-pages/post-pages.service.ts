@@ -28,6 +28,10 @@ export class PostPagesService {
           name: element.find('.caption').text(),
           thumbnail: element.find('img').attr('data-src'),
           lang: this.mapTagsIdToLanguage(element.attr('data-tags')),
+          tags: element
+            .attr('data-tags')
+            .split(' ')
+            .map(tag => parseInt(tag)),
         };
       });
 

@@ -18,5 +18,6 @@ export function parseTag(tagElement: Cheerio): Tag {
         .replace('K', '000'),
     ),
     uri: tagElement.attr('href'),
+    id: parseInt(tagElement.attr('class').split('tag-')[1]),
   };
 }

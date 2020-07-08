@@ -19,11 +19,11 @@ paths:
         - $ref: '#/components/parameters/BrowseByPopularity'
         - $ref: '#/components/parameters/PageNumber'
       responses:
-        "200":
+        '200':
           $ref: '#/components/responses/TagListWithPage'
-        "400":
+        '400':
           $ref: '#/components/responses/WrongRequest'
-        "5XX":
+        '5XX':
           $ref: '#/components/responses/ServerError'
   /categories/{category}/tags/{letter}:
     get:
@@ -31,7 +31,7 @@ paths:
         - Categories
       summary: Get list of tags by letter in a category
       operationId: getTagsByLetter
-      parameters: 
+      parameters:
         - $ref: '#/components/parameters/TagPage'
         - in: path
           name: letter
@@ -40,13 +40,13 @@ paths:
             type: string
             minLength: 1
             maxLength: 1
-            example: "A"
+            example: 'A'
       responses:
-        "200":
+        '200':
           $ref: '#/components/responses/TagList'
-        "400":
+        '400':
           $ref: '#/components/responses/WrongRequest'
-        "5XX":
+        '5XX':
           $ref: '#/components/responses/ServerError'
   /categories:
     get:
@@ -55,7 +55,7 @@ paths:
       summary: Get a list of possible categories
       operationId: getCategoriesList
       responses:
-        "200":
+        '200':
           description: Returns list of categories
           content:
             application/json:
@@ -63,7 +63,7 @@ paths:
                 type: array
                 items:
                   type: string
-        "500":
+        '500':
           $ref: '#/components/responses/ServerError'
   /posts/search:
     get:
@@ -71,16 +71,16 @@ paths:
         - Posts
       summary: Get all posts for a page
       operationId: getPostsForCategory
-      parameters: 
+      parameters:
         - $ref: '#/components/parameters/Query'
         - $ref: '#/components/parameters/PageNumber'
         - $ref: '#/components/parameters/SortByPopularity'
       responses:
-        "200":
+        '200':
           $ref: '#/components/responses/PostListWithPage'
-        "400":
+        '400':
           $ref: '#/components/responses/WrongRequest'
-        "5XX":
+        '5XX':
           $ref: '#/components/responses/ServerError'
   /posts/homepage:
     get:
@@ -88,14 +88,14 @@ paths:
         - Posts
       summary: Get all posts in homepage
       operationId: getPostsForHomepage
-      parameters: 
+      parameters:
         - $ref: '#/components/parameters/PageNumber'
       responses:
-        "200":
+        '200':
           $ref: '#/components/responses/HomepagePostsList'
-        "400":
+        '400':
           $ref: '#/components/responses/WrongRequest'
-        "5XX":
+        '5XX':
           $ref: '#/components/responses/ServerError'
   /g/{id}:
     get:
@@ -116,17 +116,17 @@ paths:
                 items:
                   type: string
       responses:
-        "200":
+        '200':
           description: Returns post details
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PostDetails'
-        "400":
+        '400':
           $ref: '#/components/responses/WrongRequest'
-        "404":
+        '404':
           $ref: '#/components/responses/NotFound'
-        "5XX":
+        '5XX':
           $ref: '#/components/responses/ServerError'
   /g/{id}/{page}:
     get:
@@ -134,7 +134,7 @@ paths:
         - Posts
       summary: Get page for post
       operationId: getPageForPost
-      parameters: 
+      parameters:
         - $ref: '#/components/parameters/Post'
         - in: path
           name: page
@@ -144,18 +144,18 @@ paths:
             minimum: 1
             maximum: 1
       responses:
-        "200":
+        '200':
           description: Returns page image
           content:
             image/jpeg:
               schema:
                 type: string
                 format: binary
-        "400":
+        '400':
           $ref: '#/components/responses/WrongRequest'
-        "404":
+        '404':
           $ref: '#/components/responses/NotFound'
-        "5XX":
+        '5XX':
           $ref: '#/components/responses/ServerError'
   /posts/random:
     get:
@@ -169,16 +169,10 @@ paths:
           headers:
             Location:
               schema:
-                type: "string"
-                example: "/g/177013"
-          
+                type: 'string'
+                example: '/g/177013'
 
 components:
-  securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
-      in: query
-      name: key
   responses:
     PostList:
       description: Returns post list
@@ -286,10 +280,10 @@ components:
       schema:
         type: string
         enum:
-          - "none"
-          - "popular"
-          - "popular-today"
-          - "popular-week"
+          - 'none'
+          - 'popular'
+          - 'popular-today'
+          - 'popular-week'
     Page:
       in: query
       name: target
@@ -331,11 +325,11 @@ components:
     Categories:
       type: string
       enum:
-        - "tags"
-        - "artists"
-        - "characters"
-        - "parodies"
-        - "groups"
+        - 'tags'
+        - 'artists'
+        - 'characters'
+        - 'parodies'
+        - 'groups'
     PostDetails:
       type: object
       properties:
@@ -343,7 +337,7 @@ components:
           $ref: '#/components/schemas/PostId'
         name:
           type: string
-          example: "[ShindoLA] METAMORPHOSIS (Complete) [English]"
+          example: '[ShindoLA] METAMORPHOSIS (Complete) [English]'
         thumbnail:
           type: string
           format: uri
@@ -382,7 +376,7 @@ components:
         uploadDate:
           type: string
           format: date-time
-          example: "2016-10-18T12:28:49.949133+00:00"
+          example: '2016-10-18T12:28:49.949133+00:00'
     PostId:
       type: integer
       minimum: 0
@@ -402,6 +396,10 @@ components:
           type: string
         id:
           $ref: '#/components/schemas/PostId'
+        tags:
+          type: array
+          items:
+            type: integer
     TagPreview:
       type: object
       readOnly: true
@@ -414,6 +412,8 @@ components:
           example: 800
         uri:
           type: string
+        id:
+          type: number
     Pagination:
       type: object
       readOnly: true

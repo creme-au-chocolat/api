@@ -10,4 +10,5 @@ export type PostComponent = {
   name: string;
   lang: string;
   id: number;
+  tags: number[];
 };
