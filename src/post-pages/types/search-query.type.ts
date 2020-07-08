@@ -1,4 +1,4 @@
-import { Min, IsInt, IsEnum } from 'class-validator';
+import { Min, IsInt, IsEnum, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 import { PopularitySort } from './popularity-sort.enum';
 
@@ -8,6 +8,7 @@ export class SearchQuery {
   @Min(1)
   page = 1;
 
+  @IsString()
   q: string;
 
   @IsEnum(PopularitySort)

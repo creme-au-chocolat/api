@@ -18,7 +18,7 @@ export class PostPagesController {
 
   @Get('/search')
   async search(@Query() query: SearchQuery): Promise<PostResponse> {
-    const uri = `https://nhentai.net/search/?q=${query.q}&page=${query.page}&sort=${query.sort}`;
+    const uri = `https://nhentai.net/search/?q=${query.q}&sort=${query.sort}&page=${query.page}`;
 
     const [posts, pages] = await this.postPagesService.fetchPosts(
       uri,
