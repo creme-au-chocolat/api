@@ -52,12 +52,13 @@ export class PostsService {
   async thumbnail(id: number): Promise<NodeJS.ReadableStream> {
     const $ = await this.htmlParser.parse(`https://nhentai.net/g/${id}`);
 
-    const imageURI = $('#cover > a > img').attr('src');
+    const imageURI = $('#cover > a > img').attr('data-src');
 
     if (!imageURI) {
       throw new NotFoundException();
     }
 
+    console.log(imageURI);
     const image = await fetch(imageURI);
 
     return image.body;
