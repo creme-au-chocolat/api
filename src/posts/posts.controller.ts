@@ -45,9 +45,20 @@ export class PostsController {
     }
   }
 
-  @Get('g/:id/:page')
+  @Get('g/:id/page/:page')
   async page(@Res() res: Response, @Param() params: PageParam): Promise<void> {
     const image = await this.postsService.page(params.id, params.page);
+
+    res.setHeader('Content-Type', 'image/jpeg');
+    image.pipe(res);
+  }
+
+  @Get('g/:id/thumbnail')
+  async thumbnail(
+    @Res() res: Response,
+    @Param() params: PostParam,
+  ): Promise<void> {
+    const image = await this.postsService.thumbnail(params.id);
 
     res.setHeader('Content-Type', 'image/jpeg');
     image.pipe(res);

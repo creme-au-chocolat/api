@@ -49,6 +49,20 @@ export class PostsService {
     return image.body;
   }
 
+  async thumbnail(id: number): Promise<NodeJS.ReadableStream> {
+    const $ = await this.htmlParser.parse(`https://nhentai.net/g/${id}`);
+
+    const imageURI = $('#cover > a > img').attr('src');
+
+    if (!imageURI) {
+      throw new NotFoundException();
+    }
+
+    const image = await fetch(imageURI);
+
+    return image.body;
+  }
+
   async random(): Promise<number> {
     const randomPage = await fetch('https://nhentai.net/random');
     const uri = randomPage.url.split('/');
