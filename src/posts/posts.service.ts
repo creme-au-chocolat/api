@@ -18,9 +18,15 @@ export class PostsService {
     const details: Required<DetailsResponse> = {
       id: id,
       name: {
-        before: $('.title > .before').text(),
-        after: $('.title > .after').text(),
-        content: $('.title > .pretty').text(),
+        before: $('#info > h1 > span.before')
+          .text()
+          .trim(),
+        after: $('#info > h1 > span.after')
+          .text()
+          .trim(),
+        content: $('#info > h1 > span.pretty')
+          .text()
+          .trim(),
       },
       thumbnail: $('#cover > a > img').data('src'),
       pages: parseInt($('#tags > div:nth-child(8) > span > a > span').text()),
