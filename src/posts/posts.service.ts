@@ -17,7 +17,11 @@ export class PostsService {
 
     const details: Required<DetailsResponse> = {
       id: id,
-      name: $('.title').text(),
+      name: {
+        before: $('.title > .before').text(),
+        after: $('.title > .after').text(),
+        content: $('.title > .pretty').text(),
+      },
       thumbnail: $('#cover > a > img').data('src'),
       pages: parseInt($('#tags > div:nth-child(8) > span > a > span').text()),
       uploadDate: $('.tags > time').attr('datetime'),

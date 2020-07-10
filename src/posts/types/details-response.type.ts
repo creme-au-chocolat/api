@@ -2,7 +2,7 @@ import { Tag } from '../../common/types/tag.type';
 
 export interface DetailsResponse {
   id?: number;
-  name?: string;
+  name?: Name;
   thumbnail?: string;
   tags?: Tag[];
   languages?: Tag[];
@@ -14,3 +14,9 @@ export interface DetailsResponse {
   pages?: number;
   uploadDate?: string;
 }
+
+type Name = {
+  before: string;
+  after: string;
+  content: string;
+};

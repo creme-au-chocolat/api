@@ -358,8 +358,17 @@ components:
         id:
           $ref: '#/components/schemas/PostId'
         name:
-          type: string
-          example: '[ShindoLA] METAMORPHOSIS (Complete) [English]'
+          type: object
+          properties:
+            before:
+              type: string
+              example: '[ShindoLA]'
+            after:
+              type: string
+              example: '(Complete) [English]'
+            content:
+              type: string
+              example: 'METAMORPHOSIS'
         thumbnail:
           type: string
           format: uri
@@ -447,4 +456,4 @@ components:
           type: integer
           minimum: 0
 servers:
-  - url: https://unofficial-nhentai-api.herokuapp.com/
+  - url: https://unofficial-nhentai-api.herokuapp.com
