@@ -179,6 +179,35 @@ paths:
           $ref: '#/components/responses/NotFound'
         '5XX':
           $ref: '#/components/responses/ServerError'
+  /g/{id}/download:
+    get:
+      tags:
+        - Posts
+      summary: Download all page for a post and returns an archive
+      operationId: downloadPost
+      parameters:
+        - $ref: '#/components/parameters/Post'
+        - in: query
+          name: page
+          description: number of pages to download
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+      responses:
+        '200':
+          description: 'Returns a zip file containing all downloaded page with id as name (example: 1.jpeg, 2.jpeg)'
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/WrongRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '5XX':
+          $ref: '#/components/responses/ServerError'
   /posts/random:
     get:
       tags:

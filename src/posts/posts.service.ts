@@ -3,6 +3,7 @@ import { HtmlParserService } from '../html-parser/html-parser/html-parser.servic
 import { DetailsResponse } from './types/details-response.type';
 import { parseTags } from '../common/helpers/parse-tags.helper';
 import fetch from 'node-fetch';
+import * as archiver from 'archiver';
 
 @Injectable()
 export class PostsService {
@@ -72,6 +73,29 @@ export class PostsService {
     const image = await fetch(imageURI);
 
     return image.body;
+  }
+
+  async download(id: number, pages = 1): Promise<archiver.Archiver> {
+    const archive = archiver('zip');
+
+    for (let i = 1; i < pages; i++) {
+      const image = await this.page(id, i);
+      const buffer = [];
+
+      await new Promise(resolve => {
+        image.on('data', data => {
+          buffer.push(data);
+        });
+        image.on('end', () => {
+          resolve();
+          archive.append(Buffer.concat(buffer), { name: `${i}.jpeg` });
+        });
+      });
+    }
+
+    archive.finalize();
+
+    return archive;
   }
 
   async random(): Promise<number> {

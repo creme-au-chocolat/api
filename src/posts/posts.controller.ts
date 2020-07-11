@@ -7,7 +7,6 @@ import {
   CacheInterceptor,
   Res,
   Redirect,
-  Header,
   CacheTTL,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
@@ -16,6 +15,7 @@ import { PostParam } from './types/post-param.type';
 import { DetailsResponse } from './types/details-response.type';
 import { Response } from 'express';
 import { PageParam } from './types/page-param.type';
+import { DownloadQuery } from './types/download-query.type';
 
 @Controller()
 @UseInterceptors(CacheInterceptor)
@@ -62,6 +62,18 @@ export class PostsController {
 
     res.setHeader('Content-Type', 'image/jpeg');
     image.pipe(res);
+  }
+
+  @Get('g/:id/download')
+  async download(
+    @Res() res: Response,
+    @Param() params: PostParam,
+    @Query() query: DownloadQuery,
+  ): Promise<void> {
+    const archive = await this.postsService.download(params.id, query.page);
+
+    res.setHeader('Content-Type', 'application/zip');
+    archive.pipe(res);
   }
 
   @Get('posts/random')
