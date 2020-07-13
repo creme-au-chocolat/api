@@ -1,7 +1,7 @@
-import { Tag } from '../../common/types/tag.interface';
-import { Pagination } from '../../common/types/pagination.interface';
+import { Tag } from '../../common/types/tag.entity';
+import { Pagination } from '../../common/types/pagination.entity';
 
-export interface TagListEntity {
+export class TagListEntity {
   data: Tag[];
   pagination: Pagination;
 }

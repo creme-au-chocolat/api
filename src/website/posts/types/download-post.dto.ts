@@ -5,5 +5,5 @@ export class DownloadPostDto {
   @Type(() => Number)
   @IsInt()
   @Min(1)
-  page = 1;
+  numberOfPages = 1;
 }

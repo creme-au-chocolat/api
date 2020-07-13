@@ -10,12 +10,15 @@ import { SearchPostDto } from './types/search-post.dto';
 import { PostListEntity } from './types/post-list.entity';
 import { GetHomepageDto } from './types/get-homepage.dto';
 import { HomepageEntity } from './types/homepage.entity';
+import { ApiBadRequestResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('post list')
 @Controller('posts')
 @UseInterceptors(CacheInterceptor)
 export class PostPagesController {
   constructor(private readonly postPagesService: PostPagesService) {}
 
+  @ApiBadRequestResponse()
   @Get('/search')
   async search(@Query() query: SearchPostDto): Promise<PostListEntity> {
     const uri = `https://nhentai.net/search/?q=${query.q}&sort=${query.sort}&page=${query.page}`;

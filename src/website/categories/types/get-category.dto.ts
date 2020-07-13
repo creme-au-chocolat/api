@@ -1,6 +1,6 @@
 import { IsEnum } from 'class-validator';
 
-enum CATEGORIES {
+export enum CATEGORIES {
   tags,
   artists,
   characters,
@@ -10,5 +10,5 @@ enum CATEGORIES {
 
 export class GetCategoryDto {
   @IsEnum(CATEGORIES)
-  category: string;
+  category: CATEGORIES;
 }

@@ -1,8 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Tag } from '../common/types/tag.interface';
+import { Tag } from '../common/types/tag.entity';
 import { parseTags } from '../common/helpers/parse-tags.helper';
 import { getPages } from '../common/helpers/get-pagination.helper';
 import { HtmlParserService } from '../../html-parser/html-parser/html-parser.service';
+import { CATEGORIES } from './types/get-category.dto';
 
 @Injectable()
 export class CategoriesService {
@@ -17,7 +18,10 @@ export class CategoriesService {
     return [tags, pages];
   }
 
-  async fetchTagsByLetter(letter: string, category: string): Promise<Tag[]> {
+  async fetchTagsByLetter(
+    letter: string,
+    category: CATEGORIES,
+  ): Promise<Tag[]> {
     const $ = await this.htmlParser.parse(`https://nhentai.net/${category}`);
     const navigationLetters = $('.alphabetical-pagination > li > a');
     const selectedLetterElement = navigationLetters
@@ -36,7 +40,7 @@ export class CategoriesService {
   private async getTagsByLetterInPage(
     startingPage: number,
     letter: string,
-    category: string,
+    category: CATEGORIES,
   ): Promise<Tag[]> {
     const tags: Tag[] = [];
 

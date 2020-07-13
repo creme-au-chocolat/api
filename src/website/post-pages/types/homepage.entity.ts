@@ -1,12 +1,12 @@
-import { Pagination } from '../../common/types/pagination.interface';
+import { Pagination } from '../../common/types/pagination.entity';
 import { PostEntity } from './post.entity';
 
-export interface HomepageEntity {
+export class HomepageEntity {
   data: HomepagePosts;
   pagination: Pagination;
 }
 
-export type HomepagePosts = {
+export class HomepagePosts {
   popular: PostEntity[];
   recent: PostEntity[];
-};
+}

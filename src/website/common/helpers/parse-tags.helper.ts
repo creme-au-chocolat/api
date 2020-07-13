@@ -1,4 +1,4 @@
-import { Tag } from '../types/tag.interface';
+import { Tag } from '../types/tag.entity';
 
 export function parseTags(tagsElements: Cheerio, $: CheerioStatic): Tag[] {
   return tagsElements.toArray().map<Tag>(rawElement => {
