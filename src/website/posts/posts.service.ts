@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { HtmlParserService } from '../html-parser/html-parser/html-parser.service';
+import { HtmlParserService } from '../../html-parser/html-parser/html-parser.service';
 import { DetailsResponse } from './types/details-response.type';
 import { parseTags } from '../common/helpers/parse-tags.helper';
 import fetch from 'node-fetch';

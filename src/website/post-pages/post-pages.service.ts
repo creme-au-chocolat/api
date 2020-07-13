@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { HtmlParserService } from '../html-parser/html-parser/html-parser.service';
 import { PostComponent } from './types/post-responses.type';
 import { getPages } from '../common/helpers/get-pagination.helper';
+import { HtmlParserService } from '../../html-parser/html-parser/html-parser.service';
 
 @Injectable()
 export class PostPagesService {
