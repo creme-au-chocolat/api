@@ -8,7 +8,7 @@ enum CATEGORIES {
   groups,
 }
 
-export class CategoryParam {
+export class GetCategoryDto {
   @IsEnum(CATEGORIES)
   category: string;
 }

@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { HtmlParserService } from '../../html-parser/html-parser/html-parser.service';
-import { DetailsResponse } from './types/details-response.type';
+import { PostDetailsEntity } from './types/post-details.entity';
 import { parseTags } from '../common/helpers/parse-tags.helper';
 import fetch from 'node-fetch';
 import * as archiver from 'archiver';
@@ -9,14 +9,14 @@ import * as archiver from 'archiver';
 export class PostsService {
   constructor(private readonly htmlParser: HtmlParserService) {}
 
-  async details(id: number): Promise<Required<DetailsResponse>> {
+  async details(id: number): Promise<Required<PostDetailsEntity>> {
     const $ = await this.htmlParser.parse(`https://nhentai.net/g/${id}/`);
 
     if (!$('.title').text()) {
       throw new NotFoundException();
     }
 
-    const details: Required<DetailsResponse> = {
+    const details: Required<PostDetailsEntity> = {
       id: id,
       name: {
         before: $('#info > h1 > span.before')

@@ -1,7 +1,7 @@
 import { Min, IsInt } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class DownloadQuery {
+export class DownloadPostDto {
   @Type(() => Number)
   @IsInt()
   @Min(1)

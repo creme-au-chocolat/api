@@ -1,4 +1,4 @@
-export enum PopularitySort {
+export enum PopularitySortOptions {
   popular,
   'popular-today',
   'popular-week',

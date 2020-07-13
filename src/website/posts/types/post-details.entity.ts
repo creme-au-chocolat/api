@@ -1,6 +1,6 @@
-import { Tag } from '../../common/types/tag.type';
+import { Tag } from '../../common/types/tag.interface';
 
-export interface DetailsResponse {
+export interface PostDetailsEntity {
   id?: number;
   name?: Name;
   thumbnail?: string;

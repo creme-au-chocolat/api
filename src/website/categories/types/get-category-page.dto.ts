@@ -1,7 +1,7 @@
 import { Min, IsInt } from 'class-validator';
 import { Type, Transform } from 'class-transformer';
 
-export class TagsParam {
+export class GetCategoryPageDto {
   @Type(() => Number)
   @IsInt()
   @Min(1)

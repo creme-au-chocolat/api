@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PostComponent } from './types/post-responses.type';
+import { PostEntity } from './types/post.entity';
 import { getPages } from '../common/helpers/get-pagination.helper';
 import { HtmlParserService } from '../../html-parser/html-parser/html-parser.service';
 
@@ -7,15 +7,12 @@ import { HtmlParserService } from '../../html-parser/html-parser/html-parser.ser
 export class PostPagesService {
   constructor(private readonly htmlParser: HtmlParserService) {}
 
-  async fetchPosts(
-    uri: string,
-    page: number,
-  ): Promise<[PostComponent[], number]> {
+  async fetchPosts(uri: string, page: number): Promise<[PostEntity[], number]> {
     const $ = await this.htmlParser.parse(uri);
 
     const posts = $('.gallery')
       .toArray()
-      .map<PostComponent>(rawElement => {
+      .map<PostEntity>(rawElement => {
         const element = $(rawElement);
 
         return {

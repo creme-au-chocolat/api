@@ -8,11 +8,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
-import { TagsResponse } from './types/tags-response.type';
-import { CategoryParam } from './types/category-param.type';
-import { TagsParam } from './types/tags-param.type';
-import { LetterParam } from './types/letter-param.type';
-import { Tag } from '../common/types/tag.type';
+import { TagListEntity } from './types/tag-list.entity';
+import { GetCategoryDto } from './types/get-category.dto';
+import { GetCategoryPageDto } from './types/get-category-page.dto';
+import { GetCategoryPageByLetterDto } from './types/get-category-page-by-letter.dto';
+import { Tag } from '../common/types/tag.interface';
 
 @Controller('categories')
 @UseInterceptors(CacheInterceptor)
@@ -34,9 +34,9 @@ export class CategoriesController {
 
   @Get(':category/tags')
   async tags(
-    @Param() params: CategoryParam,
-    @Query() query: TagsParam,
-  ): Promise<TagsResponse> {
+    @Param() params: GetCategoryDto,
+    @Query() query: GetCategoryPageDto,
+  ): Promise<TagListEntity> {
     const uri = `https://nhentai.net/${params.category}/${
       query.popular ? 'popular' : ''
     }?page=${query.page}`;
@@ -60,7 +60,7 @@ export class CategoriesController {
   }
 
   @Get(':category/tags/:letter')
-  async byLetter(@Param() params: LetterParam): Promise<Tag[]> {
+  async byLetter(@Param() params: GetCategoryPageByLetterDto): Promise<Tag[]> {
     return this.categoriesService.fetchTagsByLetter(
       params.letter,
       params.category,

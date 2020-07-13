@@ -6,10 +6,10 @@ import {
   Query,
 } from '@nestjs/common';
 import { PostPagesService } from './post-pages.service';
-import { SearchQuery } from './types/search-query.type';
-import { PostResponse } from './types/post-responses.type';
-import { HomepageQuery } from './types/homepage-query.type';
-import { HomepageResponse } from './types/homepage-response.type';
+import { SearchPostDto } from './types/search-post.dto';
+import { PostListEntity } from './types/post-list.entity';
+import { GetHomepageDto } from './types/get-homepage.dto';
+import { HomepageEntity } from './types/homepage.entity';
 
 @Controller('posts')
 @UseInterceptors(CacheInterceptor)
@@ -17,7 +17,7 @@ export class PostPagesController {
   constructor(private readonly postPagesService: PostPagesService) {}
 
   @Get('/search')
-  async search(@Query() query: SearchQuery): Promise<PostResponse> {
+  async search(@Query() query: SearchPostDto): Promise<PostListEntity> {
     const uri = `https://nhentai.net/search/?q=${query.q}&sort=${query.sort}&page=${query.page}`;
 
     const [posts, pages] = await this.postPagesService.fetchPosts(
@@ -35,7 +35,7 @@ export class PostPagesController {
   }
 
   @Get('/homepage')
-  async homepage(@Query() query: HomepageQuery): Promise<HomepageResponse> {
+  async homepage(@Query() query: GetHomepageDto): Promise<HomepageEntity> {
     const uri = `https://nhentai.net/?page=${query.page}`;
 
     const [posts, pages] = await this.postPagesService.fetchPosts(
