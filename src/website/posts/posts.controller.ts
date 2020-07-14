@@ -8,17 +8,17 @@ import {
   Res,
   Redirect,
   CacheTTL,
+  Req,
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { GetDetailsDto } from './types/get-details.dto';
 import { GetPostDto } from './types/get-post.dto';
 import { PostDetailsEntity } from './types/post-details.entity';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { GetPostPageDto } from './types/get-post-page.dto';
 import { DownloadPostDto } from './types/download-post.dto';
 import {
   ApiBadRequestResponse,
-  ApiMovedPermanentlyResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiProduces,
@@ -107,14 +107,16 @@ export class PostsController {
     status: 303,
     description: 'redirect to /g/:id with random post id',
   })
-  @Get('posts/random')
+  @Get('posts/random(/*)?')
   @CacheTTL(1)
   @Redirect('/g', 303)
-  async random(): Promise<{ url: string }> {
+  async random(@Req() req: Request): Promise<{ url: string }> {
     const randomId = await this.postsService.random();
 
+    const ressource = req.url.split('random/')[1] ?? '';
+
     return {
-      url: `/g/${randomId}`,
+      url: `/g/${randomId}/${ressource}`,
     };
   }
 }
