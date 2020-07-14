@@ -42,9 +42,8 @@ export class PostsController {
     const details = await this.postsService.details(params.id);
 
     if (query.filters.length) {
-      // TODO: Strict check
       const filteredKeys = Object.keys(details).filter(key =>
-        query.filters.includes(key.toLowerCase()),
+        new RegExp(`(,|^)${key}(,|$)`, 'gi').test(query.filters),
       );
 
       const filteredDetails = {};
