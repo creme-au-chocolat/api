@@ -4,13 +4,24 @@ import {
   UseInterceptors,
   CacheInterceptor,
   Query,
+  NotFoundException,
+  CacheTTL,
+  Res,
 } from '@nestjs/common';
 import { PostPagesService } from './post-pages.service';
 import { SearchPostDto } from './types/search-post.dto';
 import { PostListEntity } from './types/post-list.entity';
 import { GetHomepageDto } from './types/get-homepage.dto';
 import { HomepageEntity } from './types/homepage.entity';
-import { ApiBadRequestResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiNotFoundResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { SearchRandomPostDto } from './types/search-random-post.dto';
+import { Response } from 'express';
 
 @ApiTags('post list')
 @Controller('posts')
@@ -40,6 +51,49 @@ export class PostPagesController {
         total: pages,
       },
     };
+  }
+
+  @ApiBadRequestResponse()
+  @ApiNotFoundResponse({ description: 'no gallery found' })
+  @ApiResponse({
+    status: 303,
+    description: 'redirect to random post on nhentai',
+  })
+  @CacheTTL(1)
+  @ApiOperation({
+    summary: 'get a random post corresponding to a search query',
+  })
+  @Get('/randomsearch')
+  async randomSearch(
+    @Res() res: Response,
+    @Query() query: SearchRandomPostDto,
+  ): Promise<void> {
+    const [, numberOfPages] = await this.postPagesService.fetchPosts(
+      `https://nhentai.net/search/?q=${query.q}`,
+      1,
+    );
+
+    const randomPage = Math.round(Math.random() * numberOfPages);
+
+    const [randomPostList] = await this.postPagesService.fetchPosts(
+      `https://nhentai.net/search/?q=${query.q}&page=${randomPage}`,
+      randomPage,
+    );
+
+    const randomPostIndex = Math.round(
+      Math.random() * (randomPostList.length - 1),
+    );
+    const randomPost = randomPostList[randomPostIndex];
+
+    if (!randomPost) {
+      throw new NotFoundException();
+    }
+
+    if (query.redirect) {
+      res.redirect(303, `https://nhentai.net/g/${randomPost.id}`);
+    } else {
+      res.json(randomPost);
+    }
   }
 
   @ApiOperation({ summary: 'get posts in nhentai homepage ' })
