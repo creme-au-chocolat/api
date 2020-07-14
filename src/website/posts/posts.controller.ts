@@ -21,6 +21,7 @@ import {
   ApiBadRequestResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiOperation,
   ApiProduces,
   ApiResponse,
   ApiTags,
@@ -32,6 +33,9 @@ import {
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
+  @ApiOperation({
+    summary: 'get details for a gallery',
+  })
   @ApiBadRequestResponse()
   @ApiNotFoundResponse({ description: 'no gallery with provided id' })
   @Get('g/:id')
@@ -57,6 +61,9 @@ export class PostsController {
     }
   }
 
+  @ApiOperation({
+    summary: 'get page of a gallery in jpeg format',
+  })
   @ApiBadRequestResponse()
   @ApiNotFoundResponse({ description: 'page does not exist in gallery' })
   @ApiOkResponse({ schema: { type: 'string', format: 'binary' } })
@@ -72,6 +79,9 @@ export class PostsController {
     image.pipe(res);
   }
 
+  @ApiOperation({
+    summary: 'get thumbnail for a gallery in jpeg format',
+  })
   @ApiBadRequestResponse()
   @ApiNotFoundResponse({ description: 'no gallery with provided id' })
   @ApiOkResponse({ schema: { type: 'string', format: 'binary' } })
@@ -87,6 +97,9 @@ export class PostsController {
     image.pipe(res);
   }
 
+  @ApiOperation({
+    summary: 'download specified number of pages for a gallery in a zip file',
+  })
   @ApiBadRequestResponse()
   @ApiNotFoundResponse({ description: 'no gallery with provided id' })
   @ApiOkResponse({ schema: { type: 'string', format: 'binary' } })
@@ -105,6 +118,11 @@ export class PostsController {
   @ApiResponse({
     status: 303,
     description: 'redirect to /g/:id with random post id',
+  })
+  @ApiOperation({
+    summary: 'get a random gallery',
+    description:
+      'can be chained with other routes (example: /posts/random/thumbnail',
   })
   @Get('posts/random(/*)?')
   @CacheTTL(1)

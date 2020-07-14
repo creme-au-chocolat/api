@@ -10,7 +10,7 @@ import { SearchPostDto } from './types/search-post.dto';
 import { PostListEntity } from './types/post-list.entity';
 import { GetHomepageDto } from './types/get-homepage.dto';
 import { HomepageEntity } from './types/homepage.entity';
-import { ApiBadRequestResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('post list')
 @Controller('posts')
@@ -18,6 +18,11 @@ import { ApiBadRequestResponse, ApiTags } from '@nestjs/swagger';
 export class PostPagesController {
   constructor(private readonly postPagesService: PostPagesService) {}
 
+  @ApiOperation({
+    summary: 'use nhentai search feature ',
+    description:
+      'for complex usage see [https://nhentai.net/info/](https://nhentai.net/info/)',
+  })
   @ApiBadRequestResponse()
   @Get('/search')
   async search(@Query() query: SearchPostDto): Promise<PostListEntity> {
@@ -37,6 +42,7 @@ export class PostPagesController {
     };
   }
 
+  @ApiOperation({ summary: 'get posts in nhentai homepage ' })
   @Get('/homepage')
   async homepage(@Query() query: GetHomepageDto): Promise<HomepageEntity> {
     const uri = `https://nhentai.net/?page=${query.page}`;

@@ -16,6 +16,7 @@ import { Tag } from '../common/types/tag.entity';
 import {
   ApiBadRequestResponse,
   ApiNotFoundResponse,
+  ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
 
@@ -33,11 +34,17 @@ export class CategoriesController {
 
   constructor(private readonly categoriesService: CategoriesService) {}
 
+  @ApiOperation({
+    summary: 'get possible values for category',
+  })
   @Get()
   categories(): string[] {
     return this.CATEGORIES;
   }
 
+  @ApiOperation({
+    summary: 'get all existing tags in specified category',
+  })
   @ApiBadRequestResponse()
   @ApiNotFoundResponse({ description: 'requested page does not exist' })
   @Get(':category/tags')
@@ -67,6 +74,10 @@ export class CategoriesController {
     };
   }
 
+  @ApiOperation({
+    summary:
+      'get all existing tags starting by specified letter in specified category',
+  })
   @ApiBadRequestResponse()
   @ApiNotFoundResponse({ description: 'no tags with requested letter' })
   @Get(':category/tags/:letter')
