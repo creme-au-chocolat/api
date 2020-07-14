@@ -75,8 +75,14 @@ export class PostsService {
     return image.body;
   }
 
-  async download(id: number, pages = 1): Promise<archiver.Archiver> {
+  async download(
+    outputStream: NodeJS.WritableStream,
+    id: number,
+    pages = 1,
+  ): Promise<void> {
     const archive = archiver('zip');
+
+    archive.pipe(outputStream);
 
     for (let i = 1; i < pages; i++) {
       const image = await this.page(id, i);
@@ -94,8 +100,6 @@ export class PostsService {
     }
 
     archive.finalize();
-
-    return archive;
   }
 
   async random(): Promise<number> {

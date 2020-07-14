@@ -98,13 +98,9 @@ export class PostsController {
     @Param() params: GetPostDto,
     @Query() query: DownloadPostDto,
   ): Promise<void> {
-    const archive = await this.postsService.download(
-      params.id,
-      query.numberOfPages,
-    );
-
     res.setHeader('Content-Type', 'application/zip');
-    archive.pipe(res);
+
+    this.postsService.download(res, params.id, query.numberOfPages);
   }
 
   @ApiResponse({
