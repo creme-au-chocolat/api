@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { CATEGORIES } from './types/get-category.dto';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Tag } from '../../common/schemas/tag.schema';
 import { Model } from 'mongoose';
-import { TagWithCategory } from './types/tag-with-category.entity';
+import { TagWithCategory } from '../../common/types/tag-with-category.entity';
+import { CATEGORIES } from '../../common/enum/tag-categories.enum';
 
 @Injectable()
 export class CategoriesService {
@@ -59,18 +59,5 @@ export class CategoriesService {
       .select('-__v -_id')
       .sort({ name: 'asc' })
       .exec();
-  }
-
-  async getTagById(id: number): Promise<TagWithCategory> {
-    const tag = await this.tagModel
-      .findOne({ id })
-      .select('-__v -_id')
-      .exec();
-
-    if (!tag) {
-      throw new NotFoundException();
-    }
-
-    return tag;
   }
 }

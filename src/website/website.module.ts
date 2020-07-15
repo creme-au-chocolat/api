@@ -8,6 +8,8 @@ import { PostPagesController } from './post-pages/post-pages.controller';
 import { PostPagesService } from './post-pages/post-pages.service';
 import { PostsController } from './posts/posts.controller';
 import { PostsService } from './posts/posts.service';
+import { TagsController } from './tags/tags.controller';
+import { TagsService } from './tags/tags.service';
 
 @Module({
   imports: [
@@ -17,7 +19,7 @@ import { PostsService } from './posts/posts.service';
     HtmlParserModule,
     MongooseModule.forFeature([{ name: Tag.name, schema: TagSchema }]),
   ],
-  controllers: [PostPagesController, PostsController, CategoriesController],
-  providers: [PostsService, PostPagesService, CategoriesService],
+  controllers: [PostPagesController, PostsController, CategoriesController, TagsController],
+  providers: [PostsService, PostPagesService, CategoriesService, TagsService],
 })
 export class WebsiteModule {}

@@ -18,10 +18,9 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { GetTagByIdDto } from './types/get-tag-by-id.dto';
-import { TagWithCategory } from './types/tag-with-category.entity';
+import { TagWithCategory } from '../../common/types/tag-with-category.entity';
 
-@ApiTags('tags')
+@ApiTags('tag categories')
 @Controller('categories')
 @UseInterceptors(CacheInterceptor)
 export class CategoriesController {
@@ -94,15 +93,5 @@ export class CategoriesController {
       params.category,
       params.letter,
     );
-  }
-
-  @ApiOperation({
-    summary: 'get tag infos for requested id',
-  })
-  @ApiBadRequestResponse()
-  @ApiNotFoundResponse({ description: 'no tag found with this id' })
-  @Get('tags/:id')
-  async byId(@Param() params: GetTagByIdDto): Promise<TagWithCategory> {
-    return this.categoriesService.getTagById(params.id);
   }
 }

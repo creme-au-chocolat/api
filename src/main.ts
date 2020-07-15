@@ -13,8 +13,9 @@ async function bootstrap() {
     .setTitle('Unofficial nhentai API')
     .setDescription('An unofficial API to query nhentai website')
     .addTag('galleries')
-    .addTag('tags')
+    .addTag('tag categories')
     .addTag('post list')
+    .addTag('tags')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, swaggerOptions);

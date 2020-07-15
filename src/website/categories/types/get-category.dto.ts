@@ -1,12 +1,5 @@
 import { IsEnum } from 'class-validator';
-
-export enum CATEGORIES {
-  tags,
-  artists,
-  characters,
-  parodies,
-  groups,
-}
+import { CATEGORIES } from '../../../common/enum/tag-categories.enum';
 
 export class GetCategoryDto {
   @IsEnum(CATEGORIES)
