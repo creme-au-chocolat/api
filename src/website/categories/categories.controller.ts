@@ -12,7 +12,6 @@ import { TagListEntity } from './types/tag-list.entity';
 import { GetCategoryDto } from './types/get-category.dto';
 import { GetCategoryPageDto } from './types/get-category-page.dto';
 import { GetCategoryPageByLetterDto } from './types/get-category-page-by-letter.dto';
-import { Tag } from '../../common/types/tag.entity';
 import {
   ApiBadRequestResponse,
   ApiNotFoundResponse,
@@ -20,6 +19,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { GetTagByIdDto } from './types/get-tag-by-id.dto';
+import { TagWithCategory } from './types/tag-with-category.entity';
 
 @ApiTags('tags')
 @Controller('categories')
@@ -53,7 +53,7 @@ export class CategoriesController {
     @Param() params: GetCategoryDto,
     @Query() query: GetCategoryPageDto,
   ): Promise<TagListEntity> {
-    let tags: Tag[];
+    let tags: TagWithCategory[];
     const numberOfPages = await this.categoriesService.getPageCount(
       params.category,
     );
@@ -87,7 +87,9 @@ export class CategoriesController {
   @ApiBadRequestResponse()
   @ApiNotFoundResponse({ description: 'no tags with requested letter' })
   @Get(':category/tags/:letter')
-  async byLetter(@Param() params: GetCategoryPageByLetterDto): Promise<Tag[]> {
+  async byLetter(
+    @Param() params: GetCategoryPageByLetterDto,
+  ): Promise<TagWithCategory[]> {
     return this.categoriesService.getTagsByLetter(
       params.category,
       params.letter,
@@ -100,7 +102,7 @@ export class CategoriesController {
   @ApiBadRequestResponse()
   @ApiNotFoundResponse({ description: 'no tag found with this id' })
   @Get('tags/:id')
-  async byId(@Param() params: GetTagByIdDto): Promise<Tag> {
+  async byId(@Param() params: GetTagByIdDto): Promise<TagWithCategory> {
     return this.categoriesService.getTagById(params.id);
   }
 }

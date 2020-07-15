@@ -1,26 +1,20 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Tag as TagEntity } from '../../common/types/tag.entity';
-import { parseTags } from '../../common/helpers/parse-tags.helper';
-import { getPages } from '../../common/helpers/get-pagination.helper';
-import { HtmlParserService } from '../../html-parser/html-parser/html-parser.service';
 import { CATEGORIES } from './types/get-category.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Tag } from '../../common/schemas/tag.schema';
 import { Model } from 'mongoose';
+import { TagWithCategory } from './types/tag-with-category.entity';
 
 @Injectable()
 export class CategoriesService {
   private readonly pageSize = 120;
 
-  constructor(
-    private readonly htmlParser: HtmlParserService,
-    @InjectModel(Tag.name) private tagModel: Model<Tag>,
-  ) {}
+  constructor(@InjectModel(Tag.name) private tagModel: Model<Tag>) {}
 
   async getTagsByPopularity(
     category: CATEGORIES,
     page: number,
-  ): Promise<TagEntity[]> {
+  ): Promise<TagWithCategory[]> {
     return this.tagModel
       .find({ category: category.toString() })
       .select('-__v -_id')
@@ -30,7 +24,10 @@ export class CategoriesService {
       .exec();
   }
 
-  async getTags(category: CATEGORIES, page: number): Promise<TagEntity[]> {
+  async getTags(
+    category: CATEGORIES,
+    page: number,
+  ): Promise<TagWithCategory[]> {
     return this.tagModel
       .find({ category: category.toString() })
       .select('-__v -_id')
@@ -51,7 +48,7 @@ export class CategoriesService {
   async getTagsByLetter(
     category: CATEGORIES,
     letter: string,
-  ): Promise<TagEntity[]> {
+  ): Promise<TagWithCategory[]> {
     const nameRegexp = new RegExp(`^${letter}`, 'i');
 
     return this.tagModel
@@ -64,7 +61,7 @@ export class CategoriesService {
       .exec();
   }
 
-  async getTagById(id: number): Promise<TagEntity> {
+  async getTagById(id: number): Promise<TagWithCategory> {
     const tag = await this.tagModel
       .findOne({ id })
       .select('-__v -_id')
