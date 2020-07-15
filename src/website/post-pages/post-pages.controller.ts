@@ -90,6 +90,8 @@ export class PostPagesController {
     }
 
     if (query.redirect) {
+      res.setHeader('Cache-Control', 'no-store');
+
       res.redirect(303, `https://nhentai.net/g/${randomPost.id}`);
     } else {
       res.json(randomPost);
