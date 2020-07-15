@@ -84,7 +84,7 @@ export class PostsService {
 
     archive.pipe(outputStream);
 
-    for (let i = 1; i < pages; i++) {
+    for (let i = 1; i <= pages; i++) {
       const image = await this.page(id, i);
       const buffer = [];
 
