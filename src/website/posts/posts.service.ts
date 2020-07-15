@@ -86,7 +86,18 @@ export class PostsService {
     archive.pipe(outputStream);
 
     for (let i = 1; i <= pages; i++) {
-      const image = await this.page(id, i);
+      let image: NodeJS.ReadableStream;
+
+      try {
+        image = await this.page(id, i);
+      } catch (error) {
+        if (!(error instanceof NotFoundException)) {
+          throw error;
+        } else {
+          break;
+        }
+      }
+
       const buffer = [];
 
       imageFetchingPromises.push(
