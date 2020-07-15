@@ -6,7 +6,6 @@ import {
   UseInterceptors,
   CacheInterceptor,
   Res,
-  Redirect,
   CacheTTL,
   Req,
 } from '@nestjs/common';
@@ -130,14 +129,11 @@ export class PostsController {
   })
   @Get('posts/random(/*)?')
   @CacheTTL(1)
-  @Redirect('/g', 303)
-  async random(@Req() req: Request): Promise<{ url: string }> {
+  async random(@Req() req: Request, @Res() res: Response): Promise<void> {
     const randomId = await this.postsService.random();
 
     const ressource = req.url.split('random/')[1] ?? '';
 
-    return {
-      url: `/g/${randomId}/${ressource}`,
-    };
+    res.redirect(`/g/${randomId}/${ressource}`);
   }
 }
