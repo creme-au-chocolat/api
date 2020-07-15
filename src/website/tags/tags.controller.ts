@@ -25,6 +25,12 @@ export class TagsController {
     return this.tagsService.getTagById(params.id);
   }
 
+  @ApiOperation({
+    summary: 'search for a tag by name and optionaly by category',
+    description:
+      'returns a list sorted depending on the position of the search query in the tag name',
+  })
+  @ApiBadRequestResponse()
   @Get('search')
   async search(@Query() query: SearchCategoryDto): Promise<TagWithCategory[]> {
     return this.tagsService.search(query.q, query.category);
