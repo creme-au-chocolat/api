@@ -111,6 +111,10 @@ export class PostsController {
     @Query() query: DownloadPostDto,
   ): Promise<void> {
     res.setHeader('Content-Type', 'application/zip');
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename=${params.id}.zip`,
+    );
 
     this.postsService.download(res, params.id, query.numberOfPages);
   }
