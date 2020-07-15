@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Tag } from '../common/types/tag.entity';
-import { parseTags } from '../common/helpers/parse-tags.helper';
-import { getPages } from '../common/helpers/get-pagination.helper';
+import { Tag } from '../../common/types/tag.entity';
+import { parseTags } from '../../common/helpers/parse-tags.helper';
+import { getPages } from '../../common/helpers/get-pagination.helper';
 import { HtmlParserService } from '../../html-parser/html-parser/html-parser.service';
 import { CATEGORIES } from './types/get-category.dto';
 

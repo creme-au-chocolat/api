@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { HtmlParserService } from '../../html-parser/html-parser/html-parser.service';
 import { PostDetailsEntity } from './types/post-details.entity';
-import { parseTags } from '../common/helpers/parse-tags.helper';
+import { parseTags } from '../../common/helpers/parse-tags.helper';
 import fetch from 'node-fetch';
 import * as archiver from 'archiver';
 

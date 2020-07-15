@@ -1,4 +1,4 @@
-import { Tag } from '../../common/types/tag.entity';
+import { Tag } from '../../../common/types/tag.entity';
 
 export class PostDetailsEntity {
   id?: number;

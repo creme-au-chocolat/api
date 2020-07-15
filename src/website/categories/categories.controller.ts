@@ -12,7 +12,7 @@ import { TagListEntity } from './types/tag-list.entity';
 import { GetCategoryDto } from './types/get-category.dto';
 import { GetCategoryPageDto } from './types/get-category-page.dto';
 import { GetCategoryPageByLetterDto } from './types/get-category-page-by-letter.dto';
-import { Tag } from '../common/types/tag.entity';
+import { Tag } from '../../common/types/tag.entity';
 import {
   ApiBadRequestResponse,
   ApiNotFoundResponse,
