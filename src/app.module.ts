@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { WebsiteModule } from './website/website.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ScraperModule } from './scraper/scraper.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { MongooseModule } from '@nestjs/mongoose';
       }),
       inject: [ConfigService],
     }),
+    ScraperModule,
   ],
   controllers: [AppController],
   providers: [AppService],
