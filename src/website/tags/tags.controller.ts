@@ -1,4 +1,11 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import {
+  CacheInterceptor,
+  Controller,
+  Get,
+  Param,
+  Query,
+  UseInterceptors,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiNotFoundResponse,
@@ -12,6 +19,7 @@ import { SearchCategoryDto } from './types/search-category.dto';
 
 @ApiTags('tags')
 @Controller('tags')
+@UseInterceptors(CacheInterceptor)
 export class TagsController {
   constructor(private tagsService: TagsService) {}
 
