@@ -28,16 +28,25 @@ export class TagsService {
   ): Promise<TagWithCategory[]> {
     const nameRegexp = new RegExp(`^.*${searchQuery}.*$`);
 
+    let tags: TagWithCategory[];
+
     if (category) {
-      return await this.tagModel
+      tags = await this.tagModel
         .find({ name: nameRegexp, category: category })
         .select('-__v -_id')
         .limit(10);
     } else {
-      return await this.tagModel
+      tags = await this.tagModel
         .find({ name: nameRegexp })
         .select('-__v -_id')
         .limit(10);
     }
+
+    return tags.sort((a, b) => {
+      const aName = a.name;
+      const bName = b.name;
+
+      return aName.indexOf(searchQuery) - bName.indexOf(searchQuery);
+    });
   }
 }
