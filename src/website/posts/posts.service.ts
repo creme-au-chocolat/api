@@ -80,6 +80,7 @@ export class PostsService {
     id: number,
     pages = 1,
   ): Promise<void> {
+    const imageFetchingPromises: Promise<any>[] = [];
     const archive = archiver('zip');
 
     archive.pipe(outputStream);
@@ -88,16 +89,20 @@ export class PostsService {
       const image = await this.page(id, i);
       const buffer = [];
 
-      await new Promise(resolve => {
-        image.on('data', data => {
-          buffer.push(data);
-        });
-        image.on('end', () => {
-          resolve();
-          archive.append(Buffer.concat(buffer), { name: `${i}.jpeg` });
-        });
-      });
+      imageFetchingPromises.push(
+        new Promise(resolve => {
+          image.on('data', data => {
+            buffer.push(data);
+          });
+          image.on('end', () => {
+            resolve();
+            archive.append(Buffer.concat(buffer), { name: `${i}.jpeg` });
+          });
+        }),
+      );
     }
+
+    await Promise.all(imageFetchingPromises);
 
     archive.finalize();
   }
