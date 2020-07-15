@@ -52,24 +52,29 @@ export class CategoriesController {
     @Param() params: GetCategoryDto,
     @Query() query: GetCategoryPageDto,
   ): Promise<TagListEntity> {
-    const uri = `https://nhentai.net/${params.category}/${
-      query.popular ? 'popular' : ''
-    }?page=${query.page}`;
-
-    const [tags, pages] = await this.categoriesService.fetchTagsInPage(
-      uri,
-      query.page,
+    let tags: Tag[];
+    const numberOfPages = await this.categoriesService.getPageCount(
+      params.category,
     );
 
-    if (query.page > pages) {
+    if (query.page > numberOfPages) {
       throw new NotFoundException();
+    }
+
+    if (query.popular) {
+      tags = await this.categoriesService.getTagsByPopularity(
+        params.category,
+        query.page,
+      );
+    } else {
+      tags = await this.categoriesService.getTags(params.category, query.page);
     }
 
     return {
       data: tags,
       pagination: {
         page: query.page,
-        total: pages,
+        total: numberOfPages,
       },
     };
   }
@@ -82,9 +87,9 @@ export class CategoriesController {
   @ApiNotFoundResponse({ description: 'no tags with requested letter' })
   @Get(':category/tags/:letter')
   async byLetter(@Param() params: GetCategoryPageByLetterDto): Promise<Tag[]> {
-    return this.categoriesService.fetchTagsByLetter(
-      params.letter,
+    return this.categoriesService.getTagsByLetter(
       params.category,
+      params.letter,
     );
   }
 }

@@ -1,68 +1,66 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Tag } from '../../common/types/tag.entity';
+import { Tag as TagEntity } from '../../common/types/tag.entity';
 import { parseTags } from '../../common/helpers/parse-tags.helper';
 import { getPages } from '../../common/helpers/get-pagination.helper';
 import { HtmlParserService } from '../../html-parser/html-parser/html-parser.service';
 import { CATEGORIES } from './types/get-category.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Tag } from '../../common/schemas/tag.schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class CategoriesService {
-  constructor(private readonly htmlParser: HtmlParserService) {}
+  private readonly pageSize = 120;
 
-  async fetchTagsInPage(url: string, page: number): Promise<[Tag[], number]> {
-    const $ = await this.htmlParser.parse(url);
+  constructor(
+    private readonly htmlParser: HtmlParserService,
+    @InjectModel(Tag.name) private tagModel: Model<Tag>,
+  ) {}
 
-    const tags = parseTags($('.tag'), $);
-    const pages = getPages($, page);
-
-    return [tags, pages];
+  async getTagsByPopularity(
+    category: CATEGORIES,
+    page: number,
+  ): Promise<TagEntity[]> {
+    return this.tagModel
+      .find({ category: category.toString() })
+      .select('-__v -_id')
+      .sort({ tagged: 'desc' })
+      .skip((page - 1) * this.pageSize)
+      .limit(120)
+      .exec();
   }
 
-  async fetchTagsByLetter(
-    letter: string,
-    category: CATEGORIES,
-  ): Promise<Tag[]> {
-    const $ = await this.htmlParser.parse(`https://nhentai.net/${category}`);
-    const navigationLetters = $('.alphabetical-pagination > li > a');
-    const selectedLetterElement = navigationLetters
-      .toArray()
-      .find(el => el.attribs['href'].split('#')[1] === letter);
-
-    const page = selectedLetterElement?.attribs['href'].split('=')[1];
-
-    if (!page) {
-      throw new NotFoundException();
-    }
-
-    return this.getTagsByLetterInPage(parseInt(page), letter, category);
+  async getTags(category: CATEGORIES, page: number): Promise<TagEntity[]> {
+    return this.tagModel
+      .find({ category: category.toString() })
+      .select('-__v -_id')
+      .sort({ name: 'asc' })
+      .skip((page - 1) * this.pageSize)
+      .limit(120)
+      .exec();
   }
 
-  private async getTagsByLetterInPage(
-    startingPage: number,
-    letter: string,
+  async getPageCount(category: CATEGORIES): Promise<number> {
+    const modelCount = await this.tagModel
+      .countDocuments({ category: category.toString() })
+      .exec();
+
+    return Math.ceil(modelCount / this.pageSize);
+  }
+
+  async getTagsByLetter(
     category: CATEGORIES,
-  ): Promise<Tag[]> {
-    const tags: Tag[] = [];
+    letter: string,
+  ): Promise<TagEntity[]> {
+    const nameRegexp = new RegExp(`^${letter}`, 'i');
 
-    const $ = await this.htmlParser.parse(
-      `https://nhentai.net/${category}/?page=${startingPage}`,
-    );
-    const letterSection = $(`#${letter}`);
-
-    if (letterSection.toArray().length) {
-      const tagsElements = letterSection.find('a');
-
-      tags.push(...parseTags(tagsElements, $));
-
-      tags.push(
-        ...(await this.getTagsByLetterInPage(
-          startingPage + 1,
-          letter,
-          category,
-        )),
-      );
-    }
-
-    return tags;
+    return this.tagModel
+      .find({
+        category: category.toString(),
+        name: nameRegexp,
+      })
+      .select('-__v -_id')
+      .sort({ name: 'asc' })
+      .exec();
   }
 }

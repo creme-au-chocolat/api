@@ -1,4 +1,6 @@
 import { CacheModule, Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Tag, TagSchema } from '../common/schemas/tag.schema';
 import { HtmlParserModule } from '../html-parser/html-parser.module';
 import { CategoriesController } from './categories/categories.controller';
 import { CategoriesService } from './categories/categories.service';
@@ -13,6 +15,7 @@ import { PostsService } from './posts/posts.service';
       ttl: 3600,
     }),
     HtmlParserModule,
+    MongooseModule.forFeature([{ name: Tag.name, schema: TagSchema }]),
   ],
   controllers: [PostPagesController, PostsController, CategoriesController],
   providers: [PostsService, PostPagesService, CategoriesService],
