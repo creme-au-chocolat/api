@@ -19,6 +19,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { GetTagByIdDto } from './types/get-tag-by-id.dto';
 
 @ApiTags('tags')
 @Controller('categories')
@@ -91,5 +92,15 @@ export class CategoriesController {
       params.category,
       params.letter,
     );
+  }
+
+  @ApiOperation({
+    summary: 'get tag infos for requested id',
+  })
+  @ApiBadRequestResponse()
+  @ApiNotFoundResponse({ description: 'no tag found with this id' })
+  @Get('tags/:id')
+  async byId(@Param() params: GetTagByIdDto): Promise<Tag> {
+    return this.categoriesService.getTagById(params.id);
   }
 }

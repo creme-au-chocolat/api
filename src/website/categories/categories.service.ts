@@ -63,4 +63,17 @@ export class CategoriesService {
       .sort({ name: 'asc' })
       .exec();
   }
+
+  async getTagById(id: number): Promise<TagEntity> {
+    const tag = await this.tagModel
+      .findOne({ id })
+      .select('-__v -_id')
+      .exec();
+
+    if (!tag) {
+      throw new NotFoundException();
+    }
+
+    return tag;
+  }
 }
