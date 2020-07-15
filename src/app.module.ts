@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { WebsiteModule } from './website/website.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [WebsiteModule],
+  imports: [WebsiteModule, ConfigModule.forRoot()],
   controllers: [AppController],
   providers: [AppService],
 })
