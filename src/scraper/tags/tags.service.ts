@@ -18,7 +18,7 @@ export class TagsService {
     private htmlParser: HtmlParserService,
   ) {}
 
-  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  @Cron(CronExpression.EVERY_WEEK)
   parseAllTags(): void {
     this.CATEGORIES.forEach(async category => {
       const tags: TagEntity[] = [];
