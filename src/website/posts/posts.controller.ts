@@ -134,7 +134,7 @@ export class PostsController {
 
     const ressource = req.url.split('random/')[1] ?? '';
 
-    res.setHeader('Cache-Control', 'no-store');
+    res.setHeader('Cache-Control', 'no-cache');
 
     res.redirect(`/g/${randomId}/${ressource}`);
   }
