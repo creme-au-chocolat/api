@@ -18,7 +18,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { TagWithCategory } from '../../common/types/tag-with-category.entity';
+import { TagWithCategory } from '../common/types/tag-with-category.entity';
 
 @ApiTags('tag categories')
 @Controller('categories')
