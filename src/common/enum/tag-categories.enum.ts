@@ -1,7 +1,7 @@
 export enum CATEGORIES {
-  tags,
-  artists,
-  characters,
-  parodies,
-  groups,
+  tags = 'tags',
+  artists = 'artists',
+  characters = 'characters',
+  parodies = 'parodies',
+  groups = 'groups',
 }
