@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
+// TODO : Create class from other class, to enable better testing
 @Schema()
 export class Tag extends Document {
   @Prop()
