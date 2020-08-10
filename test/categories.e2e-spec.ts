@@ -3,9 +3,9 @@ import { getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { curry, filter, orderBy, slice } from 'lodash';
 import * as request from 'supertest';
+import { CategoriesModule } from '../src/api/categories/categories.module';
 import { CategoriesService } from '../src/api/categories/categories.service';
 import { generateRandomTags } from '../src/api/categories/mocks/tags.mock';
-import { WebsiteModule } from '../src/api/website.module';
 import { CATEGORIES } from '../src/common/enum/tag-categories.enum';
 import { Tag } from '../src/common/schemas/tag.schema';
 import { createTestingApp, testBadRequests } from './helpers/e2e';
@@ -65,7 +65,7 @@ describe('CategoriesController (e2e)', () => {
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [WebsiteModule],
+      imports: [CategoriesModule],
     })
       .overrideProvider(CategoriesService)
       .useValue(categoriesService)
