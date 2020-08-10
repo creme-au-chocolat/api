@@ -3,11 +3,11 @@ import { getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { curry, filter, orderBy, slice } from 'lodash';
 import * as request from 'supertest';
+import { CategoriesService } from '../src/api/categories/categories.service';
+import { generateRandomTags } from '../src/api/categories/mocks/tags.mock';
+import { WebsiteModule } from '../src/api/website.module';
 import { CATEGORIES } from '../src/common/enum/tag-categories.enum';
 import { Tag } from '../src/common/schemas/tag.schema';
-import { CategoriesService } from '../src/website/categories/categories.service';
-import { generateRandomTags } from '../src/website/categories/mocks/tags.mock';
-import { WebsiteModule } from '../src/website/website.module';
 import { createTestingApp, testBadRequests } from './helpers/e2e';
 
 const datas = generateRandomTags(1000);
