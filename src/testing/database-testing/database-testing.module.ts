@@ -4,11 +4,13 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import { Tag, TagSchema } from '../../common/schemas/tag.schema';
 import { SeederService } from './seeder/seeder.service';
 
+let mongod: MongoMemoryServer;
+
 @Module({
   imports: [
     MongooseModule.forRootAsync({
       useFactory: async () => {
-        const mongod = new MongoMemoryServer();
+        mongod = new MongoMemoryServer();
         const uri = await mongod.getUri();
 
         return {
@@ -21,3 +23,7 @@ import { SeederService } from './seeder/seeder.service';
   providers: [SeederService],
 })
 export class DatabaseTestingModule {}
+
+export async function closeMongoConnection(): Promise<void> {
+  if (mongod) await mongod.stop();
+}
