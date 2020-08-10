@@ -1,5 +1,5 @@
-import { Min, IsInt } from 'class-validator';
-import { Type, Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
+import { IsInt, Min } from 'class-validator';
 
 export class GetCategoryPageDto {
   @Type(() => Number)
@@ -7,8 +7,6 @@ export class GetCategoryPageDto {
   @Min(1)
   page? = 1;
 
-  @Transform(
-    (value: string) => value !== '0' && value.toLowerCase() !== 'false',
-  )
-  popular? = false;
+  @Transform((value: string) => value.toLowerCase() !== 'false')
+  popular?: boolean;
 }
