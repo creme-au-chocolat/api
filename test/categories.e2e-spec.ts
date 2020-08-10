@@ -8,7 +8,7 @@ import { Tag } from '../src/common/schemas/tag.schema';
 import { CategoriesService } from '../src/website/categories/categories.service';
 import { generateRandomTags } from '../src/website/categories/mocks/tags.mock';
 import { WebsiteModule } from '../src/website/website.module';
-import { createTestingApp } from './helpers/e2e';
+import { createTestingApp, testBadRequests } from './helpers/e2e';
 
 const datas = generateRandomTags(1000);
 
@@ -129,11 +129,7 @@ describe('CategoriesController (e2e)', () => {
         '/categories/artists/tags?popular=false&page=-1',
       ];
 
-      for (const req of badRequests) {
-        await request(httpServer)
-          .get(req)
-          .expect(400);
-      }
+      await testBadRequests(httpServer, badRequests);
     });
 
     it('converts parameters types', async () => {
@@ -215,11 +211,7 @@ describe('CategoriesController (e2e)', () => {
         '/categories/notacategory/tags/0',
       ];
 
-      for (const req of badRequests) {
-        await request(httpServer)
-          .get(req)
-          .expect(400);
-      }
+      await testBadRequests(httpServer, badRequests);
     });
   });
 
