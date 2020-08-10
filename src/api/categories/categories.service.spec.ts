@@ -6,12 +6,12 @@ import { filter, orderBy, slice } from 'lodash';
 import { Connection } from 'mongoose';
 import { CATEGORIES } from '../../common/enum/tag-categories.enum';
 import { Tag, TagSchema } from '../../common/schemas/tag.schema';
+import { TagWithCategory } from '../../common/types/tag-with-category.entity';
 import {
   closeMongoConnection,
   DatabaseTestingModule,
 } from '../../testing/database-testing/database-testing.module';
 import { SeederService } from '../../testing/database-testing/seeder/seeder.service';
-import { TagWithCategory } from '../common/types/tag-with-category.entity';
 import { CategoriesService } from './categories.service';
 
 describe('CategoriesController', () => {

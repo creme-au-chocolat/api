@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { internet, lorem, random } from 'faker';
 import { Model } from 'mongoose';
-import { TagWithCategory } from '../../../api/common/types/tag-with-category.entity';
 import { Tag } from '../../../common/schemas/tag.schema';
+import { TagWithCategory } from '../../../common/types/tag-with-category.entity';
 
 @Injectable()
 export class SeederService {

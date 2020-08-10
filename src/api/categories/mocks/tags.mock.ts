@@ -1,5 +1,5 @@
 import { internet, lorem, random } from 'faker';
-import { TagWithCategory } from '../../common/types/tag-with-category.entity';
+import { TagWithCategory } from '../../../common/types/tag-with-category.entity';
 
 function generateRandomTags(number: number): TagWithCategory[] {
   const tags: TagWithCategory[] = [];

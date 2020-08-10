@@ -5,7 +5,7 @@ import { random } from 'faker';
 import { chunk } from 'lodash';
 import { CATEGORIES } from '../../common/enum/tag-categories.enum';
 import { Tag } from '../../common/schemas/tag.schema';
-import { TagWithCategory } from '../common/types/tag-with-category.entity';
+import { TagWithCategory } from '../../common/types/tag-with-category.entity';
 import { CategoriesController } from './categories.controller';
 import { CategoriesService } from './categories.service';
 import { generateRandomTags } from './mocks/tags.mock';

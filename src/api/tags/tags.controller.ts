@@ -12,7 +12,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { TagWithCategory } from '../common/types/tag-with-category.entity';
+import { TagWithCategory } from '../../common/types/tag-with-category.entity';
 import { TagsService } from './tags.service';
 import { GetTagByIdDto } from './types/get-tag-by-id.dto';
 import { SearchCategoryDto } from './types/search-category.dto';
