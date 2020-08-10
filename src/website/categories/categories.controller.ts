@@ -1,17 +1,12 @@
 import {
+  CacheInterceptor,
   Controller,
   Get,
+  NotFoundException,
   Param,
   Query,
   UseInterceptors,
-  CacheInterceptor,
-  NotFoundException,
 } from '@nestjs/common';
-import { CategoriesService } from './categories.service';
-import { TagListEntity } from './types/tag-list.entity';
-import { GetCategoryDto } from './types/get-category.dto';
-import { GetCategoryPageDto } from './types/get-category-page.dto';
-import { GetCategoryPageByLetterDto } from './types/get-category-page-by-letter.dto';
 import {
   ApiBadRequestResponse,
   ApiNotFoundResponse,
@@ -19,6 +14,11 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { TagWithCategory } from '../common/types/tag-with-category.entity';
+import { CategoriesService } from './categories.service';
+import { GetCategoryPageByLetterDto } from './types/get-category-page-by-letter.dto';
+import { GetCategoryPageDto } from './types/get-category-page.dto';
+import { GetCategoryDto } from './types/get-category.dto';
+import { TagListEntity } from './types/tag-list.entity';
 
 @ApiTags('tag categories')
 @Controller('categories')
@@ -84,7 +84,6 @@ export class CategoriesController {
       'get all existing tags starting by specified letter in specified category',
   })
   @ApiBadRequestResponse()
-  @ApiNotFoundResponse({ description: 'no tags with requested letter' })
   @Get(':category/tags/:letter')
   async byLetter(
     @Param() params: GetCategoryPageByLetterDto,
