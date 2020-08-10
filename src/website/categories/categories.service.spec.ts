@@ -1,17 +1,22 @@
 import { CacheModule } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { getConnectionToken, MongooseModule } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { random } from 'faker';
 import { filter, orderBy, slice } from 'lodash';
+import { Connection } from 'mongoose';
 import { CATEGORIES } from '../../common/enum/tag-categories.enum';
 import { Tag, TagSchema } from '../../common/schemas/tag.schema';
-import { DatabaseTestingModule } from '../../testing/database-testing/database-testing.module';
+import {
+  closeMongoConnection,
+  DatabaseTestingModule,
+} from '../../testing/database-testing/database-testing.module';
 import { SeederService } from '../../testing/database-testing/seeder/seeder.service';
 import { TagWithCategory } from '../common/types/tag-with-category.entity';
 import { CategoriesService } from './categories.service';
 
 describe('CategoriesController', () => {
   let categoriesService: CategoriesService;
+  let databaseConnection: Connection;
   let seededTags: Tag[];
   let seededWith: TagWithCategory[];
 
@@ -34,9 +39,15 @@ describe('CategoriesController', () => {
     }).compile();
 
     categoriesService = moduleRef.get(CategoriesService);
+    databaseConnection = moduleRef.get(getConnectionToken());
 
     const seedingService = moduleRef.get(SeederService);
     [seededTags, seededWith] = await seedingService.seedTags();
+  });
+
+  afterEach(async () => {
+    await databaseConnection.close();
+    await closeMongoConnection();
   });
 
   describe('getPageCount', () => {
