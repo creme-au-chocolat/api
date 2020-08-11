@@ -34,15 +34,15 @@ describe('CategoriesController', () => {
     tagsController = moduleRef.get(TagsController);
   });
 
-  describe('categories', () => {
+  describe('getCategories', () => {
     it('should returns available categories', () => {
       const results = ['tags', 'artists', 'characters', 'parodies', 'groups'];
 
-      expect(tagsController.categories()).toStrictEqual(results);
+      expect(tagsController.getCategories()).toStrictEqual(results);
     });
   });
 
-  describe('tags', () => {
+  describe('getTagsByCategory', () => {
     let datas: TagWithCategory[] = [];
     const numberOfPages = () => {
       return Math.ceil(datas.length / pageSize);
@@ -95,7 +95,7 @@ describe('CategoriesController', () => {
       };
 
       expect(
-        await tagsController.tags(
+        await tagsController.getTagsByCategory(
           { category: CATEGORIES.artists },
           { page: 1 },
         ),
@@ -112,7 +112,7 @@ describe('CategoriesController', () => {
       };
 
       expect(
-        await tagsController.tags(
+        await tagsController.getTagsByCategory(
           { category: CATEGORIES.artists },
           { page: 1, popular: true },
         ),
@@ -125,7 +125,7 @@ describe('CategoriesController', () => {
         const currentCategory = CATEGORIES[category];
 
         const tags = await tagsController
-          .tags(
+          .getTagsByCategory(
             {
               category: currentCategory,
             },
@@ -152,7 +152,7 @@ describe('CategoriesController', () => {
       };
 
       expect(
-        await tagsController.tags(
+        await tagsController.getTagsByCategory(
           { category: CATEGORIES.artists },
           { page: randomPage },
         ),
@@ -161,14 +161,14 @@ describe('CategoriesController', () => {
 
     it('throws an error when requested page is above total number of pages', async () => {
       await expect(
-        tagsController.tags(
+        tagsController.getTagsByCategory(
           { category: CATEGORIES.artists },
           { page: numberOfPages() },
         ),
       ).resolves.toBeDefined();
 
       await expect(
-        tagsController.tags(
+        tagsController.getTagsByCategory(
           { category: CATEGORIES.artists },
           { page: numberOfPages() + 1 },
         ),
@@ -176,7 +176,7 @@ describe('CategoriesController', () => {
     });
   });
 
-  describe('byLetter', () => {
+  describe('getTagsByCategoryAndLetter', () => {
     let datas: TagWithCategory[];
 
     const getTagsByLetter = async (category: CATEGORIES, letter: string) => {
@@ -210,7 +210,7 @@ describe('CategoriesController', () => {
       const results = await getTagsByLetter(CATEGORIES.artists, 'A');
 
       await expect(
-        tagsController.byLetter({
+        tagsController.getTagsByCategoryAndLetter({
           category: CATEGORIES.artists,
           letter: 'A',
         }),
@@ -219,7 +219,7 @@ describe('CategoriesController', () => {
 
     it('returns empty array when letter does not exists', async () => {
       await expect(
-        tagsController.byLetter({
+        tagsController.getTagsByCategoryAndLetter({
           category: CATEGORIES.artists,
           letter: 'not a letter',
         }),

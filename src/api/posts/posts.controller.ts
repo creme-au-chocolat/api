@@ -1,21 +1,14 @@
 import {
+  CacheInterceptor,
+  CacheTTL,
   Controller,
   Get,
   Param,
   Query,
-  UseInterceptors,
-  CacheInterceptor,
-  Res,
-  CacheTTL,
   Req,
+  Res,
+  UseInterceptors,
 } from '@nestjs/common';
-import { PostsService } from './posts.service';
-import { GetDetailsDto } from './types/get-details.dto';
-import { GetPostDto } from './types/get-post.dto';
-import { PostDetailsEntity } from './types/post-details.entity';
-import { Response, Request } from 'express';
-import { GetPostPageDto } from './types/get-post-page.dto';
-import { DownloadPostDto } from './types/download-post.dto';
 import {
   ApiBadRequestResponse,
   ApiNotFoundResponse,
@@ -25,6 +18,13 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { Request, Response } from 'express';
+import { PostsService } from './posts.service';
+import { DownloadPostDto } from './types/download-post.dto';
+import { GetDetailsDto } from './types/get-details.dto';
+import { GetPostPageDto } from './types/get-post-page.dto';
+import { GetPostDto } from './types/get-post.dto';
+import { PostDetailsEntity } from './types/post-details.entity';
 
 @ApiTags('galleries')
 @Controller()
@@ -38,7 +38,7 @@ export class PostsController {
   @ApiBadRequestResponse()
   @ApiNotFoundResponse({ description: 'no gallery with provided id' })
   @Get('g/:id')
-  async details(
+  async getGalleryById(
     @Param() params: GetPostDto,
     @Query() query: GetDetailsDto,
   ): Promise<PostDetailsEntity> {
@@ -68,7 +68,7 @@ export class PostsController {
   @ApiOkResponse({ schema: { type: 'string', format: 'binary' } })
   @ApiProduces('image/jpeg')
   @Get('g/:id/page/:page')
-  async page(
+  async getGalleryPage(
     @Res() res: Response,
     @Param() params: GetPostPageDto,
   ): Promise<void> {
@@ -86,7 +86,7 @@ export class PostsController {
   @ApiOkResponse({ schema: { type: 'string', format: 'binary' } })
   @ApiProduces('image/jpeg')
   @Get('g/:id/thumbnail')
-  async thumbnail(
+  async getGalleryThumbnail(
     @Res() res: Response,
     @Param() params: GetPostDto,
   ): Promise<void> {
@@ -104,7 +104,7 @@ export class PostsController {
   @ApiOkResponse({ schema: { type: 'string', format: 'binary' } })
   @ApiProduces('application/zip')
   @Get('g/:id/download')
-  async download(
+  async getGalleryAsZip(
     @Res() res: Response,
     @Param() params: GetPostDto,
     @Query() query: DownloadPostDto,
@@ -129,7 +129,10 @@ export class PostsController {
   })
   @Get('posts/random(/*)?')
   @CacheTTL(1)
-  async random(@Req() req: Request, @Res() res: Response): Promise<void> {
+  async getRandomGallery(
+    @Req() req: Request,
+    @Res() res: Response,
+  ): Promise<void> {
     const randomId = await this.postsService.random();
 
     const ressource = req.url.split('random/')[1] ?? '';

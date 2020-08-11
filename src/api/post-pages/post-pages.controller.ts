@@ -1,18 +1,13 @@
 import {
+  CacheInterceptor,
+  CacheTTL,
   Controller,
   Get,
-  UseInterceptors,
-  CacheInterceptor,
-  Query,
   NotFoundException,
-  CacheTTL,
+  Query,
   Res,
+  UseInterceptors,
 } from '@nestjs/common';
-import { PostPagesService } from './post-pages.service';
-import { SearchPostDto } from './types/search-post.dto';
-import { PostListEntity } from './types/post-list.entity';
-import { GetHomepageDto } from './types/get-homepage.dto';
-import { HomepageEntity } from './types/homepage.entity';
 import {
   ApiBadRequestResponse,
   ApiNotFoundResponse,
@@ -20,8 +15,13 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { SearchRandomPostDto } from './types/search-random-post.dto';
 import { Response } from 'express';
+import { PostPagesService } from './post-pages.service';
+import { GetHomepageDto } from './types/get-homepage.dto';
+import { HomepageEntity } from './types/homepage.entity';
+import { PostListEntity } from './types/post-list.entity';
+import { SearchPostDto } from './types/search-post.dto';
+import { SearchRandomPostDto } from './types/search-random-post.dto';
 
 @ApiTags('post list')
 @Controller('posts')
@@ -36,7 +36,9 @@ export class PostPagesController {
   })
   @ApiBadRequestResponse()
   @Get('/search')
-  async search(@Query() query: SearchPostDto): Promise<PostListEntity> {
+  async searchGalleries(
+    @Query() query: SearchPostDto,
+  ): Promise<PostListEntity> {
     const uri = `https://nhentai.net/search/?q=${query.q}&sort=${query.sort}&page=${query.page}`;
 
     const [posts, pages] = await this.postPagesService.fetchPosts(
@@ -64,7 +66,7 @@ export class PostPagesController {
     summary: 'get a random post corresponding to a search query',
   })
   @Get('/randomsearch')
-  async randomSearch(
+  async searchRandomGallery(
     @Res() res: Response,
     @Query() query: SearchRandomPostDto,
   ): Promise<void> {
@@ -100,7 +102,7 @@ export class PostPagesController {
 
   @ApiOperation({ summary: 'get posts in nhentai homepage ' })
   @Get('/homepage')
-  async homepage(@Query() query: GetHomepageDto): Promise<HomepageEntity> {
+  async getHomepage(@Query() query: GetHomepageDto): Promise<HomepageEntity> {
     const uri = `https://nhentai.net/?page=${query.page}`;
 
     const [posts, pages] = await this.postPagesService.fetchPosts(

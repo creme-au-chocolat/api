@@ -35,7 +35,7 @@ export class TagsController {
   @ApiBadRequestResponse()
   @ApiNotFoundResponse({ description: 'no tag found with this id' })
   @Get('details/:id')
-  async byId(@Param() params: GetTagByIdDto): Promise<TagWithCategory> {
+  async getTagById(@Param() params: GetTagByIdDto): Promise<TagWithCategory> {
     return this.tagsService.getTagById(params.id);
   }
 
@@ -46,7 +46,9 @@ export class TagsController {
   })
   @ApiBadRequestResponse()
   @Get('search')
-  async search(@Query() query: SearchCategoryDto): Promise<TagWithCategory[]> {
+  async searchTag(
+    @Query() query: SearchCategoryDto,
+  ): Promise<TagWithCategory[]> {
     return this.tagsService.search(query.q, query.category);
   }
 
@@ -54,7 +56,7 @@ export class TagsController {
     summary: 'get possible values for category',
   })
   @Get('categories')
-  categories(): string[] {
+  getCategories(): string[] {
     return Object.values(CATEGORIES);
   }
 
@@ -64,7 +66,7 @@ export class TagsController {
   @ApiBadRequestResponse()
   @ApiNotFoundResponse({ description: 'requested page does not exist' })
   @Get('list/:category')
-  async tags(
+  async getTagsByCategory(
     @Param() params: GetCategoryDto,
     @Query() query: GetCategoryPageDto,
   ): Promise<TagListEntity> {
@@ -99,7 +101,7 @@ export class TagsController {
   })
   @ApiBadRequestResponse()
   @Get('list/:category/:letter')
-  async byLetter(
+  async getTagsByCategoryAndLetter(
     @Param() params: GetCategoryPageByLetterDto,
   ): Promise<TagWithCategory[]> {
     return this.tagsService.getTagsByLetter(params.category, params.letter);
