@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import { Tag, TagSchema } from '../../shared/schemas/tag.schema';
+import { TagDocument, TagSchema } from '../../shared/schemas/tag.schema';
 import { SeederService } from './seeder/seeder.service';
 
 let mongod: MongoMemoryServer;
@@ -18,7 +18,7 @@ let mongod: MongoMemoryServer;
         };
       },
     }),
-    MongooseModule.forFeature([{ name: Tag.name, schema: TagSchema }]),
+    MongooseModule.forFeature([{ name: TagDocument.name, schema: TagSchema }]),
   ],
   providers: [SeederService],
 })

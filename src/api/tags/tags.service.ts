@@ -1,17 +1,19 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { Tag } from 'src/shared/types/tag.entity';
 import { CATEGORIES } from '../../shared/enum/tag-categories.enum';
-import { Tag } from '../../shared/schemas/tag.schema';
-import { TagWithCategory } from '../../shared/types/tag-with-category.entity';
+import { TagDocument } from '../../shared/schemas/tag.schema';
 
 @Injectable()
 export class TagsService {
   private readonly PAGE_SIZE = 120;
 
-  constructor(@InjectModel(Tag.name) private tagModel: Model<Tag>) {}
+  constructor(
+    @InjectModel(TagDocument.name) private tagModel: Model<TagDocument>,
+  ) {}
 
-  async getTagById(id: number): Promise<TagWithCategory> {
+  async getTagById(id: number): Promise<Tag> {
     const tag = await this.tagModel
       .findOne({ id })
       .select('-__v -_id')
@@ -26,13 +28,10 @@ export class TagsService {
 
   // TODO: add pagination
   // TODO: sort before slicing
-  async search(
-    searchQuery: string,
-    category?: string,
-  ): Promise<TagWithCategory[]> {
+  async search(searchQuery: string, category?: string): Promise<Tag[]> {
     const nameRegexp = new RegExp(`^.*${searchQuery}.*$`);
 
-    let tags: TagWithCategory[];
+    let tags: Tag[];
 
     if (category) {
       tags = await this.tagModel
@@ -57,7 +56,7 @@ export class TagsService {
   async getTagsByPopularity(
     category: CATEGORIES,
     page: number,
-  ): Promise<TagWithCategory[]> {
+  ): Promise<Tag[]> {
     return this.tagModel
       .find({ category: category.toString() })
       .select('-__v -_id')
@@ -67,10 +66,7 @@ export class TagsService {
       .exec();
   }
 
-  async getTags(
-    category: CATEGORIES,
-    page: number,
-  ): Promise<TagWithCategory[]> {
+  async getTags(category: CATEGORIES, page: number): Promise<Tag[]> {
     return this.tagModel
       .find({ category: category.toString() })
       .select('-__v -_id')
@@ -88,10 +84,7 @@ export class TagsService {
     return Math.ceil(modelCount / this.PAGE_SIZE);
   }
 
-  async getTagsByLetter(
-    category: CATEGORIES,
-    letter: string,
-  ): Promise<TagWithCategory[]> {
+  async getTagsByLetter(category: CATEGORIES, letter: string): Promise<Tag[]> {
     const nameRegexp = new RegExp(`^${letter}`, 'i');
 
     return this.tagModel

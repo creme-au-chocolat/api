@@ -2,11 +2,11 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { Model } from 'mongoose';
+import { HtmlTag } from 'src/shared/types/html-tag.entity';
 import { HtmlParserService } from '../../html-parser/html-parser/html-parser.service';
 import { getPages } from '../../shared/helpers/get-pagination.helper';
 import { parseTags } from '../../shared/helpers/parse-tags.helper';
-import { Tag } from '../../shared/schemas/tag.schema';
-import { Tag as TagEntity } from '../../shared/types/tag.entity';
+import { TagDocument } from '../../shared/schemas/tag.schema';
 
 @Injectable()
 export class TagsService {
@@ -14,14 +14,14 @@ export class TagsService {
   private readonly logger = new Logger(TagsService.name);
 
   constructor(
-    @InjectModel(Tag.name) private tagModel: Model<Tag>,
+    @InjectModel(TagDocument.name) private tagModel: Model<TagDocument>,
     private htmlParser: HtmlParserService,
   ) {}
 
   @Cron(CronExpression.EVERY_WEEK)
   parseAllTags(): void {
     this.CATEGORIES.forEach(async category => {
-      const tags: TagEntity[] = [];
+      const tags: HtmlTag[] = [];
       const $ = await this.htmlParser.parse(`https://nhentai.net/${category}`);
 
       const numberOfPages = getPages($, 0);

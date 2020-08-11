@@ -1,8 +1,8 @@
 import { internet, lorem, random } from 'faker';
-import { TagWithCategory } from '../../src/shared/types/tag-with-category.entity';
+import { Tag } from 'src/shared/types/tag.entity';
 
-function generateRandomTags(number: number): TagWithCategory[] {
-  const tags: TagWithCategory[] = [];
+function generateRandomTags(number: number): Tag[] {
+  const tags: Tag[] = [];
 
   for (let i = 0; i < number; i++) {
     const tag = {

@@ -1,7 +1,7 @@
+import { Tag } from 'src/shared/types/tag.entity';
 import { Pagination } from '../../../shared/types/pagination.entity';
-import { TagWithCategory } from '../../../shared/types/tag-with-category.entity';
 
 export class TagListEntity {
-  data: TagWithCategory[];
+  data: Tag[];
   pagination: Pagination;
 }

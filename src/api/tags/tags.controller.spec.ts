@@ -3,10 +3,10 @@ import { getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { random } from 'faker';
 import { chunk } from 'lodash';
+import { Tag } from 'src/shared/types/tag.entity';
 import { generateRandomTags } from '../../../test/mocks/tags.mock';
 import { CATEGORIES } from '../../shared/enum/tag-categories.enum';
-import { Tag } from '../../shared/schemas/tag.schema';
-import { TagWithCategory } from '../../shared/types/tag-with-category.entity';
+import { TagDocument } from '../../shared/schemas/tag.schema';
 import { TagsController } from './tags.controller';
 import { TagsService } from './tags.service';
 import { TagListEntity } from './types/tag-list.entity';
@@ -15,7 +15,7 @@ describe('CategoriesController', () => {
   let tagsController: TagsController;
   let tagsService: TagsService;
 
-  let mockTags: TagWithCategory[] = [];
+  let mockTags: Tag[] = [];
   const numberOfPages = async (category: CATEGORIES) => {
     const filteredTags = mockTags.filter(
       tag => tag.category === category.toString(),
@@ -32,7 +32,7 @@ describe('CategoriesController', () => {
       providers: [
         TagsService,
         {
-          provide: getModelToken(Tag.name),
+          provide: getModelToken(TagDocument.name),
           useValue: {},
         },
       ],
@@ -230,7 +230,7 @@ describe('CategoriesController', () => {
   });
 
   describe('getTagById', () => {
-    let tag: TagWithCategory;
+    let tag: Tag;
 
     beforeEach(() => {
       tag = random.arrayElement(mockTags);

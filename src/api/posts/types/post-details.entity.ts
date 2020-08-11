@@ -1,22 +1,22 @@
-import { Tag } from '../../../shared/types/tag.entity';
-
-export class PostDetailsEntity {
-  id?: number;
-  name?: Name;
-  thumbnail?: string;
-  tags?: Tag[];
-  languages?: Tag[];
-  artists?: Tag[];
-  categories?: Tag[];
-  parodies?: Tag[];
-  groups?: Tag[];
-  characters?: Tag[];
-  pages?: number;
-  uploadDate?: string;
-}
+import { HtmlTag } from 'src/shared/types/html-tag.entity';
 
 type Name = {
   before: string;
   after: string;
   content: string;
 };
+
+export class PostDetailsEntity {
+  id?: number;
+  name?: Name;
+  thumbnail?: string;
+  tags?: HtmlTag[];
+  languages?: HtmlTag[];
+  artists?: HtmlTag[];
+  categories?: HtmlTag[];
+  parodies?: HtmlTag[];
+  groups?: HtmlTag[];
+  characters?: HtmlTag[];
+  pages?: number;
+  uploadDate?: string;
+}

@@ -1,14 +1,14 @@
-import { Tag } from '../types/tag.entity';
+import { HtmlTag } from '../types/html-tag.entity';
 
-export function parseTags(tagsElements: Cheerio, $: CheerioStatic): Tag[] {
-  return tagsElements.toArray().map<Tag>(rawElement => {
+export function parseTags(tagsElements: Cheerio, $: CheerioStatic): HtmlTag[] {
+  return tagsElements.toArray().map<HtmlTag>(rawElement => {
     const el = $(rawElement);
 
     return parseTag(el);
   });
 }
 
-export function parseTag(tagElement: Cheerio): Tag {
+export function parseTag(tagElement: Cheerio): HtmlTag {
   return {
     name: tagElement.find('.name').text(),
     tagged: parseInt(

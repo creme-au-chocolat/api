@@ -1,12 +1,12 @@
 import { CacheModule, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Tag, TagSchema } from '../../shared/schemas/tag.schema';
+import { TagDocument, TagSchema } from '../../shared/schemas/tag.schema';
 import { TagsController } from './tags.controller';
 import { TagsService } from './tags.service';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Tag.name, schema: TagSchema }]),
+    MongooseModule.forFeature([{ name: TagDocument.name, schema: TagSchema }]),
     CacheModule.register(),
   ],
   controllers: [TagsController],

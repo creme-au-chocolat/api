@@ -13,8 +13,8 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { Tag } from 'src/shared/types/tag.entity';
 import { CATEGORIES } from '../../shared/enum/tag-categories.enum';
-import { TagWithCategory } from '../../shared/types/tag-with-category.entity';
 import { TagsService } from './tags.service';
 import { GetCategoryPageDto } from './types/get-category-page';
 import { GetCategoryPageByLetterDto } from './types/get-category-page-by-letter.dto';
@@ -35,7 +35,7 @@ export class TagsController {
   @ApiBadRequestResponse()
   @ApiNotFoundResponse({ description: 'no tag found with this id' })
   @Get('details/:id')
-  async getTagById(@Param() params: GetTagByIdDto): Promise<TagWithCategory> {
+  async getTagById(@Param() params: GetTagByIdDto): Promise<Tag> {
     return this.tagsService.getTagById(params.id);
   }
 
@@ -46,9 +46,7 @@ export class TagsController {
   })
   @ApiBadRequestResponse()
   @Get('search')
-  async searchTag(
-    @Query() query: SearchCategoryDto,
-  ): Promise<TagWithCategory[]> {
+  async searchTag(@Query() query: SearchCategoryDto): Promise<Tag[]> {
     return this.tagsService.search(query.q, query.category);
   }
 
@@ -70,7 +68,7 @@ export class TagsController {
     @Param() params: GetCategoryDto,
     @Query() query: GetCategoryPageDto,
   ): Promise<TagListEntity> {
-    let tags: TagWithCategory[];
+    let tags: Tag[];
     const numberOfPages = await this.tagsService.getPageCount(params.category);
 
     if (query.page > numberOfPages) {
@@ -103,7 +101,7 @@ export class TagsController {
   @Get('list/:category/:letter')
   async getTagsByCategoryAndLetter(
     @Param() params: GetCategoryPageByLetterDto,
-  ): Promise<TagWithCategory[]> {
+  ): Promise<Tag[]> {
     return this.tagsService.getTagsByLetter(params.category, params.letter);
   }
 }

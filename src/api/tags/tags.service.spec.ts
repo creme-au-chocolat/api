@@ -4,9 +4,9 @@ import { Test } from '@nestjs/testing';
 import { random } from 'faker';
 import { filter, orderBy, slice } from 'lodash';
 import { Connection } from 'mongoose';
+import { Tag } from 'src/shared/types/tag.entity';
 import { CATEGORIES } from '../../shared/enum/tag-categories.enum';
-import { Tag, TagSchema } from '../../shared/schemas/tag.schema';
-import { TagWithCategory } from '../../shared/types/tag-with-category.entity';
+import { TagDocument, TagSchema } from '../../shared/schemas/tag.schema';
 import {
   closeMongoConnection,
   DatabaseTestingModule,
@@ -17,8 +17,8 @@ import { TagsService } from './tags.service';
 describe('CategoriesController', () => {
   let tagsService: TagsService;
   let databaseConnection: Connection;
-  let seededTags: Tag[];
-  let seededWith: TagWithCategory[];
+  let seededTags: TagDocument[];
+  let seededWith: Tag[];
 
   const getNumberOfPages = (category: CATEGORIES) => {
     const filteredTags = seededTags.filter(tag => tag.category === category);
@@ -34,7 +34,9 @@ describe('CategoriesController', () => {
       imports: [
         CacheModule.register({ ttl: 1 }),
         DatabaseTestingModule,
-        MongooseModule.forFeature([{ name: Tag.name, schema: TagSchema }]),
+        MongooseModule.forFeature([
+          { name: TagDocument.name, schema: TagSchema },
+        ]),
       ],
     }).compile();
 

@@ -1,9 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-// TODO : Create class from other class, to enable better testing
 @Schema()
-export class Tag extends Document {
+export class TagDocument extends Document {
   @Prop()
   name: string;
 
@@ -20,4 +19,4 @@ export class Tag extends Document {
   category: string;
 }
 
-export const TagSchema = SchemaFactory.createForClass(Tag);
+export const TagSchema = SchemaFactory.createForClass(TagDocument);
