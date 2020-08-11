@@ -4,12 +4,12 @@ import { Test } from '@nestjs/testing';
 import { random } from 'faker';
 import { curry } from 'lodash';
 import * as request from 'supertest';
-import { TagsModule } from '../src/api/tags/tags.module';
-import { TagsService } from '../src/api/tags/tags.service';
-import { CATEGORIES } from '../src/common/enum/tag-categories.enum';
-import { Tag } from '../src/common/schemas/tag.schema';
-import { createTestingApp, testRequests } from './helpers/e2e';
-import { mockTags, tagsService } from './mocks/tags.service.mock';
+import { TagsModule } from '../../src/api/tags/tags.module';
+import { TagsService } from '../../src/api/tags/tags.service';
+import { CATEGORIES } from '../../src/common/enum/tag-categories.enum';
+import { Tag } from '../../src/common/schemas/tag.schema';
+import { createTestingApp, testRequests } from '../helpers/e2e';
+import { mockTags, tagsService } from '../mocks/tags.service.mock';
 
 describe('TagsController (e2e)', () => {
   let app: INestApplication;

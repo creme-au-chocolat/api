@@ -11,5 +11,3 @@ jobs:
         run: npm install
       - name: Run tests
         run: CI=true npm run test
-      - name: Run tests (e2e)
-        run: CI=true npm run test:e2e
