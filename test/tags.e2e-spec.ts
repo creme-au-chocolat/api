@@ -3,11 +3,11 @@ import { getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { curry, filter, orderBy, slice } from 'lodash';
 import * as request from 'supertest';
-import { CategoriesModule } from '../src/api/categories/categories.module';
-import { CategoriesService } from '../src/api/categories/categories.service';
-import { generateRandomTags } from '../src/api/categories/mocks/tags.mock';
+import { generateRandomTags } from '../src/api/tags/mocks/tags.mock';
+import { TagsModule } from '../src/api/tags/tags.module';
 import { CATEGORIES } from '../src/common/enum/tag-categories.enum';
 import { Tag } from '../src/common/schemas/tag.schema';
+import { TagsService } from '../src/scraper/tags/tags.service';
 import { createTestingApp, testBadRequests } from './helpers/e2e';
 
 const datas = generateRandomTags(1000);
@@ -54,7 +54,7 @@ const sortByName = (category: CATEGORIES, page: number) => {
   return slicedTags;
 };
 
-describe('CategoriesController (e2e)', () => {
+describe('TagsController (e2e)', () => {
   let app: INestApplication;
   const categoriesService = {
     getTagsByPopularity: sortByPopularity,
@@ -65,9 +65,9 @@ describe('CategoriesController (e2e)', () => {
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [CategoriesModule],
+      imports: [TagsModule],
     })
-      .overrideProvider(CategoriesService)
+      .overrideProvider(TagsService)
       .useValue(categoriesService)
       .overrideProvider(getModelToken(Tag.name))
       .useValue({})
@@ -77,7 +77,7 @@ describe('CategoriesController (e2e)', () => {
     await app.init();
   });
 
-  describe('/categories/:category/tags (GET)', () => {
+  describe('/tags/list/:category (GET)', () => {
     it('sort by popularity', () => {
       const result = categoriesService.getTagsByPopularity(
         CATEGORIES.artists,
@@ -85,7 +85,7 @@ describe('CategoriesController (e2e)', () => {
       );
 
       return request(app.getHttpServer())
-        .get('/categories/artists/tags?popular=true&page=1')
+        .get('/tags/list/artists?popular=true&page=1')
         .expect(200)
         .expect({
           data: result,
@@ -100,7 +100,7 @@ describe('CategoriesController (e2e)', () => {
       const result = categoriesService.getTags(CATEGORIES.artists, 1);
 
       return request(app.getHttpServer())
-        .get('/categories/artists/tags?popular=false&page=1')
+        .get('/tags/list/artists?popular=false&page=1')
         .expect(200)
         .expect({
           data: result,
@@ -115,18 +115,18 @@ describe('CategoriesController (e2e)', () => {
       const numberOfPages = categoriesService.getPageCount(CATEGORIES.artists);
 
       return request(app.getHttpServer())
-        .get(`/categories/artists/tags?popular=false&page=${numberOfPages + 1}`)
+        .get(`/tags/list/artists?popular=false&page=${numberOfPages + 1}`)
         .expect(404);
     });
 
     it('throws 400 error on wrong parameters values', async () => {
       const httpServer = app.getHttpServer();
       const badRequests: string[] = [
-        '/categories/notacategory/tags?popular=false&page=1',
-        '/categories/artists/tags?popular=false&page=0',
-        '/categories/artists/tags?popular=false&page=1.50',
-        '/categories/artists/tags?popular=false&page=notanumber',
-        '/categories/artists/tags?popular=false&page=-1',
+        '/tags/list/notacategory?popular=false&page=1',
+        '/tags/list/artists?popular=false&page=0',
+        '/tags/list/artists?popular=false&page=1.50',
+        '/tags/list/artists?popular=false&page=notanumber',
+        '/tags/list/artists?popular=false&page=-1',
       ];
 
       await testBadRequests(httpServer, badRequests);
@@ -140,17 +140,17 @@ describe('CategoriesController (e2e)', () => {
       const byName = curry(categoriesService.getTags)(CATEGORIES.artists);
 
       const shouldOrderByPopularity: string[] = [
-        '/categories/artists/tags?popular=true&page=1',
-        '/categories/artists/tags?popular=1&page=1',
-        '/categories/artists/tags?popular=anything&page=1',
+        '/tags/list/artists?popular=true&page=1',
+        '/tags/list/artists?popular=1&page=1',
+        '/tags/list/artists?popular=anything&page=1',
       ];
       const shouldOrderByName: string[] = [
-        '/categories/artists/tags?popular=false&page=1',
-        '/categories/artists/tags?page=1',
+        '/tags/list/artists?popular=false&page=1',
+        '/tags/list/artists?page=1',
       ];
       const shouldWorks: string[] = [
-        '/categories/artists/tags',
-        '/categories/artists/tags?page=1',
+        '/tags/list/artists',
+        '/tags/list/artists?page=1',
       ];
 
       for (const req of shouldOrderByPopularity) {
@@ -179,12 +179,12 @@ describe('CategoriesController (e2e)', () => {
     });
   });
 
-  describe('/categories/:category/tags/:letter', () => {
+  describe('/tags/list/:category/:letter', () => {
     it('returns all tags starting with specified letter, sorted by name', async () => {
       const result = categoriesService.getTagsByLetter(CATEGORIES.artists, 'A');
 
       return request(app.getHttpServer())
-        .get('/categories/artists/tags/a')
+        .get('/tags/list/artists/a')
         .expect(200)
         .expect(result);
     });
@@ -193,12 +193,12 @@ describe('CategoriesController (e2e)', () => {
       const result = categoriesService.getTagsByLetter(CATEGORIES.artists, 'A');
 
       await request(app.getHttpServer())
-        .get('/categories/artists/tags/a')
+        .get('/tags/list/artists/a')
         .expect(200)
         .expect(result);
 
       await request(app.getHttpServer())
-        .get('/categories/artists/tags/A')
+        .get('/tags/list/artists/A')
         .expect(200)
         .expect(result);
     });
@@ -206,9 +206,9 @@ describe('CategoriesController (e2e)', () => {
     it('throws 400 error on wrong parameters values', async () => {
       const httpServer = app.getHttpServer();
       const badRequests: string[] = [
-        '/categories/notacategory/tags/a',
-        '/categories/notacategory/tags/notaletter',
-        '/categories/notacategory/tags/0',
+        '/tags/list/notacategory/a',
+        '/tags/list/artists/notaletter',
+        '/tags/list/artists/0',
       ];
 
       await testBadRequests(httpServer, badRequests);

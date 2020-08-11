@@ -12,10 +12,10 @@ import {
   DatabaseTestingModule,
 } from '../../testing/database-testing/database-testing.module';
 import { SeederService } from '../../testing/database-testing/seeder/seeder.service';
-import { CategoriesService } from './categories.service';
+import { TagsService } from './tags.service';
 
 describe('CategoriesController', () => {
-  let categoriesService: CategoriesService;
+  let tagsService: TagsService;
   let databaseConnection: Connection;
   let seededTags: Tag[];
   let seededWith: TagWithCategory[];
@@ -30,7 +30,7 @@ describe('CategoriesController', () => {
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
       controllers: [],
-      providers: [CategoriesService],
+      providers: [TagsService],
       imports: [
         CacheModule.register({ ttl: 1 }),
         DatabaseTestingModule,
@@ -38,7 +38,7 @@ describe('CategoriesController', () => {
       ],
     }).compile();
 
-    categoriesService = moduleRef.get(CategoriesService);
+    tagsService = moduleRef.get(TagsService);
     databaseConnection = moduleRef.get(getConnectionToken());
 
     const seedingService = moduleRef.get(SeederService);
@@ -54,7 +54,7 @@ describe('CategoriesController', () => {
     it('returns correct page count', async () => {
       const numberOfPages = getNumberOfPages(CATEGORIES.artists);
 
-      expect(await categoriesService.getPageCount(CATEGORIES.artists)).toBe(
+      expect(await tagsService.getPageCount(CATEGORIES.artists)).toBe(
         numberOfPages,
       );
     });
@@ -76,7 +76,7 @@ describe('CategoriesController', () => {
       const result = processTags(0, pageSize);
 
       await expect(
-        categoriesService
+        tagsService
           .getTagsByPopularity(CATEGORIES.artists, 1)
           .then(tags => JSON.stringify(tags)),
       ).resolves.toBe(JSON.stringify(result));
@@ -92,7 +92,7 @@ describe('CategoriesController', () => {
       );
 
       await expect(
-        categoriesService
+        tagsService
           .getTagsByPopularity(CATEGORIES.artists, randomPage)
           .then(tags => JSON.stringify(tags)),
       ).resolves.toBe(JSON.stringify(result));
@@ -102,10 +102,7 @@ describe('CategoriesController', () => {
       const numberOfPages = getNumberOfPages(CATEGORIES.artists);
 
       await expect(
-        categoriesService.getTagsByPopularity(
-          CATEGORIES.artists,
-          numberOfPages + 1,
-        ),
+        tagsService.getTagsByPopularity(CATEGORIES.artists, numberOfPages + 1),
       ).resolves.toEqual([]);
     });
   });
@@ -127,7 +124,7 @@ describe('CategoriesController', () => {
       const result = processTags('F');
 
       await expect(
-        categoriesService
+        tagsService
           .getTagsByLetter(CATEGORIES.artists, 'F')
           .then(tags => JSON.stringify(tags)),
       ).resolves.toBe(JSON.stringify(result));
@@ -137,13 +134,13 @@ describe('CategoriesController', () => {
       const result = processTags('F');
 
       await expect(
-        categoriesService
+        tagsService
           .getTagsByLetter(CATEGORIES.artists, 'F')
           .then(tags => JSON.stringify(tags)),
       ).resolves.toBe(JSON.stringify(result));
 
       await expect(
-        categoriesService
+        tagsService
           .getTagsByLetter(CATEGORIES.artists, 'f')
           .then(tags => JSON.stringify(tags)),
       ).resolves.toBe(JSON.stringify(result));
@@ -153,7 +150,7 @@ describe('CategoriesController', () => {
       const result = [];
 
       await expect(
-        categoriesService.getTagsByLetter(CATEGORIES.artists, '$'),
+        tagsService.getTagsByLetter(CATEGORIES.artists, '$'),
       ).resolves.toEqual(result);
     });
   });
@@ -174,7 +171,7 @@ describe('CategoriesController', () => {
       const result = processTags(0, pageSize);
 
       await expect(
-        categoriesService
+        tagsService
           .getTags(CATEGORIES.artists, 1)
           .then(tags => JSON.stringify(tags)),
       ).resolves.toBe(JSON.stringify(result));
@@ -190,7 +187,7 @@ describe('CategoriesController', () => {
       );
 
       await expect(
-        categoriesService
+        tagsService
           .getTags(CATEGORIES.artists, randomPage)
           .then(tags => JSON.stringify(tags)),
       ).resolves.toBe(JSON.stringify(result));
@@ -200,7 +197,7 @@ describe('CategoriesController', () => {
       const numberOfPages = getNumberOfPages(CATEGORIES.artists);
 
       await expect(
-        categoriesService.getTags(CATEGORIES.artists, numberOfPages + 1),
+        tagsService.getTags(CATEGORIES.artists, numberOfPages + 1),
       ).resolves.toEqual([]);
     });
   });

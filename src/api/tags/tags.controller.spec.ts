@@ -6,22 +6,22 @@ import { chunk } from 'lodash';
 import { CATEGORIES } from '../../common/enum/tag-categories.enum';
 import { Tag } from '../../common/schemas/tag.schema';
 import { TagWithCategory } from '../../common/types/tag-with-category.entity';
-import { CategoriesController } from './categories.controller';
-import { CategoriesService } from './categories.service';
 import { generateRandomTags } from './mocks/tags.mock';
+import { TagsController } from './tags.controller';
+import { TagsService } from './tags.service';
 import { TagListEntity } from './types/tag-list.entity';
 
 describe('CategoriesController', () => {
-  let categoriesController: CategoriesController;
-  let categoriesService: CategoriesService;
+  let tagsController: TagsController;
+  let tagsService: TagsService;
 
   const pageSize = 120;
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
-      controllers: [CategoriesController],
+      controllers: [TagsController],
       providers: [
-        CategoriesService,
+        TagsService,
         {
           provide: getModelToken(Tag.name),
           useValue: {},
@@ -30,15 +30,15 @@ describe('CategoriesController', () => {
       imports: [CacheModule.register({ ttl: 1 })],
     }).compile();
 
-    categoriesService = moduleRef.get(CategoriesService);
-    categoriesController = moduleRef.get(CategoriesController);
+    tagsService = moduleRef.get(TagsService);
+    tagsController = moduleRef.get(TagsController);
   });
 
   describe('categories', () => {
     it('should returns available categories', () => {
       const results = ['tags', 'artists', 'characters', 'parodies', 'groups'];
 
-      expect(categoriesController.categories()).toStrictEqual(results);
+      expect(tagsController.categories()).toStrictEqual(results);
     });
   });
 
@@ -71,13 +71,13 @@ describe('CategoriesController', () => {
       datas = generateRandomTags(1000);
 
       jest
-        .spyOn(categoriesService, 'getPageCount')
+        .spyOn(tagsService, 'getPageCount')
         .mockImplementation(async () => numberOfPages());
 
-      jest.spyOn(categoriesService, 'getTags').mockImplementation(getTags);
+      jest.spyOn(tagsService, 'getTags').mockImplementation(getTags);
 
       jest
-        .spyOn(categoriesService, 'getTagsByPopularity')
+        .spyOn(tagsService, 'getTagsByPopularity')
         .mockImplementation(getTagsByPopularity);
     });
 
@@ -95,7 +95,7 @@ describe('CategoriesController', () => {
       };
 
       expect(
-        await categoriesController.tags(
+        await tagsController.tags(
           { category: CATEGORIES.artists },
           { page: 1 },
         ),
@@ -112,7 +112,7 @@ describe('CategoriesController', () => {
       };
 
       expect(
-        await categoriesController.tags(
+        await tagsController.tags(
           { category: CATEGORIES.artists },
           { page: 1, popular: true },
         ),
@@ -124,7 +124,7 @@ describe('CategoriesController', () => {
       async category => {
         const currentCategory = CATEGORIES[category];
 
-        const tags = await categoriesController
+        const tags = await tagsController
           .tags(
             {
               category: currentCategory,
@@ -152,7 +152,7 @@ describe('CategoriesController', () => {
       };
 
       expect(
-        await categoriesController.tags(
+        await tagsController.tags(
           { category: CATEGORIES.artists },
           { page: randomPage },
         ),
@@ -161,14 +161,14 @@ describe('CategoriesController', () => {
 
     it('throws an error when requested page is above total number of pages', async () => {
       await expect(
-        categoriesController.tags(
+        tagsController.tags(
           { category: CATEGORIES.artists },
           { page: numberOfPages() },
         ),
       ).resolves.toBeDefined();
 
       await expect(
-        categoriesController.tags(
+        tagsController.tags(
           { category: CATEGORIES.artists },
           { page: numberOfPages() + 1 },
         ),
@@ -198,7 +198,7 @@ describe('CategoriesController', () => {
       datas = generateRandomTags(1000);
 
       jest
-        .spyOn(categoriesService, 'getTagsByLetter')
+        .spyOn(tagsService, 'getTagsByLetter')
         .mockImplementation(getTagsByLetter);
     });
 
@@ -210,7 +210,7 @@ describe('CategoriesController', () => {
       const results = await getTagsByLetter(CATEGORIES.artists, 'A');
 
       await expect(
-        categoriesController.byLetter({
+        tagsController.byLetter({
           category: CATEGORIES.artists,
           letter: 'A',
         }),
@@ -219,7 +219,7 @@ describe('CategoriesController', () => {
 
     it('returns empty array when letter does not exists', async () => {
       await expect(
-        categoriesController.byLetter({
+        tagsController.byLetter({
           category: CATEGORIES.artists,
           letter: 'not a letter',
         }),
