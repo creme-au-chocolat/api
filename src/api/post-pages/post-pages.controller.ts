@@ -32,7 +32,7 @@ export class PostPagesController {
   @ApiOperation({
     summary: 'use nhentai search feature ',
     description:
-      'for complex usage see [https://nhentai.net/info/](https://nhentai.net/info/)',
+      'for advanced use see [https://nhentai.net/info/](https://nhentai.net/info/)',
   })
   @ApiBadRequestResponse()
   @Get('/search')
