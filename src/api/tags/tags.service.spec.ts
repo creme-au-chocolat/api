@@ -1,4 +1,4 @@
-import { CacheModule } from '@nestjs/common';
+import { CacheModule, NotFoundException } from '@nestjs/common';
 import { getConnectionToken, MongooseModule } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { random } from 'faker';
@@ -199,6 +199,53 @@ describe('CategoriesController', () => {
       await expect(
         tagsService.getTags(CATEGORIES.artists, numberOfPages + 1),
       ).resolves.toEqual([]);
+    });
+  });
+
+  describe('search', () => {
+    const processTags = (query: string, category?: CATEGORIES) => {
+      const filteredTags = seededWith.filter(tag => {
+        const nameRegexp = new RegExp(`^.*${query}.*$`);
+
+        if (category === undefined) return nameRegexp.test(tag.name);
+
+        return (
+          nameRegexp.test(tag.name) && tag.category === category.toString()
+        );
+      });
+      const orderedTags = filteredTags.sort((a, b) => {
+        const aName = a.name;
+        const bName = b.name;
+
+        return aName.indexOf(query) - bName.indexOf(query);
+      });
+      const slicedTags = orderedTags.slice(0, 10);
+
+      return slicedTags;
+    };
+
+    it.skip('returns all tags matching search query', async () => {
+      const result = processTags('ab');
+
+      await expect(tagsService.search('ab')).resolves.toStrictEqual(result);
+    });
+
+    it.todo('returns all tags matching search query and category');
+  });
+
+  describe('getTagById', () => {
+    it('returns requested tag', async () => {
+      const randomTag = random.arrayElement(seededWith);
+
+      await expect(
+        tagsService.getTagById(randomTag.id).then(tag => JSON.stringify(tag)),
+      ).resolves.toBe(JSON.stringify(randomTag));
+    });
+
+    it('throw NotFoundException when tag does not exist', async () => {
+      await expect(
+        tagsService.getTagById(Number.POSITIVE_INFINITY),
+      ).rejects.toThrowError(NotFoundException);
     });
   });
 });

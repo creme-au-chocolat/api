@@ -15,6 +15,15 @@ describe('CategoriesController', () => {
   let tagsController: TagsController;
   let tagsService: TagsService;
 
+  let mockTags: TagWithCategory[] = [];
+  const numberOfPages = async (category: CATEGORIES) => {
+    const filteredTags = mockTags.filter(
+      tag => tag.category === category.toString(),
+    );
+
+    return Math.ceil(filteredTags.length / pageSize);
+  };
+
   const pageSize = 120;
 
   beforeEach(async () => {
@@ -32,6 +41,8 @@ describe('CategoriesController', () => {
 
     tagsService = moduleRef.get(TagsService);
     tagsController = moduleRef.get(TagsController);
+
+    mockTags = generateRandomTags(1000);
   });
 
   describe('getCategories', () => {
@@ -43,13 +54,8 @@ describe('CategoriesController', () => {
   });
 
   describe('getTagsByCategory', () => {
-    let datas: TagWithCategory[] = [];
-    const numberOfPages = () => {
-      return Math.ceil(datas.length / pageSize);
-    };
-
     const getTags = async (category: CATEGORIES, page: number) => {
-      return datas
+      return mockTags
         .filter(data => data.category === category)
         .sort((a, b) => {
           if (a.name > b.name) return 1;
@@ -61,18 +67,14 @@ describe('CategoriesController', () => {
     };
 
     const getTagsByPopularity = async (category: CATEGORIES, page: number) => {
-      return datas
+      return mockTags
         .filter(data => data.category === category.toString())
         .sort((a, b) => a.tagged - b.tagged)
         .slice(page, page + pageSize);
     };
 
     beforeEach(() => {
-      datas = generateRandomTags(1000);
-
-      jest
-        .spyOn(tagsService, 'getPageCount')
-        .mockImplementation(async () => numberOfPages());
+      jest.spyOn(tagsService, 'getPageCount').mockImplementation(numberOfPages);
 
       jest.spyOn(tagsService, 'getTags').mockImplementation(getTags);
 
@@ -90,7 +92,7 @@ describe('CategoriesController', () => {
         data: await getTags(CATEGORIES.artists, 1),
         pagination: {
           page: 1,
-          total: numberOfPages(),
+          total: await numberOfPages(CATEGORIES.artists),
         },
       };
 
@@ -107,7 +109,7 @@ describe('CategoriesController', () => {
         data: await getTagsByPopularity(CATEGORIES.artists, 1),
         pagination: {
           page: 1,
-          total: numberOfPages(),
+          total: await numberOfPages(CATEGORIES.artists),
         },
       };
 
@@ -142,12 +144,14 @@ describe('CategoriesController', () => {
     );
 
     it('get values by name in random page', async () => {
-      const randomPage = random.number(numberOfPages());
+      const numberOfArtistPage = await numberOfPages(CATEGORIES.artists);
+
+      const randomPage = random.number(numberOfArtistPage);
       const results: TagListEntity = {
         data: await getTags(CATEGORIES.artists, randomPage),
         pagination: {
           page: randomPage,
-          total: numberOfPages(),
+          total: numberOfArtistPage,
         },
       };
 
@@ -163,24 +167,22 @@ describe('CategoriesController', () => {
       await expect(
         tagsController.getTagsByCategory(
           { category: CATEGORIES.artists },
-          { page: numberOfPages() },
+          { page: await numberOfPages(CATEGORIES.artists) },
         ),
       ).resolves.toBeDefined();
 
       await expect(
         tagsController.getTagsByCategory(
           { category: CATEGORIES.artists },
-          { page: numberOfPages() + 1 },
+          { page: (await numberOfPages(CATEGORIES.artists)) + 1 },
         ),
       ).rejects.toThrowError(NotFoundException);
     });
   });
 
   describe('getTagsByCategoryAndLetter', () => {
-    let datas: TagWithCategory[];
-
     const getTagsByLetter = async (category: CATEGORIES, letter: string) => {
-      return datas
+      return mockTags
         .filter(
           data =>
             data.category === category &&
@@ -195,7 +197,7 @@ describe('CategoriesController', () => {
     };
 
     beforeEach(() => {
-      datas = generateRandomTags(1000);
+      mockTags = generateRandomTags(1000);
 
       jest
         .spyOn(tagsService, 'getTagsByLetter')
@@ -224,6 +226,43 @@ describe('CategoriesController', () => {
           letter: 'not a letter',
         }),
       ).resolves.toEqual([]);
+    });
+  });
+
+  describe('getTagById', () => {
+    let tag: TagWithCategory;
+
+    beforeEach(() => {
+      tag = random.arrayElement(mockTags);
+
+      jest.spyOn(tagsService, 'getTagById').mockImplementation(async () => tag);
+    });
+
+    it('returns tag details', async () => {
+      await expect(
+        tagsController.getTagById({ id: tag.id }),
+      ).resolves.toStrictEqual(tag);
+    });
+  });
+
+  describe('searchTag', () => {
+    const filterTags = async (query: string, category: CATEGORIES) => {
+      const matchRegexp = new RegExp(query, 'gi');
+
+      return mockTags.filter(
+        tag =>
+          tag.category === category.toString() && tag.name.match(matchRegexp),
+      );
+    };
+
+    beforeEach(() => {
+      jest.spyOn(tagsService, 'search').mockImplementation(filterTags);
+    });
+
+    it('returns tags matching query', async () => {
+      await expect(
+        tagsController.searchTag({ q: 'ab', category: CATEGORIES.artists }),
+      ).resolves.toStrictEqual(await filterTags('ab', CATEGORIES.artists));
     });
   });
 });

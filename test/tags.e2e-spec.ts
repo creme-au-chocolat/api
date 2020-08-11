@@ -1,74 +1,25 @@
 import { INestApplication } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
-import { curry, filter, orderBy, slice } from 'lodash';
+import { random } from 'faker';
+import { curry } from 'lodash';
 import * as request from 'supertest';
-import { generateRandomTags } from '../src/api/tags/mocks/tags.mock';
 import { TagsModule } from '../src/api/tags/tags.module';
+import { TagsService } from '../src/api/tags/tags.service';
 import { CATEGORIES } from '../src/common/enum/tag-categories.enum';
 import { Tag } from '../src/common/schemas/tag.schema';
-import { TagsService } from '../src/scraper/tags/tags.service';
-import { createTestingApp, testBadRequests } from './helpers/e2e';
-
-const datas = generateRandomTags(1000);
-
-const getNumberOfPages = (category: CATEGORIES) => {
-  const filteredTags = filter(datas, ['category', category.toString()]);
-
-  return Math.ceil(filteredTags.length / 120);
-};
-
-const sortByPopularity = (category: CATEGORIES, page: number) => {
-  const filteredTags = filter(datas, ['category', category.toString()]);
-  const sortedTags = orderBy(filteredTags, 'tagged', 'desc');
-  const slicedTags = slice(
-    sortedTags,
-    (page - 1) * 120,
-    (page - 1) * 120 + 120,
-  );
-
-  return slicedTags;
-};
-
-const getByLetter = (category: CATEGORIES, letter: string) => {
-  const filteredTags = filter(
-    datas,
-    tag =>
-      tag.category === category.toString() &&
-      tag.name.toLowerCase().startsWith(letter.toLowerCase()),
-  );
-  const sortedTags = orderBy(filteredTags, 'name', 'asc');
-
-  return sortedTags;
-};
-
-const sortByName = (category: CATEGORIES, page: number) => {
-  const filteredTags = filter(datas, ['category', category.toString()]);
-  const sortedTags = orderBy(filteredTags, 'name', 'asc');
-  const slicedTags = slice(
-    sortedTags,
-    (page - 1) * 120,
-    (page - 1) * 120 + 120,
-  );
-
-  return slicedTags;
-};
+import { createTestingApp, testRequests } from './helpers/e2e';
+import { mockTags, tagsService } from './mocks/tags.service.mock';
 
 describe('TagsController (e2e)', () => {
   let app: INestApplication;
-  const categoriesService = {
-    getTagsByPopularity: sortByPopularity,
-    getTags: sortByName,
-    getPageCount: getNumberOfPages,
-    getTagsByLetter: getByLetter,
-  };
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [TagsModule],
     })
       .overrideProvider(TagsService)
-      .useValue(categoriesService)
+      .useValue(tagsService)
       .overrideProvider(getModelToken(Tag.name))
       .useValue({})
       .compile();
@@ -79,10 +30,7 @@ describe('TagsController (e2e)', () => {
 
   describe('/tags/list/:category (GET)', () => {
     it('sort by popularity', () => {
-      const result = categoriesService.getTagsByPopularity(
-        CATEGORIES.artists,
-        1,
-      );
+      const result = tagsService.getTagsByPopularity(CATEGORIES.artists, 1);
 
       return request(app.getHttpServer())
         .get('/tags/list/artists?popular=true&page=1')
@@ -91,13 +39,13 @@ describe('TagsController (e2e)', () => {
           data: result,
           pagination: {
             page: 1,
-            total: categoriesService.getPageCount(CATEGORIES.artists),
+            total: tagsService.getPageCount(CATEGORIES.artists),
           },
         });
     });
 
     it('sort by name', () => {
-      const result = categoriesService.getTags(CATEGORIES.artists, 1);
+      const result = tagsService.getTags(CATEGORIES.artists, 1);
 
       return request(app.getHttpServer())
         .get('/tags/list/artists?popular=false&page=1')
@@ -106,13 +54,13 @@ describe('TagsController (e2e)', () => {
           data: result,
           pagination: {
             page: 1,
-            total: categoriesService.getPageCount(CATEGORIES.artists),
+            total: tagsService.getPageCount(CATEGORIES.artists),
           },
         });
     });
 
     it('throws 404 error when requested page does not exist', async () => {
-      const numberOfPages = categoriesService.getPageCount(CATEGORIES.artists);
+      const numberOfPages = tagsService.getPageCount(CATEGORIES.artists);
 
       return request(app.getHttpServer())
         .get(`/tags/list/artists?popular=false&page=${numberOfPages + 1}`)
@@ -129,15 +77,15 @@ describe('TagsController (e2e)', () => {
         '/tags/list/artists?popular=false&page=-1',
       ];
 
-      await testBadRequests(httpServer, badRequests);
+      await testRequests(httpServer, badRequests, 400);
     });
 
     it('converts parameters types', async () => {
       const httpServer = app.getHttpServer();
-      const byPopularity = curry(categoriesService.getTagsByPopularity)(
+      const byPopularity = curry(tagsService.getTagsByPopularity)(
         CATEGORIES.artists,
       );
-      const byName = curry(categoriesService.getTags)(CATEGORIES.artists);
+      const byName = curry(tagsService.getTags)(CATEGORIES.artists);
 
       const shouldOrderByPopularity: string[] = [
         '/tags/list/artists?popular=true&page=1',
@@ -179,9 +127,9 @@ describe('TagsController (e2e)', () => {
     });
   });
 
-  describe('/tags/list/:category/:letter', () => {
+  describe('/tags/list/:category/:letter (GET)', () => {
     it('returns all tags starting with specified letter, sorted by name', async () => {
-      const result = categoriesService.getTagsByLetter(CATEGORIES.artists, 'A');
+      const result = tagsService.getTagsByLetter(CATEGORIES.artists, 'A');
 
       return request(app.getHttpServer())
         .get('/tags/list/artists/a')
@@ -190,7 +138,7 @@ describe('TagsController (e2e)', () => {
     });
 
     it('is case insensitive', async () => {
-      const result = categoriesService.getTagsByLetter(CATEGORIES.artists, 'A');
+      const result = tagsService.getTagsByLetter(CATEGORIES.artists, 'A');
 
       await request(app.getHttpServer())
         .get('/tags/list/artists/a')
@@ -208,11 +156,52 @@ describe('TagsController (e2e)', () => {
       const badRequests: string[] = [
         '/tags/list/notacategory/a',
         '/tags/list/artists/notaletter',
-        '/tags/list/artists/0',
       ];
 
-      await testBadRequests(httpServer, badRequests);
+      await testRequests(httpServer, badRequests, 400);
     });
+  });
+
+  describe('/tags/details/:id (GET)', () => {
+    it('returns requested tag', async () => {
+      const result = tagsService.getTagById(random.arrayElement(mockTags).id);
+
+      await request(app.getHttpServer())
+        .get(`/tags/details/${result.id}`)
+        .expect(200)
+        .expect(result);
+    });
+
+    it('returns 404 error when tag does not exist', async () => {
+      await request(app.getHttpServer())
+        .get('/tags/details/999999')
+        .expect(404);
+    });
+
+    it('validate and convert parameters', async () => {
+      const httpServer = app.getHttpServer();
+      const badRequests = [
+        '/tags/details/0',
+        '/tags/details/bite',
+        '/tags/details/NaN',
+      ];
+      const goodRequests = [
+        `/tags/details/${random.arrayElement(mockTags).id}`,
+      ];
+
+      await testRequests(httpServer, badRequests, 400);
+      await testRequests(httpServer, goodRequests, 200);
+    });
+  });
+
+  describe('/tags/search', () => {
+    it.todo('returns tags including search query');
+
+    it.todo('returns tags including search query and category');
+
+    it.todo('returns empty array if nothing found');
+
+    it.todo('validate and convert parameters');
   });
 
   afterAll(async () => {

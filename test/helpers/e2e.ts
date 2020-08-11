@@ -9,7 +9,7 @@ function createTestingApp(module: TestingModule) {
   return app;
 }
 
-async function testBadRequests<T>(
+async function testRequests<T>(
   httpServer: any,
   datas: T[],
   assertFunction: (
@@ -17,37 +17,42 @@ async function testBadRequests<T>(
     value: T,
   ) => void | Promise<void>,
 ): Promise<void>;
-async function testBadRequests(
+async function testRequests(
   httpServer: any,
   badRequests: string[],
+  code: number,
 ): Promise<void>;
-async function testBadRequests<T>(
+async function testRequests<T>(
   httpServer: any,
   p1: string[] | T[],
-  p2?: (
-    supertest: request.SuperTest<request.Test>,
-    value: T,
-  ) => void | Promise<void>,
+  p2:
+    | ((
+        supertest: request.SuperTest<request.Test>,
+        value: T,
+      ) => void | Promise<void>)
+    | number,
 ): Promise<void> {
   const supertest = request(httpServer);
 
-  if (p2 === undefined) {
+  if (typeof p2 === 'number') {
     p1 = p1 as string[];
-    p1.forEach(async url => {
-      await supertest.get(url).expect(400);
-    });
+
+    for (const url of p1) {
+      await supertest.get(url).expect(p2);
+    }
 
     return;
   }
 
   if (typeof p2 === 'function') {
     p1 = p1 as T[];
-    p1.forEach(async value => {
+
+    for (const value of p1) {
       await p2(supertest, value);
-    });
+    }
 
     return;
   }
 }
 
-export { createTestingApp, testBadRequests };
+export { createTestingApp, testRequests };

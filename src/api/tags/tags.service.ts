@@ -24,6 +24,8 @@ export class TagsService {
     return tag;
   }
 
+  // TODO: add pagination
+  // TODO: sort before slicing
   async search(
     searchQuery: string,
     category?: string,

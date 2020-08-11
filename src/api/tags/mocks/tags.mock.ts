@@ -9,7 +9,7 @@ function generateRandomTags(number: number): TagWithCategory[] {
       name: lorem.word(),
       tagged: random.number(),
       uri: internet.url(),
-      id: random.number(999999),
+      id: random.number(999998),
       category: random.arrayElement([
         'tags',
         'artists',
