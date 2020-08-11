@@ -1,7 +1,7 @@
 import { NotFoundException } from '@nestjs/common';
 import { filter, orderBy, slice } from 'lodash';
 import { generateRandomTags } from '../../src/api/tags/mocks/tags.mock';
-import { CATEGORIES } from '../../src/common/enum/tag-categories.enum';
+import { CATEGORIES } from '../../src/shared/enum/tag-categories.enum';
 
 export const mockTags = generateRandomTags(1000);
 

@@ -6,8 +6,8 @@ import { curry } from 'lodash';
 import * as request from 'supertest';
 import { TagsModule } from '../../src/api/tags/tags.module';
 import { TagsService } from '../../src/api/tags/tags.service';
-import { CATEGORIES } from '../../src/common/enum/tag-categories.enum';
-import { Tag } from '../../src/common/schemas/tag.schema';
+import { CATEGORIES } from '../../src/shared/enum/tag-categories.enum';
+import { Tag } from '../../src/shared/schemas/tag.schema';
 import { createTestingApp, testRequests } from '../helpers/e2e';
 import { mockTags, tagsService } from '../mocks/tags.service.mock';
 

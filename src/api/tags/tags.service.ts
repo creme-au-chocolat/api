@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CATEGORIES } from '../../common/enum/tag-categories.enum';
-import { Tag } from '../../common/schemas/tag.schema';
-import { TagWithCategory } from '../../common/types/tag-with-category.entity';
+import { CATEGORIES } from '../../shared/enum/tag-categories.enum';
+import { Tag } from '../../shared/schemas/tag.schema';
+import { TagWithCategory } from '../../shared/types/tag-with-category.entity';
 
 @Injectable()
 export class TagsService {

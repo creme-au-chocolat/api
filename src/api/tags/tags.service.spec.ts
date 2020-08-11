@@ -4,9 +4,9 @@ import { Test } from '@nestjs/testing';
 import { random } from 'faker';
 import { filter, orderBy, slice } from 'lodash';
 import { Connection } from 'mongoose';
-import { CATEGORIES } from '../../common/enum/tag-categories.enum';
-import { Tag, TagSchema } from '../../common/schemas/tag.schema';
-import { TagWithCategory } from '../../common/types/tag-with-category.entity';
+import { CATEGORIES } from '../../shared/enum/tag-categories.enum';
+import { Tag, TagSchema } from '../../shared/schemas/tag.schema';
+import { TagWithCategory } from '../../shared/types/tag-with-category.entity';
 import {
   closeMongoConnection,
   DatabaseTestingModule,

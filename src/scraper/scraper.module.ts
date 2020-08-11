@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
-import { Tag, TagSchema } from '../common/schemas/tag.schema';
 import { HtmlParserModule } from '../html-parser/html-parser.module';
+import { Tag, TagSchema } from '../shared/schemas/tag.schema';
 import { TagsService } from './tags/tags.service';
 
 @Module({

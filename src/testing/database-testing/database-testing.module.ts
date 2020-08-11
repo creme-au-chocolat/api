@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import { Tag, TagSchema } from '../../common/schemas/tag.schema';
+import { Tag, TagSchema } from '../../shared/schemas/tag.schema';
 import { SeederService } from './seeder/seeder.service';
 
 let mongod: MongoMemoryServer;

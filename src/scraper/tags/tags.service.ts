@@ -1,12 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Tag } from '../../common/schemas/tag.schema';
-import { Tag as TagEntity } from '../../common/types/tag.entity';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { getPages } from '../../common/helpers/get-pagination.helper';
+import { Model } from 'mongoose';
 import { HtmlParserService } from '../../html-parser/html-parser/html-parser.service';
-import { parseTags } from '../../common/helpers/parse-tags.helper';
+import { getPages } from '../../shared/helpers/get-pagination.helper';
+import { parseTags } from '../../shared/helpers/parse-tags.helper';
+import { Tag } from '../../shared/schemas/tag.schema';
+import { Tag as TagEntity } from '../../shared/types/tag.entity';
 
 @Injectable()
 export class TagsService {

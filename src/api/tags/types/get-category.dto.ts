@@ -1,5 +1,5 @@
 import { IsEnum } from 'class-validator';
-import { CATEGORIES } from '../../../common/enum/tag-categories.enum';
+import { CATEGORIES } from '../../../shared/enum/tag-categories.enum';
 
 export class GetCategoryDto {
   @IsEnum(CATEGORIES)

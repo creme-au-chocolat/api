@@ -13,8 +13,8 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { CATEGORIES } from '../../common/enum/tag-categories.enum';
-import { TagWithCategory } from '../../common/types/tag-with-category.entity';
+import { CATEGORIES } from '../../shared/enum/tag-categories.enum';
+import { TagWithCategory } from '../../shared/types/tag-with-category.entity';
 import { TagsService } from './tags.service';
 import { GetCategoryPageDto } from './types/get-category-page';
 import { GetCategoryPageByLetterDto } from './types/get-category-page-by-letter.dto';

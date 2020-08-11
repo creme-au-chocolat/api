@@ -1,5 +1,5 @@
-import { Pagination } from '../../../common/types/pagination.entity';
-import { TagWithCategory } from '../../../common/types/tag-with-category.entity';
+import { Pagination } from '../../../shared/types/pagination.entity';
+import { TagWithCategory } from '../../../shared/types/tag-with-category.entity';
 
 export class TagListEntity {
   data: TagWithCategory[];

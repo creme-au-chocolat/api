@@ -1,4 +1,4 @@
-import { Pagination } from '../../../common/types/pagination.entity';
+import { Pagination } from '../../../shared/types/pagination.entity';
 import { PostEntity } from './post.entity';
 
 export class HomepageEntity {
