@@ -21,6 +21,7 @@ let mongod: MongoMemoryServer;
     MongooseModule.forFeature([{ name: TagDocument.name, schema: TagSchema }]),
   ],
   providers: [SeederService],
+  exports: [MongooseModule],
 })
 export class DatabaseTestingModule {}
 

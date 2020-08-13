@@ -1,12 +1,12 @@
 import { CacheModule, NotFoundException } from '@nestjs/common';
-import { getConnectionToken, MongooseModule } from '@nestjs/mongoose';
+import { getConnectionToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { random } from 'faker';
 import { filter, orderBy, slice } from 'lodash';
 import { Connection } from 'mongoose';
 import { Tag } from 'src/shared/types/tag.entity';
 import { CATEGORIES } from '../../shared/enum/tag-categories.enum';
-import { TagDocument, TagSchema } from '../../shared/schemas/tag.schema';
+import { TagDocument } from '../../shared/schemas/tag.schema';
 import {
   closeMongoConnection,
   DatabaseTestingModule,
@@ -31,13 +31,7 @@ describe('CategoriesController', () => {
     const moduleRef = await Test.createTestingModule({
       controllers: [],
       providers: [TagsService],
-      imports: [
-        CacheModule.register({ ttl: 1 }),
-        DatabaseTestingModule,
-        MongooseModule.forFeature([
-          { name: TagDocument.name, schema: TagSchema },
-        ]),
-      ],
+      imports: [CacheModule.register({ ttl: 1 }), DatabaseTestingModule],
     }).compile();
 
     tagsService = moduleRef.get(TagsService);
