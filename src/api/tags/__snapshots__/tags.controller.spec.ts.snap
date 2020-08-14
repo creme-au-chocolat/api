@@ -1,0 +1,360 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CategoriesController getTagById returns tag details 1`] = `
+Object {
+  "category": "parodies",
+  "id": 225709,
+  "name": "itaque",
+  "tagged": 4455,
+  "uri": "https://berenice.net",
+}
+`;
+
+exports[`CategoriesController getTagsByCategory correctly filters values for all categories: artists 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "category": "artists",
+      "id": 128124,
+      "name": "esse",
+      "tagged": 99718,
+      "uri": "https://torey.com",
+    },
+    Object {
+      "category": "artists",
+      "id": 39054,
+      "name": "et",
+      "tagged": 89460,
+      "uri": "https://arvel.net",
+    },
+    Object {
+      "category": "artists",
+      "id": 878116,
+      "name": "ipsam",
+      "tagged": 68521,
+      "uri": "https://connor.info",
+    },
+    Object {
+      "category": "artists",
+      "id": 186260,
+      "name": "repellat",
+      "tagged": 14675,
+      "uri": "http://audrey.info",
+    },
+    Object {
+      "category": "artists",
+      "id": 691876,
+      "name": "tempore",
+      "tagged": 95788,
+      "uri": "http://kaci.biz",
+    },
+  ],
+  "pagination": Object {
+    "page": 1,
+    "total": 21,
+  },
+}
+`;
+
+exports[`CategoriesController getTagsByCategory correctly filters values for all categories: characters 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "category": "characters",
+      "id": 457204,
+      "name": "accusantium",
+      "tagged": 53441,
+      "uri": "https://tatyana.info",
+    },
+    Object {
+      "category": "characters",
+      "id": 593064,
+      "name": "ipsum",
+      "tagged": 5924,
+      "uri": "https://marco.com",
+    },
+    Object {
+      "category": "characters",
+      "id": 846310,
+      "name": "ut",
+      "tagged": 66974,
+      "uri": "http://tre.name",
+    },
+  ],
+  "pagination": Object {
+    "page": 1,
+    "total": 23,
+  },
+}
+`;
+
+exports[`CategoriesController getTagsByCategory correctly filters values for all categories: groups 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "category": "groups",
+      "id": 518152,
+      "name": "ut",
+      "tagged": 80275,
+      "uri": "http://augusta.net",
+    },
+  ],
+  "pagination": Object {
+    "page": 1,
+    "total": 19,
+  },
+}
+`;
+
+exports[`CategoriesController getTagsByCategory correctly filters values for all categories: parodies 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "category": "parodies",
+      "id": 800743,
+      "name": "et",
+      "tagged": 14038,
+      "uri": "https://clotilde.net",
+    },
+  ],
+  "pagination": Object {
+    "page": 1,
+    "total": 20,
+  },
+}
+`;
+
+exports[`CategoriesController getTagsByCategory correctly filters values for all categories: tags 1`] = `
+Object {
+  "data": Array [],
+  "pagination": Object {
+    "page": 1,
+    "total": 17,
+  },
+}
+`;
+
+exports[`CategoriesController getTagsByCategory get value by popularity in first page 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "category": "artists",
+      "id": 128124,
+      "name": "esse",
+      "tagged": 99718,
+      "uri": "https://torey.com",
+    },
+    Object {
+      "category": "artists",
+      "id": 691876,
+      "name": "tempore",
+      "tagged": 95788,
+      "uri": "http://kaci.biz",
+    },
+    Object {
+      "category": "artists",
+      "id": 39054,
+      "name": "et",
+      "tagged": 89460,
+      "uri": "https://arvel.net",
+    },
+    Object {
+      "category": "artists",
+      "id": 878116,
+      "name": "ipsam",
+      "tagged": 68521,
+      "uri": "https://connor.info",
+    },
+    Object {
+      "category": "artists",
+      "id": 186260,
+      "name": "repellat",
+      "tagged": 14675,
+      "uri": "http://audrey.info",
+    },
+  ],
+  "pagination": Object {
+    "page": 1,
+    "total": 21,
+  },
+}
+`;
+
+exports[`CategoriesController getTagsByCategory get values by name in any page 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "category": "artists",
+      "id": 748164,
+      "name": "aperiam",
+      "tagged": 75014,
+      "uri": "https://yasmin.name",
+    },
+    Object {
+      "category": "artists",
+      "id": 916860,
+      "name": "magni",
+      "tagged": 52479,
+      "uri": "http://aron.net",
+    },
+  ],
+  "pagination": Object {
+    "page": 2,
+    "total": 21,
+  },
+}
+`;
+
+exports[`CategoriesController getTagsByCategory get values by name in first page 1`] = `
+Object {
+  "data": Array [
+    Object {
+      "category": "artists",
+      "id": 128124,
+      "name": "esse",
+      "tagged": 99718,
+      "uri": "https://torey.com",
+    },
+    Object {
+      "category": "artists",
+      "id": 39054,
+      "name": "et",
+      "tagged": 89460,
+      "uri": "https://arvel.net",
+    },
+    Object {
+      "category": "artists",
+      "id": 878116,
+      "name": "ipsam",
+      "tagged": 68521,
+      "uri": "https://connor.info",
+    },
+    Object {
+      "category": "artists",
+      "id": 186260,
+      "name": "repellat",
+      "tagged": 14675,
+      "uri": "http://audrey.info",
+    },
+    Object {
+      "category": "artists",
+      "id": 691876,
+      "name": "tempore",
+      "tagged": 95788,
+      "uri": "http://kaci.biz",
+    },
+  ],
+  "pagination": Object {
+    "page": 1,
+    "total": 21,
+  },
+}
+`;
+
+exports[`CategoriesController getTagsByCategoryAndLetter returns all values starting with letter 1`] = `
+Array [
+  Object {
+    "category": "artists",
+    "id": 22330,
+    "name": "ab",
+    "tagged": 51935,
+    "uri": "https://ozella.net",
+  },
+  Object {
+    "category": "artists",
+    "id": 918732,
+    "name": "accusantium",
+    "tagged": 54954,
+    "uri": "http://tierra.net",
+  },
+  Object {
+    "category": "artists",
+    "id": 748164,
+    "name": "aperiam",
+    "tagged": 75014,
+    "uri": "https://yasmin.name",
+  },
+  Object {
+    "category": "artists",
+    "id": 550947,
+    "name": "aut",
+    "tagged": 57974,
+    "uri": "http://genoveva.name",
+  },
+  Object {
+    "category": "artists",
+    "id": 517593,
+    "name": "aut",
+    "tagged": 93487,
+    "uri": "https://oswaldo.name",
+  },
+]
+`;
+
+exports[`CategoriesController searchTag returns tags matching query 1`] = `
+Array [
+  Object {
+    "category": "artists",
+    "id": 878116,
+    "name": "ipsam",
+    "tagged": 68521,
+    "uri": "https://connor.info",
+  },
+  Object {
+    "category": "artists",
+    "id": 593480,
+    "name": "hic",
+    "tagged": 59911,
+    "uri": "http://adrienne.org",
+  },
+  Object {
+    "category": "artists",
+    "id": 239847,
+    "name": "quis",
+    "tagged": 97001,
+    "uri": "http://rosella.net",
+  },
+  Object {
+    "category": "artists",
+    "id": 233622,
+    "name": "omnis",
+    "tagged": 96766,
+    "uri": "https://dudley.com",
+  },
+  Object {
+    "category": "artists",
+    "id": 748164,
+    "name": "aperiam",
+    "tagged": 75014,
+    "uri": "https://yasmin.name",
+  },
+  Object {
+    "category": "artists",
+    "id": 916860,
+    "name": "magni",
+    "tagged": 52479,
+    "uri": "http://aron.net",
+  },
+  Object {
+    "category": "artists",
+    "id": 538830,
+    "name": "molestias",
+    "tagged": 24621,
+    "uri": "http://ryley.biz",
+  },
+  Object {
+    "category": "artists",
+    "id": 322680,
+    "name": "temporibus",
+    "tagged": 69805,
+    "uri": "https://sam.com",
+  },
+  Object {
+    "category": "artists",
+    "id": 918732,
+    "name": "accusantium",
+    "tagged": 54954,
+    "uri": "http://tierra.net",
+  },
+]
+`;

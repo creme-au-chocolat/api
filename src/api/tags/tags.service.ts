@@ -7,7 +7,7 @@ import { TagDocument } from '../../shared/schemas/tag.schema';
 
 @Injectable()
 export class TagsService {
-  private readonly PAGE_SIZE = 120;
+  static PAGE_SIZE = 120;
 
   constructor(
     @InjectModel(TagDocument.name) private tagModel: Model<TagDocument>,
@@ -61,7 +61,7 @@ export class TagsService {
       .find({ category: category.toString() })
       .select('-__v -_id')
       .sort({ tagged: 'desc' })
-      .skip((page - 1) * this.PAGE_SIZE)
+      .skip((page - 1) * TagsService.PAGE_SIZE)
       .limit(120)
       .exec();
   }
@@ -71,7 +71,7 @@ export class TagsService {
       .find({ category: category.toString() })
       .select('-__v -_id')
       .sort({ name: 'asc' })
-      .skip((page - 1) * this.PAGE_SIZE)
+      .skip((page - 1) * TagsService.PAGE_SIZE)
       .limit(120)
       .exec();
   }
@@ -81,7 +81,7 @@ export class TagsService {
       .countDocuments({ category: category.toString() })
       .exec();
 
-    return Math.ceil(modelCount / this.PAGE_SIZE);
+    return Math.ceil(modelCount / TagsService.PAGE_SIZE);
   }
 
   async getTagsByLetter(category: CATEGORIES, letter: string): Promise<Tag[]> {

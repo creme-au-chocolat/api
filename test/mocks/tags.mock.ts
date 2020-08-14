@@ -1,7 +1,9 @@
-import { internet, lorem, random } from 'faker';
+import { internet, lorem, random, seed } from 'faker';
 import { Tag } from 'src/shared/types/tag.entity';
 
 function generateRandomTags(number: number): Tag[] {
+  seed(1);
+
   const tags: Tag[] = [];
 
   for (let i = 0; i < number; i++) {

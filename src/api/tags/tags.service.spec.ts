@@ -1,12 +1,10 @@
 import { CacheModule, NotFoundException } from '@nestjs/common';
 import { getConnectionToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
-import { random } from 'faker';
-import { filter, orderBy, slice } from 'lodash';
+import { random, seed } from 'faker';
 import { Connection } from 'mongoose';
 import { Tag } from 'src/shared/types/tag.entity';
 import { CATEGORIES } from '../../shared/enum/tag-categories.enum';
-import { TagDocument } from '../../shared/schemas/tag.schema';
 import {
   closeMongoConnection,
   DatabaseTestingModule,
@@ -17,17 +15,13 @@ import { TagsService } from './tags.service';
 describe('CategoriesController', () => {
   let tagsService: TagsService;
   let databaseConnection: Connection;
-  let seededTags: TagDocument[];
   let seededWith: Tag[];
 
-  const getNumberOfPages = (category: CATEGORIES) => {
-    const filteredTags = seededTags.filter(tag => tag.category === category);
-    return Math.ceil(filteredTags.length / pageSize);
-  };
-
-  const pageSize = 120;
-
   beforeEach(async () => {
+    seed(1);
+
+    TagsService.PAGE_SIZE = 10;
+
     const moduleRef = await Test.createTestingModule({
       controllers: [],
       providers: [TagsService],
@@ -38,7 +32,7 @@ describe('CategoriesController', () => {
     databaseConnection = moduleRef.get(getConnectionToken());
 
     const seedingService = moduleRef.get(SeederService);
-    [seededTags, seededWith] = await seedingService.seedTags();
+    [, seededWith] = await seedingService.seedTags();
   });
 
   afterEach(async () => {
@@ -48,185 +42,86 @@ describe('CategoriesController', () => {
 
   describe('getPageCount', () => {
     it('returns correct page count', async () => {
-      const numberOfPages = getNumberOfPages(CATEGORIES.artists);
-
-      expect(await tagsService.getPageCount(CATEGORIES.artists)).toBe(
-        numberOfPages,
-      );
+      expect(
+        await tagsService.getPageCount(CATEGORIES.artists),
+      ).toMatchSnapshot();
     });
   });
 
   describe('getTagsByPopularity', () => {
-    const processTags = (sliceStart: number, sliceEnd: number) => {
-      const filteredTags = filter(seededWith, [
-        'category',
-        CATEGORIES.artists.toString(),
-      ]);
-      const sortedTags = orderBy(filteredTags, 'tagged', 'desc');
-      const slicedTags = slice(sortedTags, sliceStart, sliceEnd);
-
-      return slicedTags;
-    };
-
     it('returns tags sorted by popularity', async () => {
-      const result = processTags(0, pageSize);
-
       await expect(
-        tagsService
-          .getTagsByPopularity(CATEGORIES.artists, 1)
-          .then(tags => JSON.stringify(tags)),
-      ).resolves.toBe(JSON.stringify(result));
+        tagsService.getTagsByPopularity(CATEGORIES.artists, 1),
+      ).resolves.toMatchSnapshot();
     });
 
-    it('works with random page', async () => {
-      const numberOfPages = getNumberOfPages(CATEGORIES.artists);
-      const randomPage = random.number({ min: 1, max: numberOfPages });
-
-      const result = processTags(
-        (randomPage - 1) * pageSize,
-        (randomPage - 1) * pageSize + pageSize,
-      );
-
+    it('works with other pages', async () => {
       await expect(
-        tagsService
-          .getTagsByPopularity(CATEGORIES.artists, randomPage)
-          .then(tags => JSON.stringify(tags)),
-      ).resolves.toBe(JSON.stringify(result));
+        tagsService.getTagsByPopularity(CATEGORIES.artists, 2),
+      ).resolves.toMatchSnapshot();
     });
 
     it('returns empty array when page out of range', async () => {
-      const numberOfPages = getNumberOfPages(CATEGORIES.artists);
-
       await expect(
-        tagsService.getTagsByPopularity(CATEGORIES.artists, numberOfPages + 1),
+        tagsService.getTagsByPopularity(CATEGORIES.artists, 100000),
       ).resolves.toEqual([]);
     });
   });
 
   describe('getTagsByLetter', () => {
-    const processTags = (letter: string) => {
-      const filteredTags = filter(
-        seededWith,
-        tag =>
-          tag.category === CATEGORIES.artists.toString() &&
-          tag.name.toLowerCase().startsWith(letter.toLowerCase()),
-      );
-      const sortedTags = orderBy(filteredTags, 'name', 'asc');
-
-      return sortedTags;
-    };
-
     it('returns all tags starting with requested letter', async () => {
-      const result = processTags('F');
-
       await expect(
-        tagsService
-          .getTagsByLetter(CATEGORIES.artists, 'F')
-          .then(tags => JSON.stringify(tags)),
-      ).resolves.toBe(JSON.stringify(result));
+        tagsService.getTagsByLetter(CATEGORIES.artists, 'A'),
+      ).resolves.toMatchSnapshot();
     });
 
     it('is case insensitive', async () => {
-      const result = processTags('F');
+      await expect(
+        tagsService.getTagsByLetter(CATEGORIES.artists, 'A'),
+      ).resolves.toMatchSnapshot();
 
       await expect(
-        tagsService
-          .getTagsByLetter(CATEGORIES.artists, 'F')
-          .then(tags => JSON.stringify(tags)),
-      ).resolves.toBe(JSON.stringify(result));
-
-      await expect(
-        tagsService
-          .getTagsByLetter(CATEGORIES.artists, 'f')
-          .then(tags => JSON.stringify(tags)),
-      ).resolves.toBe(JSON.stringify(result));
+        tagsService.getTagsByLetter(CATEGORIES.artists, 'a'),
+      ).resolves.toMatchSnapshot();
     });
 
     it('returns empty array when letter is invalid', async () => {
-      const result = [];
-
       await expect(
         tagsService.getTagsByLetter(CATEGORIES.artists, '$'),
-      ).resolves.toEqual(result);
+      ).resolves.toEqual([]);
     });
   });
 
   describe('getTags', () => {
-    const processTags = (sliceStart: number, sliceEnd: number) => {
-      const filteredTags = filter(seededWith, [
-        'category',
-        CATEGORIES.artists.toString(),
-      ]);
-      const sortedTags = orderBy(filteredTags, 'name', 'asc');
-      const slicedTags = slice(sortedTags, sliceStart, sliceEnd);
-
-      return slicedTags;
-    };
-
     it('returns all tags sorted by name', async () => {
-      const result = processTags(0, pageSize);
-
       await expect(
-        tagsService
-          .getTags(CATEGORIES.artists, 1)
-          .then(tags => JSON.stringify(tags)),
-      ).resolves.toBe(JSON.stringify(result));
+        tagsService.getTags(CATEGORIES.artists, 1),
+      ).resolves.toMatchSnapshot();
     });
 
-    it('works with random page', async () => {
-      const numberOfPages = getNumberOfPages(CATEGORIES.artists);
-      const randomPage = random.number({ min: 1, max: numberOfPages });
-
-      const result = processTags(
-        (randomPage - 1) * pageSize,
-        (randomPage - 1) * pageSize + pageSize,
-      );
-
+    it('works with any page', async () => {
       await expect(
-        tagsService
-          .getTags(CATEGORIES.artists, randomPage)
-          .then(tags => JSON.stringify(tags)),
-      ).resolves.toBe(JSON.stringify(result));
+        tagsService.getTags(CATEGORIES.artists, 2),
+      ).resolves.toMatchSnapshot();
     });
 
     it('returns empty array when page out of range', async () => {
-      const numberOfPages = getNumberOfPages(CATEGORIES.artists);
-
       await expect(
-        tagsService.getTags(CATEGORIES.artists, numberOfPages + 1),
+        tagsService.getTags(CATEGORIES.artists, 100000),
       ).resolves.toEqual([]);
     });
   });
 
   describe('search', () => {
-    const processTags = (query: string, category?: CATEGORIES) => {
-      const filteredTags = seededWith.filter(tag => {
-        const nameRegexp = new RegExp(`^.*${query}.*$`);
-
-        if (category === undefined) return nameRegexp.test(tag.name);
-
-        return (
-          nameRegexp.test(tag.name) && tag.category === category.toString()
-        );
-      });
-      const orderedTags = filteredTags.sort((a, b) => {
-        const aName = a.name;
-        const bName = b.name;
-
-        return aName.indexOf(query) - bName.indexOf(query);
-      });
-      const slicedTags = orderedTags.slice(0, 10);
-
-      return slicedTags;
-    };
-
-    it.skip('returns all tags matching search query', async () => {
-      const result = processTags('ab');
-
-      await expect(tagsService.search('ab')).resolves.toStrictEqual(result);
+    it('returns all tags matching search query', async () => {
+      await expect(tagsService.search('i')).resolves.toMatchSnapshot();
     });
 
-    it.todo('returns all tags matching search query and category');
+    it('returns all tags matching search query and category', async () => {
+      await expect(
+        tagsService.search('i', CATEGORIES.artists),
+      ).resolves.toMatchSnapshot();
+    });
   });
 
   describe('getTagById', () => {
@@ -234,8 +129,8 @@ describe('CategoriesController', () => {
       const randomTag = random.arrayElement(seededWith);
 
       await expect(
-        tagsService.getTagById(randomTag.id).then(tag => JSON.stringify(tag)),
-      ).resolves.toBe(JSON.stringify(randomTag));
+        tagsService.getTagById(randomTag.id),
+      ).resolves.toMatchSnapshot();
     });
 
     it('throw NotFoundException when tag does not exist', async () => {
