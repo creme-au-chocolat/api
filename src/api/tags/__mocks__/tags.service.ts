@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { compose, filter, orderBy, slice } from 'lodash/fp';
 import { CATEGORIES } from 'src/shared/enum/tag-categories.enum';
 import { Tag } from 'src/shared/types/tag.entity';
@@ -11,7 +11,11 @@ export class TagsService {
   static PAGE_SIZE = 10;
 
   async getTagById(id: number): Promise<Tag> {
-    return mockedTags.find(tag => tag.id === id);
+    const tag = mockedTags.find(tag => tag.id === id);
+
+    if (!tag) throw new NotFoundException();
+
+    return tag;
   }
 
   async search(searchQuery: string, category?: string): Promise<Tag[]> {
