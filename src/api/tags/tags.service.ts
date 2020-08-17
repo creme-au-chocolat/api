@@ -45,12 +45,14 @@ export class TagsService {
         .limit(10);
     }
 
-    return tags.sort((a, b) => {
-      const aName = a.name;
-      const bName = b.name;
+    return tags
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .sort((a, b) => {
+        const aName = a.name;
+        const bName = b.name;
 
-      return aName.indexOf(searchQuery) - bName.indexOf(searchQuery);
-    });
+        return aName.indexOf(searchQuery) - bName.indexOf(searchQuery);
+      });
   }
 
   async getTagsByPopularity(

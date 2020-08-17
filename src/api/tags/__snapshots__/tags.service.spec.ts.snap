@@ -603,18 +603,18 @@ Array [
 exports[`CategoriesController search returns all tags matching search query 1`] = `
 Array [
   Object {
+    "category": "characters",
+    "id": 694399,
+    "name": "incidunt",
+    "tagged": 10233,
+    "uri": "https://harrison.org",
+  },
+  Object {
     "category": "artists",
     "id": 878116,
     "name": "ipsam",
     "tagged": 68521,
     "uri": "https://connor.info",
-  },
-  Object {
-    "category": "characters",
-    "id": 593064,
-    "name": "ipsum",
-    "tagged": 5924,
-    "uri": "https://marco.com",
   },
   Object {
     "category": "tags",
@@ -625,17 +625,10 @@ Array [
   },
   Object {
     "category": "characters",
-    "id": 694399,
-    "name": "incidunt",
-    "tagged": 10233,
-    "uri": "https://harrison.org",
-  },
-  Object {
-    "category": "characters",
-    "id": 73364,
-    "name": "minima",
-    "tagged": 44613,
-    "uri": "https://damaris.com",
+    "id": 593064,
+    "name": "ipsum",
+    "tagged": 5924,
+    "uri": "https://marco.com",
   },
   Object {
     "category": "characters",
@@ -643,6 +636,13 @@ Array [
     "name": "hic",
     "tagged": 6406,
     "uri": "http://fiona.name",
+  },
+  Object {
+    "category": "characters",
+    "id": 73364,
+    "name": "minima",
+    "tagged": 44613,
+    "uri": "https://damaris.com",
   },
   Object {
     "category": "groups",
