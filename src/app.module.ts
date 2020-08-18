@@ -5,8 +5,6 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { GalleriesModule } from './api/galleries/galleries.module';
 import { PostPagesModule } from './api/post-pages/post-pages.module';
 import { TagsModule } from './api/tags/tags.module';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -23,7 +21,7 @@ import { AppService } from './app.service';
     TagsModule,
     ScheduleModule.forRoot(),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
