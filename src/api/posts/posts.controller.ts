@@ -27,17 +27,40 @@ import { GetPostDto } from './types/get-post.dto';
 import { PostDetailsEntity } from './types/post-details.entity';
 
 @ApiTags('galleries')
-@Controller()
+@Controller('g')
 @UseInterceptors(CacheInterceptor)
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
+
+  @ApiResponse({
+    status: 303,
+    description: 'redirect to /g/:id with random post id',
+  })
+  @ApiOperation({
+    summary: 'get a random gallery',
+    description: 'can be chained with other routes (example: /g/r/thumbnail)',
+  })
+  @Get('r(/*)?')
+  @CacheTTL(1)
+  async getRandomGallery(
+    @Req() req: Request,
+    @Res() res: Response,
+  ): Promise<void> {
+    const randomId = await this.postsService.random();
+
+    const ressource = req.url.split('r/')[1] ?? '';
+
+    res.setHeader('Cache-Control', 'no-cache');
+
+    res.redirect(`/g/${randomId}/${ressource}`);
+  }
 
   @ApiOperation({
     summary: 'get details for a gallery',
   })
   @ApiBadRequestResponse()
   @ApiNotFoundResponse({ description: 'no gallery with provided id' })
-  @Get('g/:id')
+  @Get(':id')
   async getGalleryById(
     @Param() params: GetPostDto,
     @Query() query: GetDetailsDto,
@@ -67,7 +90,7 @@ export class PostsController {
   @ApiNotFoundResponse({ description: 'page does not exist in gallery' })
   @ApiOkResponse({ schema: { type: 'string', format: 'binary' } })
   @ApiProduces('image/jpeg')
-  @Get('g/:id/page/:page')
+  @Get(':id/page/:page')
   async getGalleryPage(
     @Res() res: Response,
     @Param() params: GetPostPageDto,
@@ -85,7 +108,7 @@ export class PostsController {
   @ApiNotFoundResponse({ description: 'no gallery with provided id' })
   @ApiOkResponse({ schema: { type: 'string', format: 'binary' } })
   @ApiProduces('image/jpeg')
-  @Get('g/:id/thumbnail')
+  @Get(':id/thumbnail')
   async getGalleryThumbnail(
     @Res() res: Response,
     @Param() params: GetPostDto,
@@ -103,7 +126,7 @@ export class PostsController {
   @ApiNotFoundResponse({ description: 'no gallery with provided id' })
   @ApiOkResponse({ schema: { type: 'string', format: 'binary' } })
   @ApiProduces('application/zip')
-  @Get('g/:id/download')
+  @Get(':id/download')
   async getGalleryAsZip(
     @Res() res: Response,
     @Param() params: GetPostDto,
@@ -116,29 +139,5 @@ export class PostsController {
     );
 
     this.postsService.download(res, params.id, query.numberOfPages);
-  }
-
-  @ApiResponse({
-    status: 303,
-    description: 'redirect to /g/:id with random post id',
-  })
-  @ApiOperation({
-    summary: 'get a random gallery',
-    description:
-      'can be chained with other routes (example: /posts/random/thumbnail',
-  })
-  @Get('posts/random(/*)?')
-  @CacheTTL(1)
-  async getRandomGallery(
-    @Req() req: Request,
-    @Res() res: Response,
-  ): Promise<void> {
-    const randomId = await this.postsService.random();
-
-    const ressource = req.url.split('random/')[1] ?? '';
-
-    res.setHeader('Cache-Control', 'no-cache');
-
-    res.redirect(`/g/${randomId}/${ressource}`);
   }
 }
