@@ -18,7 +18,11 @@ export class TagsService {
     return tag;
   }
 
-  async search(searchQuery: string, category?: string): Promise<Tag[]> {
+  async search(
+    searchQuery: string,
+    startPage: number,
+    category?: string,
+  ): Promise<Tag[]> {
     const nameRegexp = new RegExp(`^.*${searchQuery}.*$`);
 
     let tags: Tag[];
@@ -26,7 +30,10 @@ export class TagsService {
     if (category) {
       tags = mockedTags
         .filter(tag => nameRegexp.test(tag.name) && tag.category === category)
-        .slice(0, 10);
+        .slice(
+          (startPage - 1) * TagsService.PAGE_SIZE,
+          startPage * TagsService.PAGE_SIZE,
+        );
     } else {
       tags = mockedTags.filter(tag => nameRegexp.test(tag.name)).slice(0, 10);
     }

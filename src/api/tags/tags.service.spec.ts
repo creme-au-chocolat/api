@@ -114,13 +114,17 @@ describe('CategoriesController', () => {
 
   describe('search', () => {
     it('returns all tags matching search query', async () => {
-      await expect(tagsService.search('i')).resolves.toMatchSnapshot();
+      await expect(tagsService.search('i', 1)).resolves.toMatchSnapshot();
     });
 
     it('returns all tags matching search query and category', async () => {
       await expect(
-        tagsService.search('i', CATEGORIES.artists),
+        tagsService.search('i', 1, CATEGORIES.artists),
       ).resolves.toMatchSnapshot();
+    });
+
+    it('works with any page', async () => {
+      await expect(tagsService.search('i', 2)).resolves.toMatchSnapshot();
     });
   });
 

@@ -47,7 +47,7 @@ export class TagsController {
   @ApiBadRequestResponse()
   @Get('search')
   async searchTag(@Query() query: SearchCategoryDto): Promise<Tag[]> {
-    return this.tagsService.search(query.q, query.category);
+    return this.tagsService.search(query.q, query.page, query.category);
   }
 
   @ApiOperation({

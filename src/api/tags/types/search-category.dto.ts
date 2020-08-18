@@ -1,4 +1,5 @@
-import { IsString, MinLength } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsInt, IsString, Min, MinLength } from 'class-validator';
 
 export class SearchCategoryDto {
   @IsString()
@@ -6,4 +7,9 @@ export class SearchCategoryDto {
   q: string;
 
   category?: string;
+
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  page? = 1;
 }

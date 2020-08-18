@@ -122,7 +122,11 @@ describe('CategoriesController', () => {
   describe('searchTag', () => {
     it('returns tags matching query', async () => {
       await expect(
-        tagsController.searchTag({ q: 'i', category: CATEGORIES.artists }),
+        tagsController.searchTag({
+          q: 'i',
+          category: CATEGORIES.artists,
+          page: 1,
+        }),
       ).resolves.toMatchSnapshot();
     });
   });

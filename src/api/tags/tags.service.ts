@@ -7,7 +7,7 @@ import { TagDocument } from '../../shared/schemas/tag.schema';
 
 @Injectable()
 export class TagsService {
-  static PAGE_SIZE = 120;
+  static PAGE_SIZE = 40;
 
   constructor(
     @InjectModel(TagDocument.name) private tagModel: Model<TagDocument>,
@@ -26,9 +26,12 @@ export class TagsService {
     return tag;
   }
 
-  // TODO: add pagination
   // TODO: sort before slicing
-  async search(searchQuery: string, category?: string): Promise<Tag[]> {
+  async search(
+    searchQuery: string,
+    startPage: number,
+    category?: string,
+  ): Promise<Tag[]> {
     const nameRegexp = new RegExp(`^.*${searchQuery}.*$`);
 
     let tags: Tag[];
@@ -37,12 +40,14 @@ export class TagsService {
       tags = await this.tagModel
         .find({ name: nameRegexp, category: category })
         .select('-__v -_id')
-        .limit(10);
+        .skip((startPage - 1) * TagsService.PAGE_SIZE)
+        .limit(startPage * TagsService.PAGE_SIZE);
     } else {
       tags = await this.tagModel
         .find({ name: nameRegexp })
         .select('-__v -_id')
-        .limit(10);
+        .skip((startPage - 1) * TagsService.PAGE_SIZE)
+        .limit(startPage * TagsService.PAGE_SIZE);
     }
 
     return tags
