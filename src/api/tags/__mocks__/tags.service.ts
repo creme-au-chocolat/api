@@ -28,22 +28,25 @@ export class TagsService {
     let tags: Tag[];
 
     if (category) {
-      tags = mockedTags
-        .filter(tag => nameRegexp.test(tag.name) && tag.category === category)
-        .slice(
-          (startPage - 1) * TagsService.PAGE_SIZE,
-          startPage * TagsService.PAGE_SIZE,
-        );
+      tags = mockedTags.filter(
+        tag => nameRegexp.test(tag.name) && tag.category === category,
+      );
     } else {
-      tags = mockedTags.filter(tag => nameRegexp.test(tag.name)).slice(0, 10);
+      tags = mockedTags.filter(tag => nameRegexp.test(tag.name));
     }
 
-    return tags.sort((a, b) => {
-      const aName = a.name;
-      const bName = b.name;
+    return tags
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .sort((a, b) => {
+        const aName = a.name;
+        const bName = b.name;
 
-      return aName.indexOf(searchQuery) - bName.indexOf(searchQuery);
-    });
+        return aName.indexOf(searchQuery) - bName.indexOf(searchQuery);
+      })
+      .slice(
+        (startPage - 1) * TagsService.PAGE_SIZE,
+        startPage * TagsService.PAGE_SIZE,
+      );
   }
 
   async getTagsByPopularity(

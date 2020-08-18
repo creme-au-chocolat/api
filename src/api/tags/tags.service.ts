@@ -26,7 +26,6 @@ export class TagsService {
     return tag;
   }
 
-  // TODO: sort before slicing
   async search(
     searchQuery: string,
     startPage: number,
@@ -34,21 +33,21 @@ export class TagsService {
   ): Promise<Tag[]> {
     const nameRegexp = new RegExp(`^.*${searchQuery}.*$`);
 
-    let tags: Tag[];
+    let tags: Tag[] = [];
+    let filter = {};
 
     if (category) {
-      tags = await this.tagModel
-        .find({ name: nameRegexp, category: category })
-        .select('-__v -_id')
-        .skip((startPage - 1) * TagsService.PAGE_SIZE)
-        .limit(startPage * TagsService.PAGE_SIZE);
+      filter = {
+        name: nameRegexp,
+        category: category,
+      };
     } else {
-      tags = await this.tagModel
-        .find({ name: nameRegexp })
-        .select('-__v -_id')
-        .skip((startPage - 1) * TagsService.PAGE_SIZE)
-        .limit(startPage * TagsService.PAGE_SIZE);
+      filter = {
+        name: nameRegexp,
+      };
     }
+
+    tags = await this.tagModel.find(filter).select('-__v -_id');
 
     return tags
       .sort((a, b) => a.name.localeCompare(b.name))
@@ -57,7 +56,11 @@ export class TagsService {
         const bName = b.name;
 
         return aName.indexOf(searchQuery) - bName.indexOf(searchQuery);
-      });
+      })
+      .slice(
+        (startPage - 1) * TagsService.PAGE_SIZE,
+        startPage * TagsService.PAGE_SIZE,
+      );
   }
 
   async getTagsByPopularity(
