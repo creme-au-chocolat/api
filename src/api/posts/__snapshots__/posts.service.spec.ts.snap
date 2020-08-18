@@ -1,0 +1,212 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CategoriesController details Returns gallery details 1`] = `
+Object {
+  "artists": Array [
+    Object {
+      "id": 3981,
+      "name": "shindol",
+      "tagged": 279,
+      "uri": "/artist/shindol/",
+    },
+  ],
+  "categories": Array [
+    Object {
+      "id": 33173,
+      "name": "manga",
+      "tagged": 77000,
+      "uri": "/category/manga/",
+    },
+  ],
+  "characters": Array [],
+  "groups": Array [],
+  "id": 177013,
+  "languages": Array [
+    Object {
+      "id": 17249,
+      "name": "translated",
+      "tagged": 109000,
+      "uri": "/language/translated/",
+    },
+    Object {
+      "id": 12227,
+      "name": "english",
+      "tagged": 69000,
+      "uri": "/language/english/",
+    },
+  ],
+  "name": Object {
+    "after": "(Complete) [English]",
+    "before": "[ShindoLA]",
+    "content": "METAMORPHOSIS",
+  },
+  "pages": 225,
+  "parodies": Array [],
+  "tags": Array [
+    Object {
+      "id": 8010,
+      "name": "group",
+      "tagged": 72000,
+      "uri": "/tag/group/",
+    },
+    Object {
+      "id": 24201,
+      "name": "stockings",
+      "tagged": 64000,
+      "uri": "/tag/stockings/",
+    },
+    Object {
+      "id": 14283,
+      "name": "anal",
+      "tagged": 64000,
+      "uri": "/tag/anal/",
+    },
+    Object {
+      "id": 10314,
+      "name": "schoolgirl uniform",
+      "tagged": 56000,
+      "uri": "/tag/schoolgirl-uniform/",
+    },
+    Object {
+      "id": 13720,
+      "name": "nakadashi",
+      "tagged": 42000,
+      "uri": "/tag/nakadashi/",
+    },
+    Object {
+      "id": 29859,
+      "name": "blowjob",
+      "tagged": 37000,
+      "uri": "/tag/blowjob/",
+    },
+    Object {
+      "id": 13989,
+      "name": "ahegao",
+      "tagged": 29000,
+      "uri": "/tag/ahegao/",
+    },
+    Object {
+      "id": 22942,
+      "name": "incest",
+      "tagged": 28000,
+      "uri": "/tag/incest/",
+    },
+    Object {
+      "id": 22945,
+      "name": "double penetration",
+      "tagged": 24000,
+      "uri": "/tag/double-penetration/",
+    },
+    Object {
+      "id": 19018,
+      "name": "dark skin",
+      "tagged": 21000,
+      "uri": "/tag/dark-skin/",
+    },
+    Object {
+      "id": 20035,
+      "name": "x-ray",
+      "tagged": 20000,
+      "uri": "/tag/x-ray/",
+    },
+    Object {
+      "id": 29224,
+      "name": "impregnation",
+      "tagged": 15000,
+      "uri": "/tag/impregnation/",
+    },
+    Object {
+      "id": 27384,
+      "name": "mind break",
+      "tagged": 13000,
+      "uri": "/tag/mind-break/",
+    },
+    Object {
+      "id": 7256,
+      "name": "mmf threesome",
+      "tagged": 9000,
+      "uri": "/tag/mmf-threesome/",
+    },
+    Object {
+      "id": 6343,
+      "name": "pregnant",
+      "tagged": 9000,
+      "uri": "/tag/pregnant/",
+    },
+    Object {
+      "id": 8739,
+      "name": "story arc",
+      "tagged": 9000,
+      "uri": "/tag/story-arc/",
+    },
+    Object {
+      "id": 22079,
+      "name": "drugs",
+      "tagged": 6000,
+      "uri": "/tag/drugs/",
+    },
+    Object {
+      "id": 12695,
+      "name": "prostitution",
+      "tagged": 5000,
+      "uri": "/tag/prostitution/",
+    },
+    Object {
+      "id": 5820,
+      "name": "piercing",
+      "tagged": 5000,
+      "uri": "/tag/piercing/",
+    },
+    Object {
+      "id": 29182,
+      "name": "blackmail",
+      "tagged": 4000,
+      "uri": "/tag/blackmail/",
+    },
+    Object {
+      "id": 25050,
+      "name": "gyaru",
+      "tagged": 3000,
+      "uri": "/tag/gyaru/",
+    },
+    Object {
+      "id": 32996,
+      "name": "deepthroat",
+      "tagged": 3000,
+      "uri": "/tag/deepthroat/",
+    },
+    Object {
+      "id": 10542,
+      "name": "snuff",
+      "tagged": 2000,
+      "uri": "/tag/snuff/",
+    },
+    Object {
+      "id": 53449,
+      "name": "already uploaded",
+      "tagged": 2000,
+      "uri": "/tag/already-uploaded/",
+    },
+    Object {
+      "id": 7288,
+      "name": "vomit",
+      "tagged": 878,
+      "uri": "/tag/vomit/",
+    },
+    Object {
+      "id": 21112,
+      "name": "full body tattoo",
+      "tagged": 586,
+      "uri": "/tag/full-body-tattoo/",
+    },
+    Object {
+      "id": 13722,
+      "name": "moral degeneration",
+      "tagged": 573,
+      "uri": "/tag/moral-degeneration/",
+    },
+  ],
+  "thumbnail": "https://t.nhentai.net/galleries/987560/cover.jpg",
+  "uploadDate": "2016-10-18T12:28:49.949133+00:00",
+}
+`;

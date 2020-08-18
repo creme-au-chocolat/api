@@ -13,4 +13,5 @@ module.exports = {
   testEnvironment: 'node',
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
   modulePaths: ['node_modules', '.'],
+  setupFiles: ['./src/setupJest.js'],
 };
