@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CategoriesController details Returns gallery details 1`] = `
+exports[`GalleriesController details Returns gallery details 1`] = `
 Object {
   "artists": Array [
     Object {

@@ -7,12 +7,12 @@ import { FetchMock } from 'jest-fetch-mock';
 import fetch from 'node-fetch';
 import { HtmlParserModule } from 'src/html-parser/html-parser.module';
 import { HtmlParserService } from 'src/html-parser/html-parser/html-parser.service';
-import { PostsService } from './posts.service';
+import { GalleriesService } from './galleries.service';
 
 const fetchMock = (fetch as unknown) as FetchMock;
 
-describe('CategoriesController', () => {
-  let postsService: PostsService;
+describe('GalleriesController', () => {
+  let galleriesService: GalleriesService;
   let htmlParserService: HtmlParserService;
   let galleryPage: string;
 
@@ -26,11 +26,11 @@ describe('CategoriesController', () => {
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
       controllers: [],
-      providers: [PostsService],
+      providers: [GalleriesService],
       imports: [CacheModule.register({ ttl: 1 }), HtmlParserModule],
     }).compile();
 
-    postsService = moduleRef.get(PostsService);
+    galleriesService = moduleRef.get(GalleriesService);
     htmlParserService = moduleRef.get(HtmlParserService);
   });
 
@@ -40,7 +40,7 @@ describe('CategoriesController', () => {
         .fn()
         .mockReturnValueOnce(load(galleryPage));
 
-      await expect(postsService.details(177013)).resolves.toMatchSnapshot();
+      await expect(galleriesService.details(177013)).resolves.toMatchSnapshot();
     });
 
     it('Throws error when gallery does not exist', async () => {
@@ -50,14 +50,14 @@ describe('CategoriesController', () => {
           load(fs.readFileSync('test/mocks/pages/not-found-page.html')),
         );
 
-      await expect(postsService.details(0)).rejects.toThrowError(
+      await expect(galleriesService.details(0)).rejects.toThrowError(
         NotFoundException,
       );
     });
   });
 
   describe('random', () => {
-    it.only('Returns random page', async () => {
+    it('Returns random page', async () => {
       const randomId = random.number(999999);
 
       fetchMock.mockIf('https://nhentai.net/random', async () => {
@@ -66,7 +66,7 @@ describe('CategoriesController', () => {
         };
       });
 
-      await expect(postsService.random()).resolves.toBe(randomId);
+      await expect(galleriesService.random()).resolves.toBe(randomId);
     });
   });
 });

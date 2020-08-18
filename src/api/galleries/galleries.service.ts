@@ -3,20 +3,20 @@ import * as archiver from 'archiver';
 import fetch from 'node-fetch';
 import { HtmlParserService } from '../../html-parser/html-parser/html-parser.service';
 import { parseTags } from '../../shared/helpers/parse-tags.helper';
-import { PostDetailsEntity } from './types/post-details.entity';
+import { GalleryDetailsEntity } from './types/gallery-details.entity';
 
 @Injectable()
-export class PostsService {
+export class GalleriesService {
   constructor(private readonly htmlParser: HtmlParserService) {}
 
-  async details(id: number): Promise<Required<PostDetailsEntity>> {
+  async details(id: number): Promise<Required<GalleryDetailsEntity>> {
     const $ = await this.htmlParser.parse(`https://nhentai.net/g/${id}/`);
 
     if (!$('.title').text()) {
       throw new NotFoundException();
     }
 
-    const details: Required<PostDetailsEntity> = {
+    const details: Required<GalleryDetailsEntity> = {
       id: id,
       name: {
         before: $('#info > h1 > span.before')

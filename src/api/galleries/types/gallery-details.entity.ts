@@ -6,7 +6,7 @@ type Name = {
   content: string;
 };
 
-export class PostDetailsEntity {
+export class GalleryDetailsEntity {
   id?: number;
   name?: Name;
   thumbnail?: string;

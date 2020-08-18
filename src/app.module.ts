@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
+import { GalleriesModule } from './api/galleries/galleries.module';
 import { PostPagesModule } from './api/post-pages/post-pages.module';
-import { PostsModule } from './api/posts/posts.module';
 import { TagsModule } from './api/tags/tags.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -19,7 +19,7 @@ import { AppService } from './app.service';
       inject: [ConfigService],
     }),
     PostPagesModule,
-    PostsModule,
+    GalleriesModule,
     TagsModule,
     ScheduleModule.forRoot(),
   ],

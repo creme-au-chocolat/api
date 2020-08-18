@@ -19,22 +19,22 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Request, Response } from 'express';
-import { PostsService } from './posts.service';
-import { DownloadPostDto } from './types/download-post.dto';
+import { GalleriesService } from './galleries.service';
+import { DownloadGalleryDto } from './types/download-gallery.dto';
+import { GalleryDetailsEntity } from './types/gallery-details.entity';
 import { GetDetailsDto } from './types/get-details.dto';
-import { GetPostPageDto } from './types/get-post-page.dto';
-import { GetPostDto } from './types/get-post.dto';
-import { PostDetailsEntity } from './types/post-details.entity';
+import { GetGalleryPageDto } from './types/get-gallery-page.dto';
+import { GetGalleryDto } from './types/get-gallery.dto';
 
 @ApiTags('galleries')
 @Controller('g')
 @UseInterceptors(CacheInterceptor)
-export class PostsController {
-  constructor(private readonly postsService: PostsService) {}
+export class GalleriesController {
+  constructor(private readonly galleriesService: GalleriesService) {}
 
   @ApiResponse({
     status: 303,
-    description: 'redirect to /g/:id with random post id',
+    description: 'redirect to /g/:id with random gallery id',
   })
   @ApiOperation({
     summary: 'get a random gallery',
@@ -46,7 +46,7 @@ export class PostsController {
     @Req() req: Request,
     @Res() res: Response,
   ): Promise<void> {
-    const randomId = await this.postsService.random();
+    const randomId = await this.galleriesService.random();
 
     const ressource = req.url.split('r/')[1] ?? '';
 
@@ -62,10 +62,10 @@ export class PostsController {
   @ApiNotFoundResponse({ description: 'no gallery with provided id' })
   @Get(':id')
   async getGalleryById(
-    @Param() params: GetPostDto,
+    @Param() params: GetGalleryDto,
     @Query() query: GetDetailsDto,
-  ): Promise<PostDetailsEntity> {
-    const details = await this.postsService.details(params.id);
+  ): Promise<GalleryDetailsEntity> {
+    const details = await this.galleriesService.details(params.id);
 
     if (query.filters.length) {
       const filteredKeys = Object.keys(details).filter(key =>
@@ -93,9 +93,9 @@ export class PostsController {
   @Get(':id/page/:page')
   async getGalleryPage(
     @Res() res: Response,
-    @Param() params: GetPostPageDto,
+    @Param() params: GetGalleryPageDto,
   ): Promise<void> {
-    const image = await this.postsService.page(params.id, params.page);
+    const image = await this.galleriesService.page(params.id, params.page);
 
     res.setHeader('Content-Type', 'image/jpeg');
     image.pipe(res);
@@ -111,9 +111,9 @@ export class PostsController {
   @Get(':id/thumbnail')
   async getGalleryThumbnail(
     @Res() res: Response,
-    @Param() params: GetPostDto,
+    @Param() params: GetGalleryDto,
   ): Promise<void> {
-    const image = await this.postsService.thumbnail(params.id);
+    const image = await this.galleriesService.thumbnail(params.id);
 
     res.setHeader('Content-Type', 'image/jpeg');
     image.pipe(res);
@@ -129,8 +129,8 @@ export class PostsController {
   @Get(':id/download')
   async getGalleryAsZip(
     @Res() res: Response,
-    @Param() params: GetPostDto,
-    @Query() query: DownloadPostDto,
+    @Param() params: GetGalleryDto,
+    @Query() query: DownloadGalleryDto,
   ): Promise<void> {
     res.setHeader('Content-Type', 'application/zip');
     res.setHeader(
@@ -138,6 +138,6 @@ export class PostsController {
       `attachment; filename=${params.id}.zip`,
     );
 
-    this.postsService.download(res, params.id, query.numberOfPages);
+    this.galleriesService.download(res, params.id, query.numberOfPages);
   }
 }
