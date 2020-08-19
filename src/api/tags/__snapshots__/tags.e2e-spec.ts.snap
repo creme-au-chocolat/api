@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TagsController (e2e) /tags/search returns tags including search query 1`] = `
+Array [
+  Object {
+    "category": "artists",
+    "id": 878116,
+    "name": "ipsam",
+    "tagged": 68521,
+    "uri": "https://connor.info",
+  },
+  Object {
+    "category": "tags",
+    "id": 412538,
+    "name": "ipsam",
+    "tagged": 14212,
+    "uri": "https://otis.org",
+  },
+  Object {
+    "category": "characters",
+    "id": 593064,
+    "name": "ipsum",
+    "tagged": 5924,
+    "uri": "https://marco.com",
+  },
+]
+`;
+
+exports[`TagsController (e2e) /tags/search returns tags including search query and category 1`] = `
+Array [
+  Object {
+    "category": "tags",
+    "id": 412538,
+    "name": "ipsam",
+    "tagged": 14212,
+    "uri": "https://otis.org",
+  },
+]
+`;

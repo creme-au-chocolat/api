@@ -208,13 +208,45 @@ describe('TagsController (e2e)', () => {
   });
 
   describe('/tags/search', () => {
-    it.todo('returns tags including search query');
+    it('returns tags including search query', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/tags/search?q=ips')
+        .expect(200);
 
-    it.todo('returns tags including search query and category');
+      expect(response.body).toMatchSnapshot();
+    });
 
-    it.todo('returns empty array if nothing found');
+    it('returns tags including search query and category', async () => {
+      const response = await request(app.getHttpServer())
+        .get('/tags/search?q=ips&category=tags')
+        .expect(200);
 
-    it.todo('validate and convert parameters');
+      expect(response.body).toMatchSnapshot();
+    });
+
+    it('returns empty array if nothing found', async () => {
+      await request(app.getHttpServer())
+        .get('/tags/search?q=impossiblestring')
+        .expect(200)
+        .expect([]);
+    });
+
+    it('validate and convert parameters', async () => {
+      const httpServer = app.getHttpServer();
+      const badRequests = [
+        '/tags/search',
+        '/tags/search?q=aa',
+        '/tags/search?q=aaa&page=0',
+        '/tags/search?q=aaa&page=1.3',
+      ];
+      const goodRequests = [
+        `/tags/search?q=aaa&page=1&category=artists`,
+        `/tags/search?q=aaa`,
+      ];
+
+      await testRequests(httpServer, badRequests, 400);
+      await testRequests(httpServer, goodRequests, 200);
+    });
   });
 
   afterAll(async () => {
