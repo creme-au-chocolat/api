@@ -210,3 +210,7 @@ Object {
   "uploadDate": "2016-10-18T12:28:49.949133+00:00",
 }
 `;
+
+exports[`GalleriesController page Fetch gallery page 1`] = `"https://i.nhentai.net/galleries/987560/1.jpg"`;
+
+exports[`GalleriesController thumbnail Fetch gallery thumbnail 1`] = `"https://t.nhentai.net/galleries/987560/cover.jpg"`;

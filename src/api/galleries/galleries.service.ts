@@ -69,7 +69,6 @@ export class GalleriesService {
       throw new NotFoundException();
     }
 
-    console.log(imageURI);
     const image = await fetch(imageURI);
 
     return image.body;

@@ -60,7 +60,7 @@ describe('GalleriesController', () => {
     it('Returns random page', async () => {
       const randomId = random.number(999999);
 
-      fetchMock.mockIf('https://nhentai.net/random', async () => {
+      fetchMock.mockOnce(async () => {
         return {
           url: `https://nhentai.net/g/${randomId}/`,
         };
@@ -68,5 +68,67 @@ describe('GalleriesController', () => {
 
       await expect(galleriesService.random()).resolves.toBe(randomId);
     });
+  });
+
+  describe('thumbnail', () => {
+    it('Fetch gallery thumbnail', async () => {
+      htmlParserService.parse = jest
+        .fn()
+        .mockReturnValueOnce(load(galleryPage));
+
+      fetchMock.mockOnce(async req => {
+        expect(req.url).toMatchSnapshot();
+
+        return {};
+      });
+
+      await galleriesService.thumbnail(177013);
+    });
+
+    it('Throws error when it can not find any thumbnail', async () => {
+      htmlParserService.parse = jest
+        .fn()
+        .mockReturnValueOnce(
+          load(fs.readFileSync('test/mocks/pages/not-found-page.html')),
+        );
+
+      await expect(galleriesService.thumbnail(0)).rejects.toThrowError(
+        NotFoundException,
+      );
+    });
+  });
+
+  describe('page', () => {
+    it('Fetch gallery page', async () => {
+      htmlParserService.parse = jest
+        .fn()
+        .mockReturnValueOnce(
+          load(fs.readFileSync('test/mocks/pages/gallery-page.html')),
+        );
+
+      fetchMock.mockOnce(async req => {
+        expect(req.url).toMatchSnapshot();
+
+        return {};
+      });
+
+      await galleriesService.page(177013, 1);
+    });
+
+    it('Throws error when it can not find the page', async () => {
+      htmlParserService.parse = jest
+        .fn()
+        .mockReturnValueOnce(
+          load(fs.readFileSync('test/mocks/pages/not-found-page.html')),
+        );
+
+      await expect(galleriesService.page(177013, 1000)).rejects.toThrowError(
+        NotFoundException,
+      );
+    });
+  });
+
+  describe('download', () => {
+    it.todo('');
   });
 });
