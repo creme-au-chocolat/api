@@ -3,8 +3,7 @@ jest.mock('./tags.service');
 import { INestApplication } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
-import { random } from 'faker';
-import { curry } from 'lodash';
+import { random, seed } from 'faker';
 import * as request from 'supertest';
 import { createTestingApp, testRequests } from '../../../test/helpers/e2e';
 import { CATEGORIES } from '../../shared/enum/tag-categories.enum';
@@ -36,38 +35,25 @@ describe('TagsController (e2e)', () => {
     await app.init();
   });
 
+  beforeEach(async () => {
+    seed(0);
+  });
+
   describe('/tags/list/:category (GET)', () => {
     it('sort by popularity', async () => {
-      const result = await tagsService.getTagsByPopularity(
-        CATEGORIES.artists,
-        1,
-      );
-
-      return request(app.getHttpServer())
+      const response = await request(app.getHttpServer())
         .get('/tags/list/artists?popular=true&page=1')
-        .expect(200)
-        .expect({
-          data: result,
-          pagination: {
-            page: 1,
-            total: await tagsService.getPageCount(CATEGORIES.artists),
-          },
-        });
+        .expect(200);
+
+      expect(response.body).toMatchSnapshot();
     });
 
     it('sort by name', async () => {
-      const result = await tagsService.getTags(CATEGORIES.artists, 1);
-
-      return request(app.getHttpServer())
+      const response = await request(app.getHttpServer())
         .get('/tags/list/artists?popular=false&page=1')
-        .expect(200)
-        .expect({
-          data: result,
-          pagination: {
-            page: 1,
-            total: await tagsService.getPageCount(CATEGORIES.artists),
-          },
-        });
+        .expect(200);
+
+      expect(response.body).toMatchSnapshot();
     });
 
     it('throws 404 error when requested page does not exist', async () => {
@@ -93,10 +79,6 @@ describe('TagsController (e2e)', () => {
 
     it('converts parameters types', async () => {
       const httpServer = app.getHttpServer();
-      const byPopularity = curry(tagsService.getTagsByPopularity)(
-        CATEGORIES.artists,
-      );
-      const byName = curry(tagsService.getTags)(CATEGORIES.artists);
 
       const shouldOrderByPopularity: string[] = [
         '/tags/list/artists?popular=true&page=1',
@@ -113,21 +95,19 @@ describe('TagsController (e2e)', () => {
       ];
 
       for (const req of shouldOrderByPopularity) {
-        await request(httpServer)
+        const response = await request(httpServer)
           .get(req)
-          .expect(200)
-          .then(async res => {
-            expect(res.body.data).toStrictEqual(await byPopularity(1));
-          });
+          .expect(200);
+
+        expect(response.body).toMatchSnapshot();
       }
 
       for (const req of shouldOrderByName) {
-        await request(httpServer)
+        const response = await request(httpServer)
           .get(req)
-          .expect(200)
-          .then(async res => {
-            expect(res.body.data).toStrictEqual(await byName(1));
-          });
+          .expect(200);
+
+        expect(response.body).toMatchSnapshot();
       }
 
       for (const req of shouldWorks) {
@@ -138,28 +118,27 @@ describe('TagsController (e2e)', () => {
     });
   });
 
-  describe('/tags/list/:category/:letter (GET)', () => {
+  describe('/tags/list/:category/:letter (GET)', async () => {
     it('returns all tags starting with specified letter, sorted by name', async () => {
-      const result = await tagsService.getTagsByLetter(CATEGORIES.artists, 'A');
-
-      return request(app.getHttpServer())
+      const response = await request(app.getHttpServer())
         .get('/tags/list/artists/a')
-        .expect(200)
-        .expect(result);
+        .expect(200);
+
+      expect(response.body).toMatchSnapshot();
     });
 
     it('is case insensitive', async () => {
-      const result = await tagsService.getTagsByLetter(CATEGORIES.artists, 'A');
-
-      await request(app.getHttpServer())
+      const lowercaseResponse = await request(app.getHttpServer())
         .get('/tags/list/artists/a')
-        .expect(200)
-        .expect(result);
+        .expect(200);
 
-      await request(app.getHttpServer())
+      const uppercaseResponse = await request(app.getHttpServer())
         .get('/tags/list/artists/A')
-        .expect(200)
-        .expect(result);
+        .expect(200);
+
+      expect(lowercaseResponse.body).toMatchSnapshot();
+      expect(uppercaseResponse.body).toMatchSnapshot();
+      expect(uppercaseResponse.body).toStrictEqual(lowercaseResponse.body);
     });
 
     it('throws 400 error on wrong parameters values', async () => {
@@ -175,14 +154,13 @@ describe('TagsController (e2e)', () => {
 
   describe('/tags/details/:id (GET)', () => {
     it('returns requested tag', async () => {
-      const result = await tagsService.getTagById(
-        random.arrayElement(mockedTags).id,
-      );
+      const randomTag = random.arrayElement(mockedTags);
 
-      await request(app.getHttpServer())
-        .get(`/tags/details/${result.id}`)
-        .expect(200)
-        .expect(result);
+      const response = await request(app.getHttpServer())
+        .get(`/tags/details/${randomTag.id}`)
+        .expect(200);
+
+      expect(response.body).toMatchSnapshot();
     });
 
     it('returns 404 error when tag does not exist', async () => {
@@ -207,7 +185,7 @@ describe('TagsController (e2e)', () => {
     });
   });
 
-  describe('/tags/search', () => {
+  describe('/tags/search (GET)', () => {
     it('returns tags including search query', async () => {
       const response = await request(app.getHttpServer())
         .get('/tags/search?q=ips')
