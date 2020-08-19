@@ -118,7 +118,7 @@ describe('TagsController (e2e)', () => {
     });
   });
 
-  describe('/tags/list/:category/:letter (GET)', async () => {
+  describe('/tags/list/:category/:letter (GET)', () => {
     it('returns all tags starting with specified letter, sorted by name', async () => {
       const response = await request(app.getHttpServer())
         .get('/tags/list/artists/a')
