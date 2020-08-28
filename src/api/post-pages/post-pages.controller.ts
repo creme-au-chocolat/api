@@ -75,7 +75,7 @@ export class PostPagesController {
       1,
     );
 
-    const randomPage = Math.round(Math.random() * numberOfPages);
+    const randomPage = Math.ceil(Math.random() * numberOfPages);
 
     const [randomPostList] = await this.postPagesService.fetchPosts(
       `https://nhentai.net/search/?q=${query.q}&page=${randomPage}`,
