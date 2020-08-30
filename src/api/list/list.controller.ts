@@ -16,18 +16,18 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Response } from 'express';
-import { PostPagesService } from './post-pages.service';
+import { ListService } from './list.service';
 import { GetHomepageDto } from './types/get-homepage.dto';
 import { HomepageEntity } from './types/homepage.entity';
 import { PostListEntity } from './types/post-list.entity';
 import { SearchPostDto } from './types/search-post.dto';
 import { SearchRandomPostDto } from './types/search-random-post.dto';
 
-@ApiTags('post list')
-@Controller('posts')
+@ApiTags('list')
+@Controller('list')
 @UseInterceptors(CacheInterceptor)
-export class PostPagesController {
-  constructor(private readonly postPagesService: PostPagesService) {}
+export class ListController {
+  constructor(private readonly postPagesService: ListService) {}
 
   @ApiOperation({
     summary: 'use nhentai search feature ',

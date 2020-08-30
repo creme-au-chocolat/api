@@ -4,7 +4,7 @@ import { getPages } from '../../shared/utils/get-pagination.helper';
 import { PostEntity } from './types/post.entity';
 
 @Injectable()
-export class PostPagesService {
+export class ListService {
   constructor(private readonly htmlParser: HtmlParserService) {}
 
   async fetchPosts(uri: string, page: number): Promise<[PostEntity[], number]> {

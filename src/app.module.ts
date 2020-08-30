@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ScheduleModule } from '@nestjs/schedule';
 import { GalleriesModule } from './api/galleries/galleries.module';
-import { PostPagesModule } from './api/post-pages/post-pages.module';
+import { ListModule } from './api/list/list.module';
 import { TagsModule } from './api/tags/tags.module';
 
 @Module({
@@ -16,7 +16,7 @@ import { TagsModule } from './api/tags/tags.module';
       }),
       inject: [ConfigService],
     }),
-    PostPagesModule,
+    ListModule,
     GalleriesModule,
     TagsModule,
     ScheduleModule.forRoot(),
