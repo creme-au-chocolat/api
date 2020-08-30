@@ -5,7 +5,7 @@ import { getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
 import { random, seed } from 'faker';
 import * as request from 'supertest';
-import { createTestingApp, testRequests } from '../../../test/helpers/e2e';
+import { createTestingApp, testRequests } from '../../../test/utils/e2e';
 import { CATEGORIES } from '../../shared/enum/tag-categories.enum';
 import { TagDocument } from '../../shared/schemas/tag.schema';
 import { TagsModule } from './tags.module';

@@ -5,9 +5,9 @@ import { Model } from 'mongoose';
 import { CATEGORIES } from 'src/shared/enum/tag-categories.enum';
 import { HtmlTag } from 'src/shared/types/html-tag.entity';
 import { HtmlParserService } from '../../html-parser/html-parser/html-parser.service';
-import { getPages } from '../../shared/helpers/get-pagination.helper';
-import { parseTags } from '../../shared/helpers/parse-tags.helper';
 import { TagDocument } from '../../shared/schemas/tag.schema';
+import { getPages } from '../../shared/utils/get-pagination.helper';
+import { parseTags } from '../../shared/utils/parse-tags.helper';
 
 @Injectable()
 export class TagsScrapperService {

@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import * as archiver from 'archiver';
 import fetch from 'node-fetch';
 import { HtmlParserService } from '../../html-parser/html-parser/html-parser.service';
-import { parseTags } from '../../shared/helpers/parse-tags.helper';
+import { parseTags } from '../../shared/utils/parse-tags.helper';
 import { GalleryDetailsEntity } from './types/gallery-details.entity';
 
 @Injectable()

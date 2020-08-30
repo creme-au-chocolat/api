@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { HtmlParserService } from '../../html-parser/html-parser/html-parser.service';
-import { getPages } from '../../shared/helpers/get-pagination.helper';
+import { getPages } from '../../shared/utils/get-pagination.helper';
 import { PostEntity } from './types/post.entity';
 
 @Injectable()
