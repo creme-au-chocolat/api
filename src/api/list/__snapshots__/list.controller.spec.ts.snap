@@ -1,0 +1,250 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CategoriesController getHomepage Returns only recent in other pages 1`] = `
+Object {
+  "data": Object {
+    "popular": Array [],
+    "recent": Array [
+      Object {
+        "id": 711524,
+        "lang": "JP",
+        "name": "Quia ipsum sit qui accusantium odit doloremque.",
+        "tags": Array [
+          24621,
+          10213,
+          86002,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+      Object {
+        "id": 288717,
+        "lang": "CN",
+        "name": "Incidunt omnis delectus voluptas minima quia ut.",
+        "tags": Array [
+          9155,
+          58575,
+          57006,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+      Object {
+        "id": 969594,
+        "lang": "CN",
+        "name": "Natus consequatur sit vel et nostrum.",
+        "tags": Array [
+          71739,
+          80710,
+          61294,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+      Object {
+        "id": 387860,
+        "lang": "EN",
+        "name": "Et facere placeat molestiae iste molestiae.",
+        "tags": Array [
+          36190,
+          5991,
+          15333,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+      Object {
+        "id": 121343,
+        "lang": "EN",
+        "name": "Quae sint odit dolor tempora et quo aperiam natus et.",
+        "tags": Array [
+          12976,
+          7197,
+          29435,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+      Object {
+        "id": 967275,
+        "lang": "EN",
+        "name": "Similique ad sed architecto magnam.",
+        "tags": Array [
+          74382,
+          16161,
+          19542,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+      Object {
+        "id": 938710,
+        "lang": "JP",
+        "name": "Quis ut ab nulla quod labore ullam.",
+        "tags": Array [
+          20435,
+          61995,
+          98175,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+      Object {
+        "id": 828980,
+        "lang": "JP",
+        "name": "Nesciunt omnis sit et quasi eaque corrupti vel id omnis.",
+        "tags": Array [
+          45528,
+          31736,
+          53182,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+      Object {
+        "id": 988615,
+        "lang": "JP",
+        "name": "Culpa ratione vel.",
+        "tags": Array [
+          55094,
+          21565,
+          74533,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+      Object {
+        "id": 916442,
+        "lang": "EN",
+        "name": "Laudantium voluptatem magni et voluptas quis non et.",
+        "tags": Array [
+          21017,
+          9541,
+          75275,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+    ],
+  },
+  "pagination": Object {
+    "page": 2,
+    "total": 10,
+  },
+}
+`;
+
+exports[`CategoriesController getHomepage Returns popular and recent in first page 1`] = `
+Object {
+  "data": Object {
+    "popular": Array [
+      Object {
+        "id": 699757,
+        "lang": "unknown",
+        "name": "Aut provident esse hic.",
+        "tags": Array [
+          49305,
+          41417,
+          54060,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+      Object {
+        "id": 49953,
+        "lang": "none",
+        "name": "Sed quae nam eos sint autem rerum doloremque officia.",
+        "tags": Array [
+          90340,
+          54078,
+          13747,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+      Object {
+        "id": 447979,
+        "lang": "JP",
+        "name": "Saepe consequatur vel in.",
+        "tags": Array [
+          16535,
+          65229,
+          92750,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+      Object {
+        "id": 361260,
+        "lang": "none",
+        "name": "Sunt placeat quidem est consequuntur.",
+        "tags": Array [
+          69020,
+          62367,
+          64774,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+      Object {
+        "id": 750941,
+        "lang": "unknown",
+        "name": "Ut voluptas enim ex eveniet.",
+        "tags": Array [
+          42809,
+          88134,
+          96484,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+    ],
+    "recent": Array [
+      Object {
+        "id": 11669,
+        "lang": "CN",
+        "name": "Et dolorum architecto fugit repellendus hic veritatis qui.",
+        "tags": Array [
+          57838,
+          94183,
+          40813,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+      Object {
+        "id": 379802,
+        "lang": "CN",
+        "name": "Omnis ut est sunt.",
+        "tags": Array [
+          287,
+          77273,
+          61714,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+      Object {
+        "id": 152929,
+        "lang": "CN",
+        "name": "Culpa non aut rerum impedit.",
+        "tags": Array [
+          47064,
+          90853,
+          76459,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+      Object {
+        "id": 623359,
+        "lang": "none",
+        "name": "Perferendis ut non fugiat eligendi omnis.",
+        "tags": Array [
+          7008,
+          17234,
+          47247,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+      Object {
+        "id": 137135,
+        "lang": "unknown",
+        "name": "Recusandae consectetur optio laudantium et incidunt possimus molestias.",
+        "tags": Array [
+          20856,
+          92302,
+          4930,
+        ],
+        "thumbnail": "http://placeimg.com/640/480",
+      },
+    ],
+  },
+  "pagination": Object {
+    "page": 1,
+    "total": 10,
+  },
+}
+`;

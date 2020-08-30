@@ -11,7 +11,7 @@ import { GalleriesService } from './galleries.service';
 
 const fetchMock = (fetch as unknown) as FetchMock;
 
-describe('GalleriesController', () => {
+describe('GalleriesService', () => {
   let galleriesService: GalleriesService;
   let htmlParserService: HtmlParserService;
   let galleryPage: string;
@@ -126,9 +126,5 @@ describe('GalleriesController', () => {
         NotFoundException,
       );
     });
-  });
-
-  describe('download', () => {
-    it.todo('');
   });
 });

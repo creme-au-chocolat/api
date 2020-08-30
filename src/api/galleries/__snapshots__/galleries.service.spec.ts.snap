@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GalleriesController details Returns gallery details 1`] = `
+exports[`GalleriesService details Returns gallery details 1`] = `
 Object {
   "artists": Array [
     Object {
@@ -211,6 +211,6 @@ Object {
 }
 `;
 
-exports[`GalleriesController page Fetch gallery page 1`] = `"https://i.nhentai.net/galleries/987560/1.jpg"`;
+exports[`GalleriesService page Fetch gallery page 1`] = `"https://i.nhentai.net/galleries/987560/1.jpg"`;
 
-exports[`GalleriesController thumbnail Fetch gallery thumbnail 1`] = `"https://t.nhentai.net/galleries/987560/cover.jpg"`;
+exports[`GalleriesService thumbnail Fetch gallery thumbnail 1`] = `"https://t.nhentai.net/galleries/987560/cover.jpg"`;

@@ -27,7 +27,7 @@ import { SearchRandomPostDto } from './types/search-random-post.dto';
 @Controller('list')
 @UseInterceptors(CacheInterceptor)
 export class ListController {
-  constructor(private readonly postPagesService: ListService) {}
+  constructor(private readonly listService: ListService) {}
 
   @ApiOperation({
     summary: 'use nhentai search feature ',
@@ -41,10 +41,7 @@ export class ListController {
   ): Promise<PostListEntity> {
     const uri = `https://nhentai.net/search/?q=${query.q}&sort=${query.sort}&page=${query.page}`;
 
-    const [posts, pages] = await this.postPagesService.fetchPosts(
-      uri,
-      query.page,
-    );
+    const [posts, pages] = await this.listService.fetchPosts(uri, query.page);
 
     return {
       data: posts,
@@ -70,14 +67,14 @@ export class ListController {
     @Res() res: Response,
     @Query() query: SearchRandomPostDto,
   ): Promise<void> {
-    const [, numberOfPages] = await this.postPagesService.fetchPosts(
+    const [, numberOfPages] = await this.listService.fetchPosts(
       `https://nhentai.net/search/?q=${query.q}`,
       1,
     );
 
     const randomPage = Math.ceil(Math.random() * numberOfPages);
 
-    const [randomPostList] = await this.postPagesService.fetchPosts(
+    const [randomPostList] = await this.listService.fetchPosts(
       `https://nhentai.net/search/?q=${query.q}&page=${randomPage}`,
       randomPage,
     );
@@ -105,10 +102,7 @@ export class ListController {
   async getHomepage(@Query() query: GetHomepageDto): Promise<HomepageEntity> {
     const uri = `https://nhentai.net/?page=${query.page}`;
 
-    const [posts, pages] = await this.postPagesService.fetchPosts(
-      uri,
-      query.page,
-    );
+    const [posts, pages] = await this.listService.fetchPosts(uri, query.page);
 
     const popular = query.page === 1 ? posts.slice(0, 5) : [];
     const recent = query.page === 1 ? posts.slice(5) : posts;
