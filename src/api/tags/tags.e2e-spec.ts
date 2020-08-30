@@ -152,12 +152,12 @@ describe('TagsController (e2e)', () => {
     });
   });
 
-  describe('/tags/details/:id (GET)', () => {
+  describe('/tags/:id/details (GET)', () => {
     it('returns requested tag', async () => {
       const randomTag = random.arrayElement(mockedTags);
 
       const response = await request(app.getHttpServer())
-        .get(`/tags/details/${randomTag.id}`)
+        .get(`/tags/${randomTag.id}/details`)
         .expect(200);
 
       expect(response.body).toMatchSnapshot();
@@ -165,19 +165,19 @@ describe('TagsController (e2e)', () => {
 
     it('returns 404 error when tag does not exist', async () => {
       await request(app.getHttpServer())
-        .get('/tags/details/999999')
+        .get('/tags/999999/details')
         .expect(404);
     });
 
     it('validate and convert parameters', async () => {
       const httpServer = app.getHttpServer();
       const badRequests = [
-        '/tags/details/0',
-        '/tags/details/bite',
-        '/tags/details/NaN',
+        '/tags/0/details',
+        '/tags/bite/details',
+        '/tags/NaN/details',
       ];
       const goodRequests = [
-        `/tags/details/${random.arrayElement(mockedTags).id}`,
+        `/tags/${random.arrayElement(mockedTags).id}/details`,
       ];
 
       await testRequests(httpServer, badRequests, 400);

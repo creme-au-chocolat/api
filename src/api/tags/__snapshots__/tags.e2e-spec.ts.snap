@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TagsController (e2e) /tags/details/:id (GET) returns requested tag 1`] = `
+exports[`TagsController (e2e) /tags/:id/details (GET) returns requested tag 1`] = `
 Object {
   "category": "characters",
   "id": 621918,

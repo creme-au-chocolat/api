@@ -34,7 +34,7 @@ export class TagsController {
   })
   @ApiBadRequestResponse()
   @ApiNotFoundResponse({ description: 'no tag found with this id' })
-  @Get('details/:id')
+  @Get(':id/details')
   async getTagById(@Param() params: GetTagByIdDto): Promise<Tag> {
     return this.tagsService.getTagById(params.id);
   }
