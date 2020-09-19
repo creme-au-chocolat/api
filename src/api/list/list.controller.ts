@@ -23,8 +23,8 @@ import { PostListEntity } from './types/post-list.entity';
 import { SearchPostDto } from './types/search-post.dto';
 import { SearchRandomPostDto } from './types/search-random-post.dto';
 
-@ApiTags('list')
-@Controller('list')
+@ApiTags('galleries')
+@Controller('g')
 @UseInterceptors(CacheInterceptor)
 export class ListController {
   constructor(private readonly listService: ListService) {}

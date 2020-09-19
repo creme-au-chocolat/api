@@ -13,7 +13,6 @@ async function bootstrap() {
     .setTitle('Unofficial nhentai API')
     .setDescription('An unofficial API to query nhentai website')
     .addTag('galleries')
-    .addTag('list')
     .addTag('tags')
     .setVersion('1.0')
     .build();
