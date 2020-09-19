@@ -37,17 +37,17 @@ Array [
   },
   Object {
     "category": "artists",
-    "id": 550947,
-    "name": "aut",
-    "tagged": 57974,
-    "uri": "http://genoveva.name",
-  },
-  Object {
-    "category": "artists",
     "id": 517593,
     "name": "aut",
     "tagged": 93487,
     "uri": "https://oswaldo.name",
+  },
+  Object {
+    "category": "artists",
+    "id": 550947,
+    "name": "aut",
+    "tagged": 57974,
+    "uri": "http://genoveva.name",
   },
   Object {
     "category": "artists",
@@ -65,17 +65,17 @@ Array [
   },
   Object {
     "category": "artists",
-    "id": 505463,
-    "name": "et",
-    "tagged": 33328,
-    "uri": "https://adela.biz",
-  },
-  Object {
-    "category": "artists",
     "id": 144691,
     "name": "et",
     "tagged": 51036,
     "uri": "http://yadira.net",
+  },
+  Object {
+    "category": "artists",
+    "id": 505463,
+    "name": "et",
+    "tagged": 33328,
+    "uri": "https://adela.biz",
   },
   Object {
     "category": "artists",
@@ -149,17 +149,17 @@ Array [
   },
   Object {
     "category": "artists",
-    "id": 927507,
-    "name": "vel",
-    "tagged": 39767,
-    "uri": "https://cassandra.name",
-  },
-  Object {
-    "category": "artists",
     "id": 573678,
     "name": "vel",
     "tagged": 23702,
     "uri": "https://stewart.net",
+  },
+  Object {
+    "category": "artists",
+    "id": 927507,
+    "name": "vel",
+    "tagged": 39767,
+    "uri": "https://cassandra.name",
   },
 ]
 `;
@@ -231,17 +231,17 @@ Array [
   },
   Object {
     "category": "artists",
-    "id": 927507,
-    "name": "vel",
-    "tagged": 39767,
-    "uri": "https://cassandra.name",
-  },
-  Object {
-    "category": "artists",
     "id": 573678,
     "name": "vel",
     "tagged": 23702,
     "uri": "https://stewart.net",
+  },
+  Object {
+    "category": "artists",
+    "id": 927507,
+    "name": "vel",
+    "tagged": 39767,
+    "uri": "https://cassandra.name",
   },
 ]
 `;

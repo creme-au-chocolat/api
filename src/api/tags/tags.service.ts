@@ -80,7 +80,7 @@ export class TagsService {
     return this.tagModel
       .find({ category: category.toString() })
       .select('-__v -_id')
-      .sort({ name: 'asc' })
+      .sort({ name: 'asc', id: 'asc' })
       .skip((page - 1) * TagsService.PAGE_SIZE)
       .limit(120)
       .exec();

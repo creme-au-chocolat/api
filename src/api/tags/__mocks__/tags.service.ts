@@ -67,7 +67,7 @@ export class TagsService {
 
     return compose(
       filter((tag: Tag) => tag.category === category),
-      orderBy('name', 'asc'),
+      orderBy(['name', 'id'], ['asc', 'asc']),
       slice(startingAt, startingAt + TagsService.PAGE_SIZE),
     )(mockedTags);
   }
