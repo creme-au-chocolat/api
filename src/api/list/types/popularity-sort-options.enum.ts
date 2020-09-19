@@ -1,6 +1,6 @@
 export enum PopularitySortOptions {
-  popular,
-  'popular-today',
-  'popular-week',
-  none,
+  popular = 'popular',
+  'popular-today' = 'popular-today',
+  'popular-week' = 'popular-week',
+  none = 'none',
 }
