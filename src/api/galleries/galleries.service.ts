@@ -18,6 +18,11 @@ export class GalleriesService {
 
     const details: Required<GalleryDetailsEntity> = {
       id: id,
+      internalId: parseInt(
+        $('#cover > a > img')
+          .data('src')
+          .replace(/.+?(\d+).*/, '$1'),
+      ),
       name: {
         before: $('#info > h1 > span.before')
           .text()
@@ -100,7 +105,7 @@ export class GalleriesService {
       const buffer = [];
 
       imageFetchingPromises.push(
-        new Promise(resolve => {
+        new Promise<void>(resolve => {
           image.on('data', data => {
             buffer.push(data);
           });
