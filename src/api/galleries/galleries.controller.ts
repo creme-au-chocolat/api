@@ -19,6 +19,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Request, Response } from 'express';
+import * as FileType from 'file-type';
 import { GalleriesService } from './galleries.service';
 import { DownloadGalleryDto } from './types/download-gallery.dto';
 import { GalleryDetailsEntity } from './types/gallery-details.entity';
@@ -97,8 +98,15 @@ export class GalleriesController {
   ): Promise<void> {
     const image = await this.galleriesService.page(params.id, params.page);
 
-    res.setHeader('Content-Type', 'image/jpeg');
-    image.pipe(res);
+    const imageStreamWithType = await FileType.stream(image as any);
+
+    res.setHeader(
+      'Content-Disposition',
+      `inline; filename="${params.id}.${imageStreamWithType.fileType.ext}"`,
+    );
+    res.setHeader('Content-Type', imageStreamWithType.fileType.mime);
+
+    imageStreamWithType.pipe(res);
   }
 
   @ApiOperation({
@@ -115,8 +123,15 @@ export class GalleriesController {
   ): Promise<void> {
     const image = await this.galleriesService.thumbnail(params.id);
 
-    res.setHeader('Content-Type', 'image/jpeg');
-    image.pipe(res);
+    const imageStreamWithType = await FileType.stream(image as any);
+
+    res.setHeader(
+      'Content-Disposition',
+      `inline; filename="${params.id}.${imageStreamWithType.fileType.ext}"`,
+    );
+    res.setHeader('Content-Type', imageStreamWithType.fileType.mime);
+
+    imageStreamWithType.pipe(res);
   }
 
   @ApiOperation({

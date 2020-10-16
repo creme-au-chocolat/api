@@ -35,12 +35,13 @@
     "cheerio": "^1.0.0-rc.3",
     "class-transformer": "^0.3.1",
     "class-validator": "^0.12.2",
+    "file-type": "^15.0.1",
     "helmet": "^3.23.3",
     "mongoose": "^5.9.24",
     "node-fetch": "^2.6.0",
+    "rxjs": "^6.5.4",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^6.5.4",
     "swagger-ui-express": "^4.1.4"
   },
   "devDependencies": {
