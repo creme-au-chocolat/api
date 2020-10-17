@@ -102,7 +102,7 @@ export class GalleriesController {
 
     res.setHeader(
       'Content-Disposition',
-      `inline; filename="${params.id}.${imageStreamWithType.fileType.ext}"`,
+      `inline; filename="${params.id}-${params.page}.${imageStreamWithType.fileType.ext}"`,
     );
     res.setHeader('Content-Type', imageStreamWithType.fileType.mime);
 
