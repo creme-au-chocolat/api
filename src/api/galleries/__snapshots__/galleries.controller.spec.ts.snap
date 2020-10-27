@@ -1,0 +1,473 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CategoriesController getGalleryById Returns gallery details 1`] = `
+Object {
+  "artists": Array [
+    Object {
+      "id": 353938,
+      "name": "est",
+      "tagged": 75094,
+      "uri": "http://norberto.biz",
+    },
+    Object {
+      "id": 752787,
+      "name": "ex",
+      "tagged": 89588,
+      "uri": "http://shanna.org",
+    },
+    Object {
+      "id": 498108,
+      "name": "aut",
+      "tagged": 66344,
+      "uri": "https://anya.com",
+    },
+  ],
+  "categories": Array [
+    Object {
+      "id": 64067,
+      "name": "repellendus",
+      "tagged": 94948,
+      "uri": "http://fiona.name",
+    },
+    Object {
+      "id": 379802,
+      "name": "earum",
+      "tagged": 40813,
+      "uri": "http://norbert.org",
+    },
+    Object {
+      "id": 301360,
+      "name": "est",
+      "tagged": 57367,
+      "uri": "http://oliver.name",
+    },
+  ],
+  "characters": Array [
+    Object {
+      "id": 578633,
+      "name": "sequi",
+      "tagged": 32664,
+      "uri": "https://adelbert.org",
+    },
+    Object {
+      "id": 470640,
+      "name": "impedit",
+      "tagged": 35726,
+      "uri": "https://norval.name",
+    },
+    Object {
+      "id": 269000,
+      "name": "totam",
+      "tagged": 1582,
+      "uri": "https://ricky.net",
+    },
+  ],
+  "groups": Array [
+    Object {
+      "id": 70081,
+      "name": "omnis",
+      "tagged": 99732,
+      "uri": "http://jany.com",
+    },
+    Object {
+      "id": 191955,
+      "name": "quod",
+      "tagged": 93259,
+      "uri": "https://jamal.com",
+    },
+    Object {
+      "id": 508247,
+      "name": "incidunt",
+      "tagged": 75546,
+      "uri": "https://cordie.org",
+    },
+  ],
+  "id": 1,
+  "internalId": 447979,
+  "languages": Array [
+    Object {
+      "id": 518861,
+      "name": "ab",
+      "tagged": 71152,
+      "uri": "http://celine.com",
+    },
+    Object {
+      "id": 107365,
+      "name": "qui",
+      "tagged": 2621,
+      "uri": "http://johathan.biz",
+    },
+    Object {
+      "id": 288717,
+      "name": "aut",
+      "tagged": 86002,
+      "uri": "https://dario.name",
+    },
+  ],
+  "name": Object {
+    "after": "molestiae ea ut",
+    "before": "ut dolorem et",
+    "content": "Placeat quidem est consequuntur aut est fuga.",
+  },
+  "pages": 13927,
+  "parodies": Array [
+    Object {
+      "id": 278318,
+      "name": "delectus",
+      "tagged": 84203,
+      "uri": "http://darrell.biz",
+    },
+    Object {
+      "id": 570066,
+      "name": "sunt",
+      "tagged": 58575,
+      "uri": "https://haylie.name",
+    },
+    Object {
+      "id": 812994,
+      "name": "consequatur",
+      "tagged": 1864,
+      "uri": "https://effie.biz",
+    },
+  ],
+  "tags": Array [
+    Object {
+      "id": 612947,
+      "name": "porro",
+      "tagged": 80710,
+      "uri": "http://herta.org",
+    },
+    Object {
+      "id": 427812,
+      "name": "facere",
+      "tagged": 74712,
+      "uri": "https://hilbert.com",
+    },
+    Object {
+      "id": 153338,
+      "name": "commodi",
+      "tagged": 5991,
+      "uri": "http://tressa.com",
+    },
+  ],
+  "thumbnail": "https://gay.info",
+  "uploadDate": "2019-12-06T19:58:51.944Z",
+}
+`;
+
+exports[`CategoriesController getGalleryById Returns gallery details 2`] = `
+Object {
+  "artists": Array [
+    Object {
+      "id": 152137,
+      "name": "architecto",
+      "tagged": 25232,
+      "uri": "https://carolyn.biz",
+    },
+    Object {
+      "id": 371133,
+      "name": "itaque",
+      "tagged": 58135,
+      "uri": "https://amaya.org",
+    },
+    Object {
+      "id": 298679,
+      "name": "quod",
+      "tagged": 23984,
+      "uri": "http://connor.name",
+    },
+  ],
+  "categories": Array [
+    Object {
+      "id": 893020,
+      "name": "voluptatibus",
+      "tagged": 82898,
+      "uri": "http://noble.com",
+    },
+    Object {
+      "id": 39683,
+      "name": "et",
+      "tagged": 7002,
+      "uri": "http://raquel.name",
+    },
+    Object {
+      "id": 455282,
+      "name": "omnis",
+      "tagged": 56885,
+      "uri": "http://justyn.org",
+    },
+  ],
+  "characters": Array [
+    Object {
+      "id": 146032,
+      "name": "aut",
+      "tagged": 57974,
+      "uri": "http://johan.name",
+    },
+    Object {
+      "id": 916442,
+      "name": "numquam",
+      "tagged": 74533,
+      "uri": "https://jake.biz",
+    },
+    Object {
+      "id": 764240,
+      "name": "magni",
+      "tagged": 6633,
+      "uri": "http://craig.name",
+    },
+  ],
+  "groups": Array [
+    Object {
+      "id": 95419,
+      "name": "architecto",
+      "tagged": 21017,
+      "uri": "https://carrie.com",
+    },
+    Object {
+      "id": 95307,
+      "name": "ex",
+      "tagged": 26031,
+      "uri": "https://buck.biz",
+    },
+    Object {
+      "id": 576583,
+      "name": "non",
+      "tagged": 63946,
+      "uri": "https://rogers.org",
+    },
+  ],
+  "id": 2,
+  "internalId": 916408,
+  "languages": Array [
+    Object {
+      "id": 324517,
+      "name": "fuga",
+      "tagged": 26329,
+      "uri": "http://monroe.net",
+    },
+    Object {
+      "id": 736810,
+      "name": "cupiditate",
+      "tagged": 77217,
+      "uri": "https://cassandra.org",
+    },
+    Object {
+      "id": 426810,
+      "name": "est",
+      "tagged": 1395,
+      "uri": "http://monserrat.name",
+    },
+  ],
+  "name": Object {
+    "after": "perferendis magni quasi",
+    "before": "aperiam natus et",
+    "content": "Delectus ea similique ad sed.",
+  },
+  "pages": 10749,
+  "parodies": Array [
+    Object {
+      "id": 397610,
+      "name": "possimus",
+      "tagged": 94901,
+      "uri": "https://tiana.name",
+    },
+    Object {
+      "id": 8002,
+      "name": "sed",
+      "tagged": 91560,
+      "uri": "https://tierra.info",
+    },
+    Object {
+      "id": 166951,
+      "name": "exercitationem",
+      "tagged": 48599,
+      "uri": "https://albertha.name",
+    },
+  ],
+  "tags": Array [
+    Object {
+      "id": 808337,
+      "name": "qui",
+      "tagged": 92618,
+      "uri": "https://freeman.info",
+    },
+    Object {
+      "id": 34847,
+      "name": "est",
+      "tagged": 96326,
+      "uri": "http://filomena.com",
+    },
+    Object {
+      "id": 693184,
+      "name": "beatae",
+      "tagged": 13507,
+      "uri": "https://adolphus.com",
+    },
+  ],
+  "thumbnail": "http://lewis.net",
+  "uploadDate": "2020-01-16T01:08:06.506Z",
+}
+`;
+
+exports[`CategoriesController getGalleryById Returns gallery details 3`] = `
+Object {
+  "artists": Array [
+    Object {
+      "id": 905391,
+      "name": "nulla",
+      "tagged": 2388,
+      "uri": "https://jaeden.info",
+    },
+    Object {
+      "id": 798602,
+      "name": "unde",
+      "tagged": 34628,
+      "uri": "https://edgardo.com",
+    },
+    Object {
+      "id": 599109,
+      "name": "quos",
+      "tagged": 95004,
+      "uri": "http://adrienne.org",
+    },
+  ],
+  "categories": Array [
+    Object {
+      "id": 433675,
+      "name": "deserunt",
+      "tagged": 21839,
+      "uri": "http://raegan.org",
+    },
+    Object {
+      "id": 892887,
+      "name": "ipsam",
+      "tagged": 23526,
+      "uri": "https://kobe.name",
+    },
+    Object {
+      "id": 787928,
+      "name": "sit",
+      "tagged": 19126,
+      "uri": "https://leopoldo.com",
+    },
+  ],
+  "characters": Array [
+    Object {
+      "id": 420193,
+      "name": "illo",
+      "tagged": 1587,
+      "uri": "http://mariela.info",
+    },
+    Object {
+      "id": 402,
+      "name": "sint",
+      "tagged": 57690,
+      "uri": "https://whitney.net",
+    },
+    Object {
+      "id": 973782,
+      "name": "autem",
+      "tagged": 25470,
+      "uri": "http://lela.com",
+    },
+  ],
+  "groups": Array [
+    Object {
+      "id": 574710,
+      "name": "eum",
+      "tagged": 20949,
+      "uri": "http://lizzie.info",
+    },
+    Object {
+      "id": 586832,
+      "name": "quis",
+      "tagged": 69988,
+      "uri": "https://nelson.com",
+    },
+    Object {
+      "id": 755081,
+      "name": "vero",
+      "tagged": 3646,
+      "uri": "https://maxime.org",
+    },
+  ],
+  "id": 3,
+  "internalId": 459544,
+  "languages": Array [
+    Object {
+      "id": 322680,
+      "name": "et",
+      "tagged": 466,
+      "uri": "http://marcos.info",
+    },
+    Object {
+      "id": 382102,
+      "name": "qui",
+      "tagged": 35981,
+      "uri": "http://hallie.com",
+    },
+    Object {
+      "id": 317383,
+      "name": "in",
+      "tagged": 53166,
+      "uri": "http://lilly.name",
+    },
+  ],
+  "name": Object {
+    "after": "sit quas magni",
+    "before": "rem quia odit",
+    "content": "Consequatur sed nisi veniam earum ex culpa eveniet debitis et.",
+  },
+  "pages": 94797,
+  "parodies": Array [
+    Object {
+      "id": 973801,
+      "name": "et",
+      "tagged": 16783,
+      "uri": "http://mariano.net",
+    },
+    Object {
+      "id": 426700,
+      "name": "velit",
+      "tagged": 27390,
+      "uri": "http://everett.biz",
+    },
+    Object {
+      "id": 879997,
+      "name": "quibusdam",
+      "tagged": 3195,
+      "uri": "https://stone.net",
+    },
+  ],
+  "tags": Array [
+    Object {
+      "id": 270207,
+      "name": "nam",
+      "tagged": 51759,
+      "uri": "http://dena.biz",
+    },
+    Object {
+      "id": 527714,
+      "name": "at",
+      "tagged": 54071,
+      "uri": "https://princess.biz",
+    },
+    Object {
+      "id": 733141,
+      "name": "sunt",
+      "tagged": 8354,
+      "uri": "http://joshuah.info",
+    },
+  ],
+  "thumbnail": "https://estelle.com",
+  "uploadDate": "2019-11-11T13:57:07.739Z",
+}
+`;
+
+exports[`CategoriesController getGalleryById Returns only requested fields 1`] = `
+Object {
+  "id": 1,
+  "thumbnail": "https://gay.info",
+}
+`;

@@ -71,20 +71,6 @@ describe('GalleriesService', () => {
   });
 
   describe('thumbnail', () => {
-    it('Fetch gallery thumbnail', async () => {
-      htmlParserService.parse = jest
-        .fn()
-        .mockReturnValueOnce(load(galleryPage));
-
-      fetchMock.mockOnce(async req => {
-        expect(req.url).toMatchSnapshot();
-
-        return {};
-      });
-
-      await galleriesService.thumbnail(177013);
-    });
-
     it('Throws error when it can not find any thumbnail', async () => {
       htmlParserService.parse = jest
         .fn()
@@ -99,22 +85,6 @@ describe('GalleriesService', () => {
   });
 
   describe('page', () => {
-    it('Fetch gallery page', async () => {
-      htmlParserService.parse = jest
-        .fn()
-        .mockReturnValueOnce(
-          load(fs.readFileSync('test/mocks/pages/gallery-page.html')),
-        );
-
-      fetchMock.mockOnce(async req => {
-        expect(req.url).toMatchSnapshot();
-
-        return {};
-      });
-
-      await galleriesService.page(177013, 1);
-    });
-
     it('Throws error when it can not find the page', async () => {
       htmlParserService.parse = jest
         .fn()
