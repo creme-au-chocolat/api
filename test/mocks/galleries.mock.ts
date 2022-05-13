@@ -1,19 +1,21 @@
-import { date, internet, lorem, random, seed } from 'faker';
+import { faker } from '@faker-js/faker';
 import { GalleryDetailsEntity } from 'src/api/galleries/types/gallery-details.entity';
 import { HtmlTag } from 'src/shared/types/html-tag.entity';
+
+const { date, internet, lorem, datatype } = faker;
 
 function generateRandomGalleryDetails(
   number: number,
 ): Record<number, Required<GalleryDetailsEntity>> {
-  seed(1);
+  faker.seed(1);
 
   const galleries: Record<number, Required<GalleryDetailsEntity>> = {};
 
   for (let i = 0; i < number; i++) {
     const gallery: Required<GalleryDetailsEntity> = {
       id: i,
-      internalId: random.number(999998),
-      pages: random.number(),
+      internalId: datatype.number(999998),
+      pages: datatype.number(),
       uploadDate: date.past(1, '2020-10-27T11:05:28.803Z').toISOString(),
       thumbnail: internet.url(),
       name: {
@@ -42,8 +44,8 @@ function generateRandomTags(number: number): HtmlTag[] {
   for (let i = 0; i < number; i++) {
     const tag: HtmlTag = {
       name: lorem.word(),
-      tagged: random.number(),
-      id: random.number(999998),
+      tagged: datatype.number(),
+      id: datatype.number(999998),
       uri: internet.url(),
     };
 

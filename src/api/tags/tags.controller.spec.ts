@@ -1,8 +1,8 @@
 jest.mock('./tags.service');
 
+import { faker } from '@faker-js/faker';
 import { CacheModule, NotFoundException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { random, seed } from 'faker';
 import { chunk } from 'lodash';
 import { Tag } from 'src/shared/types/tag.entity';
 import { CATEGORIES } from '../../shared/enum/tag-categories.enum';
@@ -10,11 +10,13 @@ import { TagsController } from './tags.controller';
 import { TagsService } from './tags.service';
 import { mockedTags } from './__mocks__/tags.service';
 
+const { helpers } = faker;
+
 describe('CategoriesController', () => {
   let tagsController: TagsController;
 
   beforeEach(async () => {
-    seed(1);
+    faker.seed(1);
 
     const moduleRef = await Test.createTestingModule({
       controllers: [TagsController],
@@ -109,7 +111,7 @@ describe('CategoriesController', () => {
     let tag: Tag;
 
     beforeEach(() => {
-      tag = random.arrayElement(mockedTags);
+      tag = helpers.arrayElement(mockedTags);
     });
 
     it('returns tag details', async () => {

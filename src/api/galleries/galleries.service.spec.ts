@@ -1,13 +1,15 @@
+import { faker } from '@faker-js/faker';
 import { CacheModule, NotFoundException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { load } from 'cheerio';
-import { random } from 'faker';
 import * as fs from 'fs';
 import { FetchMock } from 'jest-fetch-mock';
 import fetch from 'node-fetch';
 import { HtmlParserModule } from 'src/html-parser/html-parser.module';
 import { HtmlParserService } from 'src/html-parser/html-parser/html-parser.service';
 import { GalleriesService } from './galleries.service';
+
+const { datatype } = faker;
 
 const fetchMock = (fetch as unknown) as FetchMock;
 
@@ -58,7 +60,7 @@ describe('GalleriesService', () => {
 
   describe('random', () => {
     it('Returns random page', async () => {
-      const randomId = random.number(999999);
+      const randomId = datatype.number(999999);
 
       fetchMock.mockOnce(async () => {
         return {

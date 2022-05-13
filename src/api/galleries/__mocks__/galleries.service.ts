@@ -1,8 +1,10 @@
-import { random, seed } from 'faker';
+import { faker } from '@faker-js/faker';
 import * as fs from 'fs';
 import * as path from 'path';
 import { generateRandomGalleryDetails } from 'test/mocks/galleries.mock';
 import { GalleryDetailsEntity } from '../types/gallery-details.entity';
+
+const { helpers } = faker;
 
 export const mockedGalleries = generateRandomGalleryDetails(100);
 
@@ -18,8 +20,8 @@ export class GalleriesService {
   }
 
   async random(): Promise<number> {
-    seed(1);
+    faker.seed(1);
 
-    return random.arrayElement(Object.keys(mockedGalleries).map(key => +key));
+    return helpers.arrayElement(Object.keys(mockedGalleries).map(key => +key));
   }
 }

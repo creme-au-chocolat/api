@@ -1,7 +1,7 @@
+import { faker } from '@faker-js/faker';
 import { CacheModule, NotFoundException } from '@nestjs/common';
 import { getConnectionToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
-import { random, seed } from 'faker';
 import { Connection } from 'mongoose';
 import { Tag } from 'src/shared/types/tag.entity';
 import { CATEGORIES } from '../../shared/enum/tag-categories.enum';
@@ -12,13 +12,15 @@ import {
 import { SeederService } from '../../testing/database-testing/seeder/seeder.service';
 import { TagsService } from './tags.service';
 
+const { helpers } = faker;
+
 describe('CategoriesController', () => {
   let tagsService: TagsService;
   let databaseConnection: Connection;
   let seededWith: Tag[];
 
   beforeEach(async () => {
-    seed(1);
+    faker.seed(1);
 
     TagsService.PAGE_SIZE = 10;
 
@@ -130,7 +132,7 @@ describe('CategoriesController', () => {
 
   describe('getTagById', () => {
     it('returns requested tag', async () => {
-      const randomTag = random.arrayElement(seededWith);
+      const randomTag = helpers.arrayElement(seededWith);
 
       await expect(
         tagsService.getTagById(randomTag.id),

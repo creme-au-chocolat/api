@@ -1,9 +1,9 @@
 jest.mock('./tags.service');
 
+import { faker } from '@faker-js/faker';
 import { INestApplication } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test } from '@nestjs/testing';
-import { random, seed } from 'faker';
 import * as request from 'supertest';
 import { createTestingApp, testRequests } from '../../../test/utils/e2e';
 import { CATEGORIES } from '../../shared/enum/tag-categories.enum';
@@ -14,6 +14,8 @@ import {
   mockedTags,
   TagsService as MockedTagsService,
 } from './__mocks__/tags.service';
+
+const { helpers } = faker;
 
 describe('TagsController (e2e)', () => {
   let app: INestApplication;
@@ -36,7 +38,7 @@ describe('TagsController (e2e)', () => {
   });
 
   beforeEach(async () => {
-    seed(0);
+    faker.seed(0);
   });
 
   describe('/tags/list/:category (GET)', () => {
@@ -154,7 +156,7 @@ describe('TagsController (e2e)', () => {
 
   describe('/tags/:id/details (GET)', () => {
     it('returns requested tag', async () => {
-      const randomTag = random.arrayElement(mockedTags);
+      const randomTag = helpers.arrayElement(mockedTags);
 
       const response = await request(app.getHttpServer())
         .get(`/tags/${randomTag.id}/details`)
@@ -177,7 +179,7 @@ describe('TagsController (e2e)', () => {
         '/tags/NaN/details',
       ];
       const goodRequests = [
-        `/tags/${random.arrayElement(mockedTags).id}/details`,
+        `/tags/${helpers.arrayElement(mockedTags).id}/details`,
       ];
 
       await testRequests(httpServer, badRequests, 400);

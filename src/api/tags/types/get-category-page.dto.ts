@@ -7,6 +7,6 @@ export class GetCategoryPageDto {
   @Min(1)
   page? = 1;
 
-  @Transform((value: string) => value.toLowerCase() !== 'false')
+  @Transform(({ value }) => value.toLowerCase() !== 'false')
   popular?: boolean;
 }

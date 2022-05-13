@@ -1,9 +1,12 @@
+import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import fetch from 'node-fetch';
 import { load } from 'cheerio';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class HtmlParserService {
+  constructor(private httpService: HttpService) {}
+
   async parse(url: string): Promise<CheerioStatic> {
     const html = await this.fetchPage(url);
     const $ = load(html);
@@ -24,6 +27,8 @@ export class HtmlParserService {
   }
 
   private async fetchPage(url: string): Promise<string> {
-    return fetch(url).then(response => response.text());
+    const response = await firstValueFrom(this.httpService.get<string>(url));
+
+    return response.data;
   }
 }

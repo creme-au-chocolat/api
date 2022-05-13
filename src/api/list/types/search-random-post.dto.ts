@@ -9,8 +9,6 @@ export class SearchRandomPostDto {
   @ApiProperty({
     description: 'redirect to nhentai page instead of getting api response',
   })
-  @Transform(
-    (value: string) => value !== '0' && value.toLowerCase() !== 'false',
-  )
+  @Transform(({ value }) => value !== '0' && value.toLowerCase() !== 'false')
   redirect?: boolean = false;
 }

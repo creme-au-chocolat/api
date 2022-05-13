@@ -1,18 +1,20 @@
-import { image, lorem, random, seed } from 'faker';
+import { faker } from '@faker-js/faker';
 import { PostEntity } from 'src/api/list/types/post.entity';
 
+const { image, lorem, helpers, datatype } = faker;
+
 function generateRandomGalleries(number: number): PostEntity[] {
-  seed(1);
+  faker.seed(1);
 
   const galleries: PostEntity[] = [];
 
   for (let i = 0; i < number; i++) {
     const gallery: PostEntity = {
-      id: random.number(999998),
+      id: datatype.number(999998),
       name: lorem.sentence(),
-      lang: random.arrayElement(['EN', 'CN', 'JP', 'unknown', 'none']),
+      lang: helpers.arrayElement(['EN', 'CN', 'JP', 'unknown', 'none']),
       thumbnail: image.imageUrl(),
-      tags: [random.number(), random.number(), random.number()],
+      tags: [datatype.number(), datatype.number(), datatype.number()],
     };
 
     galleries.push(gallery);

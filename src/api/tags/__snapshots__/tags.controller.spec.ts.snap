@@ -2,11 +2,11 @@
 
 exports[`CategoriesController getTagById returns tag details 1`] = `
 Object {
-  "category": "parodies",
-  "id": 225709,
-  "name": "itaque",
-  "tagged": 4455,
-  "uri": "https://berenice.net",
+  "category": "groups",
+  "id": 486344,
+  "name": "nesciunt",
+  "tagged": 75934,
+  "uri": "http://primary-bassoon.com",
 }
 `;
 
@@ -15,43 +15,15 @@ Object {
   "data": Array [
     Object {
       "category": "artists",
-      "id": 128124,
-      "name": "esse",
-      "tagged": 99718,
-      "uri": "https://torey.com",
-    },
-    Object {
-      "category": "artists",
       "id": 39054,
-      "name": "et",
-      "tagged": 89460,
-      "uri": "https://arvel.net",
-    },
-    Object {
-      "category": "artists",
-      "id": 878116,
-      "name": "ipsam",
-      "tagged": 68521,
-      "uri": "https://connor.info",
-    },
-    Object {
-      "category": "artists",
-      "id": 186260,
-      "name": "repellat",
-      "tagged": 14675,
-      "uri": "http://audrey.info",
-    },
-    Object {
-      "category": "artists",
-      "id": 691876,
-      "name": "tempore",
-      "tagged": 95788,
-      "uri": "http://kaci.biz",
+      "name": "debitis",
+      "tagged": 86502,
+      "uri": "https://svelte-bit.net",
     },
   ],
   "pagination": Object {
     "page": 1,
-    "total": 21,
+    "total": 22,
   },
 }
 `;
@@ -61,29 +33,22 @@ Object {
   "data": Array [
     Object {
       "category": "characters",
-      "id": 457204,
-      "name": "accusantium",
-      "tagged": 53441,
-      "uri": "https://tatyana.info",
+      "id": 692321,
+      "name": "et",
+      "tagged": 71597,
+      "uri": "https://sticky-epoch.com",
     },
     Object {
       "category": "characters",
-      "id": 593064,
-      "name": "ipsum",
-      "tagged": 5924,
-      "uri": "https://marco.com",
-    },
-    Object {
-      "category": "characters",
-      "id": 846310,
-      "name": "ut",
-      "tagged": 66974,
-      "uri": "http://tre.name",
+      "id": 685218,
+      "name": "qui",
+      "tagged": 93553,
+      "uri": "https://testy-head.biz",
     },
   ],
   "pagination": Object {
     "page": 1,
-    "total": 23,
+    "total": 18,
   },
 }
 `;
@@ -93,15 +58,22 @@ Object {
   "data": Array [
     Object {
       "category": "groups",
-      "id": 518152,
-      "name": "ut",
-      "tagged": 80275,
-      "uri": "http://augusta.net",
+      "id": 302332,
+      "name": "esse",
+      "tagged": 99718,
+      "uri": "https://villainous-atm.com",
+    },
+    Object {
+      "category": "groups",
+      "id": 670466,
+      "name": "sed",
+      "tagged": 44345,
+      "uri": "https://electric-analytics.name",
     },
   ],
   "pagination": Object {
     "page": 1,
-    "total": 19,
+    "total": 15,
   },
 }
 `;
@@ -111,25 +83,54 @@ Object {
   "data": Array [
     Object {
       "category": "parodies",
-      "id": 800743,
-      "name": "et",
-      "tagged": 14038,
-      "uri": "https://clotilde.net",
+      "id": 198101,
+      "name": "esse",
+      "tagged": 45720,
+      "uri": "https://incredible-cayenne.org",
+    },
+    Object {
+      "category": "parodies",
+      "id": 421107,
+      "name": "ipsum",
+      "tagged": 5924,
+      "uri": "https://querulous-bottom-line.name",
+    },
+    Object {
+      "category": "parodies",
+      "id": 750143,
+      "name": "nobis",
+      "tagged": 78331,
+      "uri": "https://imaginary-airship.com",
+    },
+    Object {
+      "category": "parodies",
+      "id": 345560,
+      "name": "ratione",
+      "tagged": 23608,
+      "uri": "http://humiliating-commotion.info",
     },
   ],
   "pagination": Object {
     "page": 1,
-    "total": 20,
+    "total": 21,
   },
 }
 `;
 
 exports[`CategoriesController getTagsByCategory correctly filters values for all categories: tags 1`] = `
 Object {
-  "data": Array [],
+  "data": Array [
+    Object {
+      "category": "tags",
+      "id": 315515,
+      "name": "a",
+      "tagged": 41178,
+      "uri": "https://disastrous-prince.biz",
+    },
+  ],
   "pagination": Object {
     "page": 1,
-    "total": 17,
+    "total": 24,
   },
 }
 `;
@@ -139,43 +140,15 @@ Object {
   "data": Array [
     Object {
       "category": "artists",
-      "id": 128124,
-      "name": "esse",
-      "tagged": 99718,
-      "uri": "https://torey.com",
-    },
-    Object {
-      "category": "artists",
-      "id": 691876,
-      "name": "tempore",
-      "tagged": 95788,
-      "uri": "http://kaci.biz",
-    },
-    Object {
-      "category": "artists",
       "id": 39054,
-      "name": "et",
-      "tagged": 89460,
-      "uri": "https://arvel.net",
-    },
-    Object {
-      "category": "artists",
-      "id": 878116,
-      "name": "ipsam",
-      "tagged": 68521,
-      "uri": "https://connor.info",
-    },
-    Object {
-      "category": "artists",
-      "id": 186260,
-      "name": "repellat",
-      "tagged": 14675,
-      "uri": "http://audrey.info",
+      "name": "debitis",
+      "tagged": 86502,
+      "uri": "https://svelte-bit.net",
     },
   ],
   "pagination": Object {
     "page": 1,
-    "total": 21,
+    "total": 22,
   },
 }
 `;
@@ -185,22 +158,22 @@ Object {
   "data": Array [
     Object {
       "category": "artists",
-      "id": 748164,
-      "name": "aperiam",
-      "tagged": 75014,
-      "uri": "https://yasmin.name",
+      "id": 789278,
+      "name": "doloribus",
+      "tagged": 66063,
+      "uri": "https://focused-downgrade.info",
     },
     Object {
       "category": "artists",
-      "id": 916860,
-      "name": "magni",
-      "tagged": 52479,
-      "uri": "http://aron.net",
+      "id": 699757,
+      "name": "sunt",
+      "tagged": 61393,
+      "uri": "http://well-groomed-needle.biz",
     },
   ],
   "pagination": Object {
     "page": 2,
-    "total": 21,
+    "total": 22,
   },
 }
 `;
@@ -210,43 +183,15 @@ Object {
   "data": Array [
     Object {
       "category": "artists",
-      "id": 128124,
-      "name": "esse",
-      "tagged": 99718,
-      "uri": "https://torey.com",
-    },
-    Object {
-      "category": "artists",
       "id": 39054,
-      "name": "et",
-      "tagged": 89460,
-      "uri": "https://arvel.net",
-    },
-    Object {
-      "category": "artists",
-      "id": 878116,
-      "name": "ipsam",
-      "tagged": 68521,
-      "uri": "https://connor.info",
-    },
-    Object {
-      "category": "artists",
-      "id": 186260,
-      "name": "repellat",
-      "tagged": 14675,
-      "uri": "http://audrey.info",
-    },
-    Object {
-      "category": "artists",
-      "id": 691876,
-      "name": "tempore",
-      "tagged": 95788,
-      "uri": "http://kaci.biz",
+      "name": "debitis",
+      "tagged": 86502,
+      "uri": "https://svelte-bit.net",
     },
   ],
   "pagination": Object {
     "page": 1,
-    "total": 21,
+    "total": 22,
   },
 }
 `;
@@ -255,38 +200,10 @@ exports[`CategoriesController getTagsByCategoryAndLetter returns all values star
 Array [
   Object {
     "category": "artists",
-    "id": 22330,
-    "name": "ab",
-    "tagged": 51935,
-    "uri": "https://ozella.net",
-  },
-  Object {
-    "category": "artists",
-    "id": 918732,
-    "name": "accusantium",
-    "tagged": 54954,
-    "uri": "http://tierra.net",
-  },
-  Object {
-    "category": "artists",
-    "id": 748164,
-    "name": "aperiam",
-    "tagged": 75014,
-    "uri": "https://yasmin.name",
-  },
-  Object {
-    "category": "artists",
-    "id": 550947,
-    "name": "aut",
-    "tagged": 57974,
-    "uri": "http://genoveva.name",
-  },
-  Object {
-    "category": "artists",
-    "id": 517593,
-    "name": "aut",
-    "tagged": 93487,
-    "uri": "https://oswaldo.name",
+    "id": 828844,
+    "name": "autem",
+    "tagged": 25470,
+    "uri": "https://boiling-obesity.com",
   },
 ]
 `;
@@ -295,66 +212,66 @@ exports[`CategoriesController searchTag returns tags matching query 1`] = `
 Array [
   Object {
     "category": "artists",
-    "id": 878116,
-    "name": "ipsam",
-    "tagged": 68521,
-    "uri": "https://connor.info",
+    "id": 798603,
+    "name": "inventore",
+    "tagged": 87985,
+    "uri": "https://keen-councilman.net",
   },
   Object {
     "category": "artists",
-    "id": 593480,
-    "name": "hic",
-    "tagged": 59911,
-    "uri": "http://adrienne.org",
+    "id": 203906,
+    "name": "dignissimos",
+    "tagged": 55552,
+    "uri": "https://far-working.info",
   },
   Object {
     "category": "artists",
-    "id": 239847,
-    "name": "quis",
-    "tagged": 97001,
-    "uri": "http://rosella.net",
+    "id": 370083,
+    "name": "libero",
+    "tagged": 46215,
+    "uri": "http://competent-baritone.net",
   },
   Object {
     "category": "artists",
-    "id": 233622,
-    "name": "omnis",
-    "tagged": 96766,
-    "uri": "https://dudley.com",
+    "id": 878831,
+    "name": "nisi",
+    "tagged": 28147,
+    "uri": "https://grimy-mozzarella.org",
   },
   Object {
     "category": "artists",
-    "id": 748164,
-    "name": "aperiam",
-    "tagged": 75014,
-    "uri": "https://yasmin.name",
+    "id": 599109,
+    "name": "quibusdam",
+    "tagged": 57706,
+    "uri": "http://coarse-kinase.org",
   },
   Object {
     "category": "artists",
-    "id": 916860,
-    "name": "magni",
-    "tagged": 52479,
-    "uri": "http://aron.net",
+    "id": 39054,
+    "name": "debitis",
+    "tagged": 86502,
+    "uri": "https://svelte-bit.net",
   },
   Object {
     "category": "artists",
-    "id": 538830,
-    "name": "molestias",
-    "tagged": 24621,
-    "uri": "http://ryley.biz",
+    "id": 22330,
+    "name": "modi",
+    "tagged": 4830,
+    "uri": "https://unrealistic-self-control.net",
   },
   Object {
     "category": "artists",
-    "id": 322680,
-    "name": "temporibus",
-    "tagged": 69805,
-    "uri": "https://sam.com",
+    "id": 789278,
+    "name": "doloribus",
+    "tagged": 66063,
+    "uri": "https://focused-downgrade.info",
   },
   Object {
     "category": "artists",
-    "id": 918732,
-    "name": "accusantium",
-    "tagged": 54954,
-    "uri": "http://tierra.net",
+    "id": 949015,
+    "name": "perferendis",
+    "tagged": 42681,
+    "uri": "http://second-orient.net",
   },
 ]
 `;

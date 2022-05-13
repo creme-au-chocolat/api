@@ -1,8 +1,8 @@
 jest.mock('./list.service');
 
+import { faker } from '@faker-js/faker';
 import { CacheModule } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
-import { seed } from 'faker';
 import { HtmlParserModule } from 'src/html-parser/html-parser.module';
 import { ListController } from './list.controller';
 import { ListService } from './list.service';
@@ -11,7 +11,7 @@ describe('CategoriesController', () => {
   let listController: ListController;
 
   beforeEach(async () => {
-    seed(1);
+    faker.seed(1);
 
     const moduleRef = await Test.createTestingModule({
       controllers: [ListController],

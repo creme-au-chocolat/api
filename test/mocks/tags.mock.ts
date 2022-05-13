@@ -1,18 +1,20 @@
-import { internet, lorem, random, seed } from 'faker';
+import { faker } from '@faker-js/faker';
 import { Tag } from 'src/shared/types/tag.entity';
 
+const { internet, lorem, helpers, datatype } = faker;
+
 function generateRandomTags(number: number): Tag[] {
-  seed(1);
+  faker.seed(1);
 
   const tags: Tag[] = [];
 
   for (let i = 0; i < number; i++) {
     const tag = {
       name: lorem.word(),
-      tagged: random.number(),
+      tagged: datatype.number(),
       uri: internet.url(),
-      id: random.number(999998),
-      category: random.arrayElement([
+      id: datatype.number(999998),
+      category: helpers.arrayElement([
         'tags',
         'artists',
         'characters',
